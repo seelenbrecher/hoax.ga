@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="2000sp"
     android:fitsSystemWindows="true"
     tools:context=".LandingPage"
     android:background="@color/colorPrimary">
@@ -10,14 +10,25 @@
     <ImageView
         android:id="@+id/splashImageView"
         android:src="@drawable/logo"
-        android:layout_centerVertical="true"
+        android:layout_marginTop="100sp"
         android:layout_centerHorizontal="true"
         android:layout_width="160sp"
-        android:layout_height="140sp" />
+        android:layout_height="140sp"/>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Landing Page"/>
+    <View android:background="@color/colorAccent"
+        android:layout_width = "175sp"
+        android:layout_centerHorizontal="true"
+        android:layout_height="2dp"
+        android:layout_below="@+id/splashImageView"
+        android:layout_marginTop="200sp"/>
+
+    <it.chengdazhi.decentbanner.DecentBanner
+        android:id="@+id/decentBanner"
+        android:layout_width="match_parent"
+        android:layout_height="1500sp"
+        android:layout_below="@+id/splashImageView"
+        android:background="@color/colorPrimary"></it.chengdazhi.decentbanner.DecentBanner>
+
+
 
 </RelativeLayout>
