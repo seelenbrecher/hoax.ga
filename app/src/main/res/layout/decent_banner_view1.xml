@@ -12,7 +12,7 @@
         android:textColor="@color/white"
         android:textStyle="bold"
         android:textSize="25sp"
-        android:paddingTop="70sp"
+        android:paddingTop="35sp"
         />
 
     <TextView
