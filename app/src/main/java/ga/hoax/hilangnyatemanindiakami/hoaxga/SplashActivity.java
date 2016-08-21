@@ -25,9 +25,10 @@ public class SplashActivity extends AppCompatActivity {
             public void run() {
                 Intent intent;
                 if (UserService.getInstance(getApplicationContext()).getCurrentUser() != null) {
-                    intent = new Intent(SplashActivity.this, LandingPage.class);
+                    // TODO: last user
+                    intent = new Intent(SplashActivity.this, MainActivity.class);
                 } else {
-                    intent = new Intent(SplashActivity.this, LandingPage.class);
+                    intent = new Intent(SplashActivity.this, LandingPageActivity.class);
                 }
                 SplashActivity.this.startActivity(intent);
                 SplashActivity.this.finish();

@@ -59,23 +59,11 @@ public class UserService {
         setCurrentUser(null);
     }
 
-    public void getKakakList(GetUserListListener getUserListListener) {
-        List<User> kakakList = new ArrayList<User>();
-        if(getUserListListener != null) {
-            for (User user : users) {
-                if (user.getUserType().equals(User.UserType.KAKAK)) {
-                    kakakList.add(user);
-                }
-
-            }
-            getUserListListener.onResponse(true, "", kakakList);
-        }
-    }
-
     public User getUserById(int id) {
         return users.get(id);
     }
 
+    // TODO: to be update
     public void updateProfile(String name, String email, String school, String major, UpdateListener listener, Bitmap bitmap) {
         if (name == null || email == null || school == null || major == null) {
             if (listener != null) {
@@ -86,24 +74,13 @@ public class UserService {
         }
     }
 
-
-    public void registerAdik(String name, String username, String password, String email, String school, String kelas, RegisterListener listener, Bitmap bitmap) {
-        if (username == null || password == null || email == null || username.trim().isEmpty() || password.trim().isEmpty() || email.trim().isEmpty()){
-            if (listener!=null)
-                listener.onResponse(false,"Please enter username, password, and email",null);
-        }
-        else {
-            new RegisterTask().execute(new Object[]{name, username, password, email, school, kelas, "adik", bitmap, listener});
-        }
-    }
-
-    public void registerKakak(String name, String username, String password, String email, String university, String major, RegisterListener listener, Bitmap bitmap) {
+    public void registerUser(String username, String password, String email, RegisterListener listener) {
         if(username == null || password == null || email == null || username.trim().isEmpty() || password.trim().isEmpty() || email.trim().isEmpty()){
             if(listener!=null)
                 listener.onResponse(false,"Please enter username, password, and email",null);
         }
         else {
-            new RegisterTask().execute(new Object[]{name, username, password, email, university, major, "kakak", bitmap, listener});
+            new RegisterTask().execute(new Object[]{username, password, email, listener});
         }
     }
 
@@ -137,6 +114,7 @@ public class UserService {
         }
     }
 
+    // TODO: to be update
     public Bitmap getProfileImage(User user) {
         Bitmap bitmap = null;
         FileInputStream fin = null;
@@ -157,6 +135,7 @@ public class UserService {
         return bitmap;
     }
 
+    // TODO: to be update
     private void saveBitmapTofile(Bitmap bitmap,String name) {
         FileOutputStream out = null;
         try {
@@ -215,8 +194,6 @@ public class UserService {
         protected User doInBackground(Object... objects) {
             String name = String.valueOf(objects[0]).trim();
             String email = String.valueOf(objects[1]).trim();
-            String school = String.valueOf(objects[2]).trim();
-            String major = String.valueOf(objects[3]).trim();
             Bitmap bitmap = (Bitmap) objects[4];
             listener = (UpdateListener) objects[5];
 
@@ -225,13 +202,6 @@ public class UserService {
             user.setName(name);
             user.setEmail(email);
 
-            if (user.getUserType().equals(User.UserType.KAKAK)) {
-                user.setUniversity(school);
-                user.setMajor(major);
-            } else {
-                user.setSchool(school);
-                user.setKelas(major);
-            }
             saveBitmapTofile(bitmap, user.getProfileImage());
 
             return user;
@@ -252,15 +222,10 @@ public class UserService {
 
         @Override
         protected User doInBackground(Object... objects) {
-            String name = String.valueOf(objects[0]).trim();
-            String username = String.valueOf(objects[1]).trim().toLowerCase();
-            String password = String.valueOf(objects[2]).trim();
-            String email = String.valueOf(objects[3]).trim().toLowerCase();
-            String school = String.valueOf(objects[4]).trim();
-            String major = String.valueOf(objects[5]).trim();
-            String type = String.valueOf(objects[6]).trim().toLowerCase();
-            Bitmap bitmap = (Bitmap) objects[7];
-            listener = (RegisterListener)objects[8];
+            String username = String.valueOf(objects[0]).trim().toLowerCase();
+            String password = String.valueOf(objects[1]).trim();
+            String email = String.valueOf(objects[2]).trim().toLowerCase();
+            listener = (RegisterListener)objects[3];
 
             User user = new User();
             user.setUsername(username);
@@ -269,18 +234,6 @@ public class UserService {
             boolean exist = users.contains(user);
             if (!exist) {
                 user.setEmail(email);
-                user.setProfileImage(username+".png");
-                user.setName(name);
-                saveBitmapTofile(bitmap, user.getProfileImage());
-                if ("adik".equals(type)) {
-                    user.setSchool(school);
-                    user.setKelas(major);
-                    user.setUserType(User.UserType.ADIK);
-                } else {
-                    user.setUniversity(school);
-                    user.setMajor(major);
-                    user.setUserType(User.UserType.KAKAK);
-                }
                 user.setId(users.size());
                 users.add(user);
                 serializeUser();
@@ -312,6 +265,7 @@ public class UserService {
         public void onResponse(boolean updated, String message, User user);
     }
 
+    // TODO: to be update
     public interface GetUserListListener {
         public void onResponse(boolean success, String message, List<User> users);
     }

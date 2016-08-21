@@ -19,7 +19,25 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".LandingPage" />
+        <activity android:name=".LandingPageActivity" />
+
+        <activity android:name=".auth.login.LoginActivity"
+            android:parentActivityName=".LandingPageActivity"
+            android:windowSoftInputMode="adjustResize">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".LandingPageActivity"/>
+        </activity>
+
+        <activity android:name=".auth.register.RegisterActivity"
+            android:parentActivityName=".LandingPageActivity"
+            android:windowSoftInputMode="adjustResize">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".LandingPageActivity"/>
+        </activity>
+
+        <activity android:name=".MainActivity" />
     </application>
 
 </manifest>

@@ -12,19 +12,6 @@ public class User implements Serializable, Comparable<User>{
     private String password;
     private String email;
     private String profileImage;
-    private String school;
-    private String kelas;
-    private String university;
-    private String major;
-    private int poin;
-    private String level;
-    private int jumlahTanya;
-    private int jumlahJawab;
-    private int jumlahPC;
-    private String aboutMe;
-    private UserType userType;
-
-    public enum UserType implements Serializable {ADIK, KAKAK}
 
     public User() {
         id = Integer.MIN_VALUE;
@@ -33,17 +20,6 @@ public class User implements Serializable, Comparable<User>{
         password = null;
         email = null;
         profileImage = null;
-        school = null;
-        kelas = null;
-        university = null;
-        major = null;
-        poin = 0;
-        level = "Kroco";
-        jumlahTanya = 0;
-        jumlahJawab = 0;
-        jumlahPC = 0;
-        aboutMe = null;
-        userType = null;
     }
 
     public int getId() {
@@ -92,94 +68,6 @@ public class User implements Serializable, Comparable<User>{
 
     public void setProfileImage(String profileImage) {
         this.profileImage = profileImage;
-    }
-
-    public String getSchool() {
-        return school;
-    }
-
-    public void setSchool(String school) {
-        this.school = school;
-    }
-
-    public String getKelas() {
-        return kelas;
-    }
-
-    public void setKelas(String kelas) {
-        this.kelas = kelas;
-    }
-
-    public String getUniversity() {
-        return university;
-    }
-
-    public void setUniversity(String university) {
-        this.university = university;
-    }
-
-    public String getMajor() {
-        return major;
-    }
-
-    public void setMajor(String major) {
-        this.major = major;
-    }
-
-    public int getPoin() {
-        return poin;
-    }
-
-    public void setPoin(int poin) {
-        this.poin = poin;
-    }
-
-    public String getLevel() {
-        return level;
-    }
-
-    public void setLevel(String level) {
-        this.level = level;
-    }
-
-    public int getJumlahTanya() {
-        return jumlahTanya;
-    }
-
-    public void setJumlahTanya(int jumlahTanya) {
-        this.jumlahTanya = jumlahTanya;
-    }
-
-    public int getJumlahJawab() {
-        return jumlahJawab;
-    }
-
-    public void setJumlahJawab(int jumlahJawab) {
-        this.jumlahJawab = jumlahJawab;
-    }
-
-    public int getJumlahPC() {
-        return jumlahPC;
-    }
-
-    public void setJumlahPC(int jumlahPC) {
-        this.jumlahPC = jumlahPC;
-    }
-
-    public String getAboutMe() {
-        return aboutMe;
-    }
-
-    public void setAboutMe(String aboutMe) {
-        this.aboutMe = aboutMe;
-    }
-
-    public UserType getUserType() {
-        return userType;
-    }
-
-    public void setUserType(UserType userType) {
-        this.userType = userType;
     }
 
     @Override

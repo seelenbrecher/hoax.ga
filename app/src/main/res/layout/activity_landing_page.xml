@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="2000sp"
     android:fitsSystemWindows="true"
-    tools:context=".LandingPage"
+    tools:context=".LandingPageActivity"
     android:background="@color/colorPrimary">
 
     <ImageView
