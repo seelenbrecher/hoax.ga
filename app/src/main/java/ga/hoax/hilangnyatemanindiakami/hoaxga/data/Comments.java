@@ -1,38 +1,34 @@
 package ga.hoax.hilangnyatemanindiakami.hoaxga.data;
 
 import java.io.Serializable;
-import java.util.Comparator;
 import java.util.Date;
 
 import ga.hoax.hilangnyatemanindiakami.hoaxga.auth.model.User;
 
 /**
- * Created by kuwali on 8/21/16.
+ * Created by kuwali on 8/22/16.
  */
-public class Post implements Serializable, Comparable<Post>{
+public class Comments implements Serializable, Comparable<Comments> {
     private int id;
-    private String title;
+    private int postId;
     private User user;
     private Date date;
     private String content;
-    private boolean selected;
 
-    public Post() {
+    public Comments() {
         this.id = 0;
-        this.title = "";
+        this.postId = 0;
         this.user = null;
         this.date = null;
         this.content = "";
-        this.selected = false;
     }
 
-    public Post(int id, String title, User user, Date date, String content, boolean selected) {
+    public Comments(int id, int postId, User user, Date date, String content) {
         this.id = id;
-        this.title = title;
+        this.postId = postId;
         this.user = user;
         this.date = date;
         this.content = content;
-        this.selected = selected;
     }
 
     public int getId() {
@@ -43,12 +39,12 @@ public class Post implements Serializable, Comparable<Post>{
         this.id = id;
     }
 
-    public String getTitle() {
-        return title;
+    public int getPostId() {
+        return postId;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setPostId(int postId) {
+        this.postId = postId;
     }
 
     public User getUser() {
@@ -75,16 +71,8 @@ public class Post implements Serializable, Comparable<Post>{
         this.content = content;
     }
 
-    public boolean isSelected() {
-        return selected;
-    }
-
-    public void setSelected(boolean selected) {
-        this.selected = selected;
-    }
-
     @Override
-    public int compareTo(Post another) {
+    public int compareTo(Comments another) {
         return this.id <= another.getId() ? (this.id == another.getId() ? 0 : Integer.MAX_VALUE) : Integer.MIN_VALUE;
     }
 }

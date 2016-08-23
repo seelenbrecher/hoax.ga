@@ -23,17 +23,29 @@ import ga.hoax.hilangnyatemanindiakami.hoaxga.data.Post;
 /**
  * Created by kuwali on 8/21/16.
  */
-public class FeedFragment extends Fragment {
-    private List<Post> posts = new ArrayList<Post>();
+/*public class ProfileFragment extends Fragment {
+    //constants
+    private final boolean CHECKED_POST = true;
+    private final boolean CONTRIBUTED_POST = false;
+
+    //user related
+    private User user;
+
+    //posts related
+    private boolean selectedFeed = true;
+    private List<Post> checkedPosts = new ArrayList<Post>();
+    private List<Post> contributedPosts = new ArrayList<Post>();
     private FeedAdapter adapter;
+
+    //view related
     private View view;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         setHasOptionsMenu(true);
-        view = inflater.inflate(R.layout.fragment_feed, container, false);
+        view = inflater.inflate(R.layout.fragment_profile, container, false);
 
-        buildData(posts);
+        buildData();
 
         ListView timelineListView = (ListView) view.findViewById(R.id.feedsListView);
         timelineListView.setAdapter(adapter);
@@ -63,11 +75,11 @@ public class FeedFragment extends Fragment {
         User user5 = new User();
         user5.setId(5);
         user5.setName("name5");
-        Post post1 = new Post(1, "Bom ketiga dalam teror sarinah", user1, new Date(100), "Setelah ledakan pertama di dekat stasiun cawang, teror bom terus berkelanjutan, kali ini di dekat si bodoh yang sedang membodohkan kebodohannya", false);
-        Post post2 = new Post(2, "15 Orang Meninggal Dunia Karena Terjebak Macet di Brebes", user2, new Date(200), "Hari raya mo", false);
-        Post post3 = new Post(3, "Title 3", user3, new Date(300), "Content will be long enough for the content ya it is long enough for now but I dont know in the future", false);
-        Post post4 = new Post(4, "Title 4", user4, new Date(400), "Content will be long enough for the content ya it is long enough for now but I dont know in the future", false);
-        Post post5 = new Post(5, "Title 5", user5, new Date(500), "Content will be long enough for the content ya it is long enough for now but I dont know in the future", false);
+        Post post1 = new Post(1, "Bom ketiga dalam teror sarinah", user1, new Date(100), "Setelah ledakan pertama di dekat stasiun cawang, teror bom terus berkelanjutan, kali ini di dekat si bodoh yang sedang membodohkan kebodohannya");
+        Post post2 = new Post(2, "15 Orang Meninggal Dunia Karena Terjebak Macet di Brebes", user2, new Date(200), "Hari raya sapi tidak lepas dari yang namanya kebodohan. Sebagian besar sapi pun menjadi bodoh.");
+        Post post3 = new Post(3, "Title 3", user3, new Date(300), "Content will be long enough for the content ya it is long enough for now but I dont know in the future");
+        Post post4 = new Post(4, "Title 4", user4, new Date(400), "Content will be long enough for the content ya it is long enough for now but I dont know in the future");
+        Post post5 = new Post(5, "Title 5", user5, new Date(500), "Content will be long enough for the content ya it is long enough for now but I dont know in the future");
         posts.add(post1);
         posts.add(post2);
         posts.add(post3);
@@ -75,3 +87,4 @@ public class FeedFragment extends Fragment {
         posts.add(post5);
     }
 }
+*/

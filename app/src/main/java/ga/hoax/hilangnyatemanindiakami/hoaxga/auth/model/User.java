@@ -12,6 +12,8 @@ public class User implements Serializable, Comparable<User>{
     private String password;
     private String email;
     private String profileImage;
+    private String job;
+    private String quote;
 
     public User() {
         id = Integer.MIN_VALUE;
@@ -20,6 +22,8 @@ public class User implements Serializable, Comparable<User>{
         password = null;
         email = null;
         profileImage = null;
+        job = null;
+        quote = null;
     }
 
     public int getId() {
@@ -62,13 +66,18 @@ public class User implements Serializable, Comparable<User>{
         this.email = email;
     }
 
-    public String getProfileImage() {
-        return profileImage;
-    }
+    public String getProfileImage() { return profileImage; }
 
-    public void setProfileImage(String profileImage) {
-        this.profileImage = profileImage;
-    }
+    public void setProfileImage(String profileImage) { this.profileImage = profileImage; }
+
+    public String getJob() { return job; }
+
+    public void setJob(String job) { this.job = job; }
+
+    public String getQuote() { return quote; }
+
+    public void setQuote(String quote) { this.quote = quote; }
+
 
     @Override
     public int compareTo(User another) {

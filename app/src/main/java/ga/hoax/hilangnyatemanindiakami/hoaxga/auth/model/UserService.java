@@ -254,19 +254,19 @@ public class UserService {
     }
 
     public interface LoginListener {
-        public void onResponse(boolean loggedIn, String message, User user);
+        void onResponse(boolean loggedIn, String message, User user);
     }
 
     public interface RegisterListener {
-        public void onResponse(boolean registered, String message, User user);
+        void onResponse(boolean registered, String message, User user);
     }
 
     public interface UpdateListener {
-        public void onResponse(boolean updated, String message, User user);
+        void onResponse(boolean updated, String message, User user);
     }
 
     // TODO: to be update
     public interface GetUserListListener {
-        public void onResponse(boolean success, String message, List<User> users);
+        void onResponse(boolean success, String message, List<User> users);
     }
 }
