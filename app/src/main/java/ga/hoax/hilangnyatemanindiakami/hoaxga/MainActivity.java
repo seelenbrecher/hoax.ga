@@ -4,11 +4,14 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
+import android.support.v4.view.ViewCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.OnTabSelectListener;
@@ -26,6 +29,8 @@ public class MainActivity extends AppCompatActivity {
     private ActionBar actionBar;
     private BottomBar bottomBar;
     private ViewPager pager;
+    private ImageView newPost;
+    private RelativeLayout parentView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +51,14 @@ public class MainActivity extends AppCompatActivity {
 
         pager = (ViewPager) findViewById(R.id.pager);
         pager.setAdapter(new PagerAdapter(getSupportFragmentManager()));
+
+        parentView = (RelativeLayout) findViewById(R.id.activity_main_layout);
+
+        newPost = (ImageView) findViewById(R.id.newPost);
+        newPost.bringToFront();
+        ViewCompat.setTranslationZ(newPost, 100);
+        parentView.invalidate();
+
     }
 
     @Override

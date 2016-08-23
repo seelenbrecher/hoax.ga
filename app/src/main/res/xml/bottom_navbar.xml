@@ -16,6 +16,10 @@
         />
 
     <tab
+
+        />
+
+    <tab
         id="@+id/notification"
         inActiveColor="@color/inactive"
         activeColor="@color/colorAccent"
