@@ -37,6 +37,14 @@
                 android:value=".LandingPageActivity"/>
         </activity>
 
+        <activity android:name=".NewPostActivity"
+            android:parentActivityName=".MainActivity"
+            android:windowSoftInputMode="adjustResize">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity"/>
+        </activity>
+
         <activity android:name=".MainActivity" />
     </application>
 
