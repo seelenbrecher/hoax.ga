@@ -66,9 +66,11 @@ public class NewPostActivity extends AppCompatActivity{
 
         if (id == R.id.menu_submit) {
             User currUser = UserService.getInstance(getApplicationContext()).getCurrentUser();
-            Post post = new Post(0,newPostTitleEditText.getText().toString(), currUser, new Date(), newPostContentEditText.getText().toString(), false);
-            DataService.getInstance(getApplicationContext()).addPost(post, currUser, addPostListener);
-            super.onBackPressed();
+            //Post post = new Post(0,newPostTitleEditText.getText().toString(), currUser, new Date(), newPostContentEditText.getText().toString(), false);
+            //DataService.getInstance(getApplicationContext()).addPost(post, currUser, addPostListener);
+            //super.onBackPressed();
+            Intent intent = new Intent(getApplicationContext(), NewPostLoadingActivity.class);
+            startActivity(intent);
         } else if (id == android.R.id.home) {
             super.onBackPressed();
         }
@@ -79,7 +81,7 @@ public class NewPostActivity extends AppCompatActivity{
         @Override
         public void onResponse(boolean added, String message, Post post) {
             if (added) {
-                
+                Toast.makeText(getApplicationContext(),"Posted", Toast.LENGTH_SHORT).show();
             }
         }
     };
