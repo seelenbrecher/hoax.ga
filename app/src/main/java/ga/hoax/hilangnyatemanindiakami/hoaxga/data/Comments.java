@@ -108,7 +108,7 @@ public class Comments implements Serializable, Comparable<Comments> {
     @Override
     public int compareTo(Comments another) {
         //ranking algo use this following formula
-        // dateDiff * 3/10 + voteFactorDIff* 5/10 + userRangkingDiff * 2/10
+        // dateDiff * 3/10 + voteFactorDIff* 5/10 + userRankingDiff * 2/10
 
         int voteFactorDiff = calculateVoteDiff(another);
         int dateFactorDiff = calculateDateDiff(another);

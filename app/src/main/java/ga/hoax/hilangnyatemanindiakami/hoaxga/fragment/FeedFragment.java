@@ -1,5 +1,6 @@
 package ga.hoax.hilangnyatemanindiakami.hoaxga.fragment;
 
+import android.content.Intent;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.content.Context;
@@ -10,12 +11,14 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import ga.hoax.hilangnyatemanindiakami.hoaxga.PostDetailViewActivity;
 import ga.hoax.hilangnyatemanindiakami.hoaxga.R;
 import ga.hoax.hilangnyatemanindiakami.hoaxga.adapter.FeedAdapter;
 import ga.hoax.hilangnyatemanindiakami.hoaxga.auth.model.User;
@@ -39,6 +42,7 @@ public class FeedFragment extends Fragment {
 
         ListView timelineListView = (ListView) view.findViewById(R.id.feedsListView);
         timelineListView.setAdapter(adapter);
+        timelineListView.setOnItemClickListener(onItemClickListener);
 
         swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swiperefresh);
         /*
@@ -79,4 +83,12 @@ public class FeedFragment extends Fragment {
         }
     };
 
+
+    AdapterView.OnItemClickListener onItemClickListener = new AdapterView.OnItemClickListener() {
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            Intent intent = new Intent(getContext(), PostDetailViewActivity.class);
+            startActivity(intent);
+        }
+    };
 }
