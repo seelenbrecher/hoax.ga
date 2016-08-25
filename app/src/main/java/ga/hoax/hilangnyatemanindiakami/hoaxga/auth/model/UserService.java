@@ -74,13 +74,13 @@ public class UserService {
         }
     }
 
-    public void registerUser(String username, String password, String email, String name, RegisterListener listener) {
-        if(username == null || password == null || email == null || name == null || username.trim().isEmpty() || password.trim().isEmpty() || email.trim().isEmpty()){
+    public void registerUser(String username, String password, String email, String firstName, String lastName, RegisterListener listener) {
+        if(username == null || password == null || email == null || firstName == null || lastName == null || username.trim().isEmpty() || password.trim().isEmpty() || email.trim().isEmpty()){
             if(listener!=null)
                 listener.onResponse(false,"Please enter username, password, and email",null);
         }
         else {
-            new RegisterTask().execute(new Object[]{username, password, email, name, listener});
+            new RegisterTask().execute(new Object[]{username, password, email, firstName, lastName, listener});
         }
     }
 
@@ -199,7 +199,6 @@ public class UserService {
 
             User user = getCurrentUser();
 
-            user.setName(name);
             user.setEmail(email);
 
             saveBitmapTofile(bitmap, user.getProfileImage());
@@ -225,12 +224,14 @@ public class UserService {
             String username = String.valueOf(objects[0]).trim().toLowerCase();
             String password = String.valueOf(objects[1]).trim();
             String email = String.valueOf(objects[2]).trim().toLowerCase();
-            String name = String.valueOf(objects[3]);
-            listener = (RegisterListener)objects[4];
+            String firstName = String.valueOf(objects[3]);
+            String lastName = String.valueOf(objects[4]);
+            listener = (RegisterListener)objects[5];
 
             User user = new User();
             user.setUsername(username);
-            user.setName(name);
+            user.setFirstName(firstName);
+            user.setLastName(lastName);
             user.setPassword(password);
 
             boolean exist = users.contains(user);

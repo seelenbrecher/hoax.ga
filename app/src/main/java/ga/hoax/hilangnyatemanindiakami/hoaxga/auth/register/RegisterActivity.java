@@ -74,10 +74,11 @@ public class RegisterActivity extends Activity {
         String username = usernameEditText.getText().toString();
         String password = passwordEditText.getText().toString();
         String email = emailEditText.getText().toString();
-        String name = firstNameEditText.getText().toString() + " " + lastNameEditText.getText().toString();
+        String firstName = firstNameEditText.getText().toString();
+        String lastName = lastNameEditText.getText().toString();
 
         progressDialog.show();
-        UserService.getInstance(getApplicationContext()).registerUser(username, password, email, name, registerListener);
+        UserService.getInstance(getApplicationContext()).registerUser(username, password, email, firstName, lastName, registerListener);
     }
 
     private View.OnClickListener registerOnClickListener = new View.OnClickListener() {

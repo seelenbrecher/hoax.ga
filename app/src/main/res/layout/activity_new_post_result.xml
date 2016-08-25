@@ -109,7 +109,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Governemnt Clarification Result"
+                    android:text="Government Clarification Result"
                     android:textSize="15dp"
                     android:textColor="@color/colorPrimary"/>
                 <TextView

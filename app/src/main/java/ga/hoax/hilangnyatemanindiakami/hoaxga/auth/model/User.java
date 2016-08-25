@@ -7,7 +7,8 @@ import java.io.Serializable;
  */
 public class User implements Serializable, Comparable<User>{
     private int id;
-    private String name;
+    private String firstName;
+    private String lastName;
     private String username;
     private String password;
     private String email;
@@ -17,7 +18,8 @@ public class User implements Serializable, Comparable<User>{
 
     public User() {
         id = Integer.MIN_VALUE;
-        name = null;
+        firstName = null;
+        lastName = null;
         username = null;
         password = null;
         email = null;
@@ -34,12 +36,16 @@ public class User implements Serializable, Comparable<User>{
         this.id = id;
     }
 
-    public String getName() {
-        return name;
-    }
+    public String getFirstName() { return firstName; }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setFirstName(String firstName) { this.firstName = firstName; }
+
+    public String getLastName() { return lastName; }
+
+    public void setLastName(String lastName) { this.lastName = lastName; }
+
+    public String getName() {
+        return firstName + " " + lastName;
     }
 
     public String getUsername() {

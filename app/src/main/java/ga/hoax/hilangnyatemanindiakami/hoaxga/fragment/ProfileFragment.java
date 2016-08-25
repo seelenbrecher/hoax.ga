@@ -62,6 +62,7 @@ public class ProfileFragment extends Fragment {
 
         name.setText(user.getName());
         job.setText(user.getJob());
+        quote.setText(user.getQuote());
 
         //button for selecting feed type
         TextView checkedPostButton = (TextView) view.findViewById(R.id.checkedPostButton);
