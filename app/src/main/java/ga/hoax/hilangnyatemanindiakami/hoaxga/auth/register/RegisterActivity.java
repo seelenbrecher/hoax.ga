@@ -5,6 +5,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -29,6 +30,8 @@ public class RegisterActivity extends Activity {
     private EditText usernameEditText;
     private EditText passwordEditText;
     private EditText emailEditText;
+    private EditText firstNameEditText;
+    private EditText lastNameEditText;
     private CircularProgressButton registerButton;
 
     @Override
@@ -47,6 +50,8 @@ public class RegisterActivity extends Activity {
         passwordEditText = (EditText) findViewById(R.id.passwordEditText);
         emailEditText = (EditText) findViewById(R.id.emailEditText);
         registerButton = (CircularProgressButton) findViewById(R.id.registerButton);
+        firstNameEditText = (EditText) findViewById(R.id.firstNameEditText);
+        lastNameEditText = (EditText) findViewById(R.id.lastNameEditText);
 
         registerButton.setOnClickListener(registerOnClickListener);
         emailEditText.setOnEditorActionListener(emailDoneListener);
@@ -69,8 +74,10 @@ public class RegisterActivity extends Activity {
         String username = usernameEditText.getText().toString();
         String password = passwordEditText.getText().toString();
         String email = emailEditText.getText().toString();
+        String name = firstNameEditText.getText().toString() + " " + lastNameEditText.getText().toString();
+
         progressDialog.show();
-        UserService.getInstance(getApplicationContext()).registerUser(username,password,email,registerListener);
+        UserService.getInstance(getApplicationContext()).registerUser(username, password, email, name, registerListener);
     }
 
     private View.OnClickListener registerOnClickListener = new View.OnClickListener() {

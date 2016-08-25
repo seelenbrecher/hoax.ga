@@ -67,7 +67,7 @@ public class FeedAdapter extends BaseAdapter {
         postImage = (ImageView) convertView.findViewById(R.id.postImage);
         postContent = (TextView) convertView.findViewById(R.id.postContent);
 
-        postStarter.setText(user.getUsername());
+        postStarter.setText(user.getName());
 
         Date date = new Date();
         long diff = date.getTime() - post.getDate().getTime();
