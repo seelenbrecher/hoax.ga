@@ -24,15 +24,23 @@
         android:layout_height="60dp"
         android:layout_alignParentBottom="true"
         app:bb_tabXmlResource="@xml/bottom_navbar"
-        android:background="@color/colorPrimary"
-        />
+        android:background="@color/colorPrimary"/>
 
+    <!--<android.support.design.widget.FloatingActionButton-->
+        <!--android:id="@+id/newPost"-->
+        <!--android:layout_width="50sp"-->
+        <!--android:layout_height="50sp"-->
+        <!--android:src="@drawable/shield"-->
+        <!--android:layout_centerHorizontal="true"-->
+        <!--android:layout_below="@+id/pager"-->
+        <!--app:layout_anchorGravity="top"/>-->
 
     <ImageView
         android:id="@+id/newPost"
-        android:layout_width="100sp"
-        android:layout_height="100sp"
-        android:src="@drawable/logo"
+        android:layout_width="50sp"
+        android:layout_height="50sp"
+        android:layout_marginBottom="14sp"
+        android:src="@drawable/shield"
         android:layout_alignBottom="@+id/bottomBar"
         android:layout_centerHorizontal="true" />
 

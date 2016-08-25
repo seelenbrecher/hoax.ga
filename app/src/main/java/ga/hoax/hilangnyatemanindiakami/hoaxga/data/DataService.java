@@ -8,8 +8,10 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.PipedOutputStream;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 import ga.hoax.hilangnyatemanindiakami.hoaxga.auth.model.User;
@@ -47,6 +49,26 @@ public class DataService {
         getPostListListener.onResponse(true,"",postList);
     }
 
+    public void getPostRelatedToCheckedUser(GetPostListListener getPostListListener, User currentUser) {
+        List<Post> filteredPostList = new ArrayList<>();
+        for(Post currentPost : postList) {
+            if( currentPost.getUser().equals(currentUser) ) filteredPostList.add(currentPost) ;
+        }
+
+        getPostListListener.onResponse(true, "", filteredPostList);
+    }
+
+    public void getPostRelatedtoContributedUser(GetPostListListener getPostListListener, User currentUser) {
+        List <Post> filteredPost = new ArrayList<>();
+        for(Comments comment : commentsList) {
+            if(comment.getUser().equals(currentUser)) {
+                Post relatedPost = postList.get(comment.getPostId());
+                filteredPost.add(relatedPost);
+            }
+        }
+        getPostListListener.onResponse(true, "", filteredPost);
+    }
+
     public void getCommentList(GetCommentListListener getCommentListListener) {
         if (postList.get(0).isSelected()) {
             Collections.sort(postList);
@@ -63,6 +85,16 @@ public class DataService {
             getCommentListListener.onResponse(true,"",commentsList);
         }
 
+    }
+
+    public void addPost(Post post, User userAsked, AddPostListener listener) {
+        if (post == null) {
+            if (listener != null) {
+                listener.onResponse(false, "Isi komentarnya terlebih dahulu", null);
+            }
+        } else {
+            new AddPostTask().execute(new Object[] {post, userAsked, listener});
+        }
     }
 
     public void addComment(String content, User userAsked, int postId, AddCommentListener listener) {
@@ -144,12 +176,48 @@ public class DataService {
         }
     }
 
+    private class AddPostTask extends AsyncTask<Object,Void,Post> {
+        AddPostListener listener;
+
+        @Override
+        protected Post doInBackground(Object... objects) {
+            Post post = (Post) objects[0];
+            User userAsked = (User) objects[1];
+            listener = (AddPostListener) objects[2];
+
+            Post postCreated = new Post();
+            postCreated.setId(postList.size());
+            postCreated.setTitle(post.getTitle());
+            postCreated.setContent(post.getContent());
+            postCreated.setDate(new Date());
+            postCreated.setUser(userAsked);
+//            postCreated.setPostId(postId);
+
+            postList.add(postCreated);
+            serializeData();
+            return postCreated;
+        }
+
+        @Override
+        protected void onPostExecute(Post posts) {
+            super.onPostExecute(posts);
+            boolean added = (posts == null) ? false : true;
+            String message = added ? "Added" : "Not Valid";
+            if (listener != null)
+                listener.onResponse(added,message,posts);
+        }
+    }
+
     public interface GetPostListListener {
         void onResponse(boolean success, String message, List<Post> posts);
     }
 
     public interface AddCommentListener {
         void onResponse(boolean added, String message, Comments comments);
+    }
+
+    public interface AddPostListener {
+        void onResponse(boolean added, String message, Post post);
     }
 
     public interface GetCommentListListener {

@@ -3,12 +3,16 @@ package ga.hoax.hilangnyatemanindiakami.hoaxga.fragment;
 import android.support.v4.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
+import android.support.v4.util.Pools;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -18,12 +22,13 @@ import ga.hoax.hilangnyatemanindiakami.hoaxga.R;
 import ga.hoax.hilangnyatemanindiakami.hoaxga.adapter.FeedAdapter;
 import ga.hoax.hilangnyatemanindiakami.hoaxga.auth.model.User;
 import ga.hoax.hilangnyatemanindiakami.hoaxga.auth.model.UserService;
+import ga.hoax.hilangnyatemanindiakami.hoaxga.data.DataService;
 import ga.hoax.hilangnyatemanindiakami.hoaxga.data.Post;
 
 /**
  * Created by kuwali on 8/21/16.
  */
-/*public class ProfileFragment extends Fragment {
+public class ProfileFragment extends Fragment {
     //constants
     private final boolean CHECKED_POST = true;
     private final boolean CONTRIBUTED_POST = false;
@@ -32,10 +37,13 @@ import ga.hoax.hilangnyatemanindiakami.hoaxga.data.Post;
     private User user;
 
     //posts related
-    private boolean selectedFeed = true;
+    private boolean selectedFeed = true; //default to your checked post
     private List<Post> checkedPosts = new ArrayList<Post>();
     private List<Post> contributedPosts = new ArrayList<Post>();
     private FeedAdapter adapter;
+
+    //user related
+    private User myUser;
 
     //view related
     private View view;
@@ -45,46 +53,71 @@ import ga.hoax.hilangnyatemanindiakami.hoaxga.data.Post;
         setHasOptionsMenu(true);
         view = inflater.inflate(R.layout.fragment_profile, container, false);
 
-        buildData();
+        //user data
+        user = UserService.getInstance(getContext()).getCurrentUser();
+        ImageView profilePicture = (ImageView) view.findViewById(R.id.profilePicture);
+        TextView name = (TextView) view.findViewById(R.id.name);
+        TextView job = (TextView) view.findViewById(R.id.job);
+        TextView quote = (TextView) view.findViewById(R.id.quote);
 
-        ListView timelineListView = (ListView) view.findViewById(R.id.feedsListView);
-        timelineListView.setAdapter(adapter);
+        name.setText(user.getUsername());
+        job.setText(user.getJob());
+
+        //button for selecting feed type
+        Button checkedPostButton = (Button) view.findViewById(R.id.checkedPostButton);
+        Button contributedPostButton = (Button) view.findViewById(R.id.contributedPostButton);
+
+        checkedPostButton.setOnClickListener(checkedPostClickListener);
+        contributedPostButton.setOnClickListener(conributedPostClickListener);
+
+
+        //post list view data
+        ListView selectedPostCategoryListView = (ListView) view.findViewById(R.id.selectedPostCategoryListView);
+        adapter = new FeedAdapter(getContext(), checkedPosts);
+        DataService.getInstance(getContext()).getPostRelatedToCheckedUser(getPostListListener, user);
+        selectedPostCategoryListView.setAdapter(adapter);
 
         return view;
     }
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        adapter = new FeedAdapter(getContext(),posts);
-    }
+    private View.OnClickListener  checkedPostClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            if(selectedFeed == CHECKED_POST) {
+                //status don't change, do nothing
+            } else {
+                selectedFeed = CHECKED_POST;
+                adapter = new FeedAdapter(getContext(), checkedPosts);
+                DataService.getInstance(getContext()).getPostRelatedToCheckedUser(getPostListListener, user);
+            }
+        }
+    };
 
-    private void buildData(List<Post> posts) {
-        User user1 = new User();
-        user1.setId(1);
-        user1.setName("name1");
-        User user2 = new User();
-        user2.setId(2);
-        user2.setName("name2");
-        User user3 = new User();
-        user3.setId(3);
-        user3.setName("name3");
-        User user4 = new User();
-        user4.setId(4);
-        user4.setName("name4");
-        User user5 = new User();
-        user5.setId(5);
-        user5.setName("name5");
-        Post post1 = new Post(1, "Bom ketiga dalam teror sarinah", user1, new Date(100), "Setelah ledakan pertama di dekat stasiun cawang, teror bom terus berkelanjutan, kali ini di dekat si bodoh yang sedang membodohkan kebodohannya");
-        Post post2 = new Post(2, "15 Orang Meninggal Dunia Karena Terjebak Macet di Brebes", user2, new Date(200), "Hari raya sapi tidak lepas dari yang namanya kebodohan. Sebagian besar sapi pun menjadi bodoh.");
-        Post post3 = new Post(3, "Title 3", user3, new Date(300), "Content will be long enough for the content ya it is long enough for now but I dont know in the future");
-        Post post4 = new Post(4, "Title 4", user4, new Date(400), "Content will be long enough for the content ya it is long enough for now but I dont know in the future");
-        Post post5 = new Post(5, "Title 5", user5, new Date(500), "Content will be long enough for the content ya it is long enough for now but I dont know in the future");
-        posts.add(post1);
-        posts.add(post2);
-        posts.add(post3);
-        posts.add(post4);
-        posts.add(post5);
-    }
+    private View.OnClickListener  conributedPostClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            if(selectedFeed == CONTRIBUTED_POST) {
+                //status don't change, do nothing
+            } else {
+                selectedFeed = CONTRIBUTED_POST;
+                adapter = new FeedAdapter(getContext(), contributedPosts);
+                DataService.getInstance(getContext()).getPostRelatedtoContributedUser(getPostListListener, user);
+            }
+        }
+    };
+
+
+    DataService.GetPostListListener getPostListListener = new DataService.GetPostListListener() {
+        @Override
+        public void onResponse(boolean success, String message, List<Post> postList) {
+            if (success) {
+                List<Post> posts = selectedFeed == CHECKED_POST ? checkedPosts : contributedPosts;
+                posts.clear();
+                adapter.notifyDataSetChanged();
+                posts.addAll(postList);
+
+                adapter.notifyDataSetChanged();
+            }
+        }
+    };
 }
-*/

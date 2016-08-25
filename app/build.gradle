@@ -27,4 +27,8 @@ dependencies {
     compile 'it.chengdazhi.decentbanner:decentbanner:1.0.5'
     compile 'com.github.dmytrodanylyk.circular-progress-button:library:1.1.3'
     compile 'com.roughike:bottom-bar:2.0.1'
+    compile 'com.android.support:design:23.4.0'
+    compile 'com.mikhaellopez:circularprogressbar:1.1.1'
+    compile 'com.github.jakob-grabner:Circle-Progress-View:v1.2.9'
+    compile 'com.akexorcist:RoundCornerProgressBar:2.0.3'
 }

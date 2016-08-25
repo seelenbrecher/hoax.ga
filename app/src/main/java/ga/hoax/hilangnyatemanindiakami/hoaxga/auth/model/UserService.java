@@ -167,7 +167,7 @@ public class UserService {
             User tempUser = new User();
             tempUser.setUsername(username);
             tempUser.setPassword(password);
-            boolean exist = users.contains(tempUser);
+            boolean exist = users.contains(tempUser) && users.get(users.indexOf(tempUser)).getPassword().equals(password);
             if (exist) {
                 int index = users.indexOf(tempUser);
                 User user = users.get(index);

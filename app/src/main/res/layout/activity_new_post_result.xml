@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="2000sp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/colorPrimary">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/corner_shape"
+        android:layout_marginTop="20sp"
+        android:layout_marginLeft="10sp"
+        android:layout_marginRight="10sp"
+        android:layout_marginBottom="20sp"
+        android:paddingBottom="25sp"
+        android:layout_centerHorizontal="true"
+        >
+
+        <at.grabner.circleprogress.CircleProgressView
+            android:id="@+id/newPostResultBar"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            app:cpv_fillColor="@color/colorAccent"
+            app:cpv_barColor="@color/colorPrimary"
+            app:cpv_unitColor="@color/colorPrimary"
+            app:cpv_barWidth="10dp"
+            app:cpv_contourColor="@color/colorAccent"
+            app:cpv_rimColor="@color/colorAccent"
+            app:cpv_unit="%"
+            app:cpv_showUnit="true"
+            app:cpv_unitPosition="right_top"
+            android:layout_centerHorizontal="true"
+            app:cpv_value="60"
+            app:cpv_maxValue="100"
+            app:cpv_unitSize="25dp"
+            app:cpv_textSize="25dp"
+            app:cpv_textColor="@color/colorPrimary"
+
+            />
+
+        <TextView
+            android:id="@+id/newPostResultText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="HOAX"
+            android:textColor="@color/colorPrimary"
+            android:layout_below="@+id/newPostResultBar"
+            android:layout_marginTop="10dp"
+            android:textSize="45dp"
+            android:textAlignment="center"
+            />
+
+        <LinearLayout
+            android:id="@+id/newPostResultBarLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_below="@id/newPostResultText"
+            android:layout_marginTop="10sp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginLeft="10sp">
+
+                <TextView
+                    android:layout_width="185dp"
+                    android:layout_height="wrap_content"
+                    android:text="Machine Learning Result"
+                    android:textSize="15dp"
+                    android:textColor="@color/colorPrimary"/>
+                <TextView
+                    android:id="@+id/newPostMLResultValue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="53"
+                    android:textSize="15dp"
+                    android:textColor="@color/colorPrimary"
+                    android:textAlignment="viewEnd"
+                    android:layout_marginLeft="80dp"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="/100"
+                    android:textSize="15dp"
+                    android:textColor="@color/colorPrimary"/>
+            </LinearLayout>
+            <com.akexorcist.roundcornerprogressbar.RoundCornerProgressBar
+                android:id="@+id/newPostMLResultBar"
+                android:layout_width="match_parent"
+                android:layout_height="15dp"
+                app:rcProgress="53"
+                app:rcMax="100"
+                app:rcRadius="10sp"
+                app:rcBackgroundColor="@color/colorAccent"
+                app:rcProgressColor="@color/colorPrimary">
+
+            </com.akexorcist.roundcornerprogressbar.RoundCornerProgressBar>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginLeft="10sp"
+                android:layout_marginTop="20sp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Governemnt Clarification Result"
+                    android:textSize="15dp"
+                    android:textColor="@color/colorPrimary"/>
+                <TextView
+                    android:id="@+id/newPostGovResultValue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0"
+                    android:textSize="15dp"
+                    android:textColor="@color/colorPrimary"
+                    android:textAlignment="viewEnd"
+                    android:layout_marginLeft="80dp"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="/1"
+                    android:textSize="15dp"
+                    android:textColor="@color/colorPrimary"/>
+            </LinearLayout>
+            <com.akexorcist.roundcornerprogressbar.RoundCornerProgressBar
+                android:id="@+id/newPostGovResultBar"
+                android:layout_width="match_parent"
+                android:layout_height="15dp"
+                app:rcProgress="0"
+                app:rcMax="1"
+                app:rcRadius="10sp"
+                app:rcBackgroundColor="@color/colorAccent"
+                app:rcProgressColor="@color/colorPrimary">
+
+            </com.akexorcist.roundcornerprogressbar.RoundCornerProgressBar>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginLeft="10sp"
+                android:layout_marginTop="20sp">
+
+                <TextView
+                    android:layout_width="185dp"
+                    android:layout_height="wrap_content"
+                    android:text="Public Opinion Result"
+                    android:textSize="15dp"
+                    android:textColor="@color/colorPrimary"/>
+                <TextView
+                    android:id="@+id/newPostPOResultValue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="85"
+                    android:textSize="15dp"
+                    android:textColor="@color/colorPrimary"
+                    android:textAlignment="viewEnd"
+                    android:layout_marginLeft="80dp"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="/100"
+                    android:textSize="15dp"
+                    android:textColor="@color/colorPrimary"/>
+            </LinearLayout>
+            <com.akexorcist.roundcornerprogressbar.RoundCornerProgressBar
+                android:id="@+id/newPostPOResultBar"
+                android:layout_width="match_parent"
+                android:layout_height="15dp"
+                app:rcProgress="85"
+                app:rcMax="100"
+                app:rcRadius="10sp"
+                app:rcBackgroundColor="@color/colorAccent"
+                app:rcProgressColor="@color/colorPrimary">
+
+            </com.akexorcist.roundcornerprogressbar.RoundCornerProgressBar>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/newPostResultBarLayout"
+            android:orientation="horizontal">
+            <LinearLayout
+                android:layout_width="40dp"
+                android:layout_height="match_parent">
+
+            </LinearLayout>
+            <com.dd.CircularProgressButton
+                android:id="@+id/feedButton"
+                android:layout_width="80dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="15dp"
+                android:textColor="@color/white"
+                android:textSize="12sp"
+                app:cpb_cornerRadius="8dp"
+                app:cpb_textComplete="Complete"
+                app:cpb_textError="Error"
+                app:cpb_textIdle="Feed"
+                android:layout_alignRight="@+id/dummyTextView"
+                app:cpb_selectorIdle="@drawable/login_button"
+                android:drawableLeft="@drawable/home_white_logo"/>
+            <LinearLayout
+                android:layout_width="100dp"
+                android:layout_height="match_parent">
+
+            </LinearLayout>
+            <com.dd.CircularProgressButton
+                android:id="@+id/sharedButton"
+                android:layout_width="80dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="15dp"
+                android:textColor="@color/white"
+                android:textSize="12sp"
+                app:cpb_cornerRadius="8dp"
+                app:cpb_textComplete="Complete"
+                app:cpb_textError="Error"
+                app:cpb_textIdle="Share"
+                app:cpb_selectorIdle="@drawable/login_button"
+                android:drawableLeft="@drawable/share_white_logo"/>
+        </LinearLayout>
+    </RelativeLayout>
+</RelativeLayout>

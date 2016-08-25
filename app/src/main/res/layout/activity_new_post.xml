@@ -1,9 +1,108 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="ASD"/>
-</LinearLayout>
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="10sp">
+        <TextView
+            android:id="@+id/newPostTitlePlaceHolder"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Title"
+            android:textColor="@color/placeholder"
+            android:textSize="15sp"/>
+        <EditText
+            android:id="@+id/newPostTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#000000"
+            android:layout_below="@+id/newPostTitlePlaceHolder"
+            android:ems="10"
+            android:textSize="15sp"
+            android:lines="1"
+            android:singleLine="true" />
+
+        <TextView
+            android:id="@+id/newPostURLPlaceHolder"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="URL(Optional)"
+            android:layout_below="@id/newPostTitle"
+            android:textColor="@color/placeholder"
+            android:textSize="15sp"/>
+        <EditText
+            android:id="@+id/newPostURL"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#000000"
+            android:layout_below="@+id/newPostURLPlaceHolder"
+            android:ems="10"
+            android:textSize="15sp"
+            android:lines="1"
+            android:singleLine="true" />
+
+        <TextView
+            android:id="@+id/newPostContentPlaceHolder"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Content"
+            android:layout_below="@id/newPostURL"
+            android:textColor="@color/placeholder"
+            android:textSize="15sp"/>
+        <EditText
+            android:id="@+id/newPostContent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#000000"
+            android:layout_below="@+id/newPostContentPlaceHolder"
+            android:ems="10"
+            android:inputType="textCapSentences|textMultiLine"
+            android:textSize="15sp" />
+        <TextView
+            android:id="@+id/newPostTagsPlaceHolder"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tags(ex. tech news, breaking news, etc)"
+            android:layout_below="@id/newPostContent"
+            android:textColor="@color/placeholder"
+            android:textSize="15sp"/>
+
+        <EditText
+            android:id="@+id/newPostTags"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#000000"
+            android:layout_below="@+id/newPostTagsPlaceHolder"
+            android:ems="10"
+            android:textSize="15sp"
+            android:lines="1"
+            android:singleLine="true"/>
+
+        <LinearLayout
+            android:id="@+id/newPostAddImageLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_below="@+id/newPostTags">
+
+            <TextView
+                android:id="@+id/newPostAddImagePlaceHolder"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Image(Optional)"
+                android:textColor="@color/placeholder"
+                android:textSize="15sp"/>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+            </LinearLayout>
+        </LinearLayout>
+    </RelativeLayout>
+</ScrollView>
