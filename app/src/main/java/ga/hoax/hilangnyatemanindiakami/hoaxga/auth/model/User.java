@@ -15,6 +15,7 @@ public class User implements Serializable, Comparable<User>{
     private String profileImage;
     private String job;
     private String quote;
+    private int userRanking;
 
     public User() {
         id = Integer.MIN_VALUE;
@@ -26,6 +27,7 @@ public class User implements Serializable, Comparable<User>{
         profileImage = null;
         job = null;
         quote = null;
+        userRanking = 0;
     }
 
     public int getId() {
@@ -84,6 +86,10 @@ public class User implements Serializable, Comparable<User>{
 
     public void setQuote(String quote) { this.quote = quote; }
 
+    //@TODO: implement me!
+    public int getUserRanking() {
+        return 0;
+    }
 
     @Override
     public int compareTo(User another) {

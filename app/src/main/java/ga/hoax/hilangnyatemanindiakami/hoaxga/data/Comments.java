@@ -15,12 +15,18 @@ public class Comments implements Serializable, Comparable<Comments> {
     private Date date;
     private String content;
 
+    private int voteUp;
+    private int voteDown;
+
     public Comments() {
         this.id = 0;
         this.postId = 0;
         this.user = null;
         this.date = null;
         this.content = "";
+
+        this.voteUp = 0;
+        this.voteDown = 0;
     }
 
     public Comments(int id, int postId, User user, Date date, String content) {
@@ -63,6 +69,14 @@ public class Comments implements Serializable, Comparable<Comments> {
         this.date = date;
     }
 
+    public int getVoteUp() { return voteUp; }
+
+    public void setVoteUp(int voteUp) { this.voteUp = voteUp; }
+
+    public int getVoteDown() { return voteDown; }
+
+    public void setVoteDown(int voteDown) { this.voteDown = voteDown; }
+
     public String getContent() {
         return content;
     }
@@ -71,8 +85,35 @@ public class Comments implements Serializable, Comparable<Comments> {
         this.content = content;
     }
 
+    private int rankingDiffCalculator(int cur, int other){
+        if(cur > other) return 1;
+        if(cur == other) return 0;
+        return -1;
+    }
+
+    public int calculateVoteDiff(Comments other){
+        int thisVoteFactor = voteUp - voteDown;
+        int otherVoteFactor = other.getVoteUp() - other.getVoteDown();
+        return rankingDiffCalculator(thisVoteFactor, otherVoteFactor);
+    }
+
+    private int calculateDateDiff(Comments other){
+        return rankingDiffCalculator((int) (this.date.getTime()/1000L), (int) (other.getDate().getTime()/1000L));
+    }
+
+    private int calculateUserRankingDiff(Comments other) {
+        return rankingDiffCalculator(this.user.getUserRanking(), other.getUser().getUserRanking());
+    }
+
     @Override
     public int compareTo(Comments another) {
-        return this.id <= another.getId() ? (this.id == another.getId() ? 0 : Integer.MAX_VALUE) : Integer.MIN_VALUE;
+        //ranking algo use this following formula
+        // dateDiff * 3/10 + voteFactorDIff* 5/10 + userRankingDiff * 2/10
+
+        int voteFactorDiff = calculateVoteDiff(another);
+        int dateFactorDiff = calculateDateDiff(another);
+        int userRankingFactorDiff = calculateUserRankingDiff(another);
+
+        return dateFactorDiff * 3 + voteFactorDiff * 5 + userRankingFactorDiff * 2;
     }
 }
