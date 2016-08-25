@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -42,7 +43,6 @@ public class FeedFragment extends Fragment {
 
         ListView timelineListView = (ListView) view.findViewById(R.id.feedsListView);
         timelineListView.setAdapter(adapter);
-        timelineListView.setOnItemClickListener(onItemClickListener);
 
         swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swiperefresh);
         /*
@@ -80,15 +80,6 @@ public class FeedFragment extends Fragment {
                 adapter.notifyDataSetChanged();
                 if (swipeRefreshLayout != null) swipeRefreshLayout.setRefreshing(false);
             }
-        }
-    };
-
-
-    AdapterView.OnItemClickListener onItemClickListener = new AdapterView.OnItemClickListener() {
-        @Override
-        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            Intent intent = new Intent(getContext(), PostDetailViewActivity.class);
-            startActivity(intent);
         }
     };
 }

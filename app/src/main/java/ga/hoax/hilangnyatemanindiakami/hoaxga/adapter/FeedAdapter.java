@@ -1,10 +1,12 @@
 package ga.hoax.hilangnyatemanindiakami.hoaxga.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -13,6 +15,7 @@ import android.widget.Toast;
 import java.util.Date;
 import java.util.List;
 
+import ga.hoax.hilangnyatemanindiakami.hoaxga.PostDetailViewActivity;
 import ga.hoax.hilangnyatemanindiakami.hoaxga.R;
 import ga.hoax.hilangnyatemanindiakami.hoaxga.auth.model.User;
 import ga.hoax.hilangnyatemanindiakami.hoaxga.auth.model.UserService;
@@ -31,6 +34,7 @@ public class FeedAdapter extends BaseAdapter {
     private TextView datePosted;
     private ImageView postImage;
     private TextView postContent;
+    private TextView postDetail;
 
     public FeedAdapter(Context mContext, List<Post> posts) {
         this.mContext = mContext;
@@ -66,6 +70,16 @@ public class FeedAdapter extends BaseAdapter {
         datePosted = (TextView) convertView.findViewById(R.id.datePosted);
         postImage = (ImageView) convertView.findViewById(R.id.postImage);
         postContent = (TextView) convertView.findViewById(R.id.postContent);
+        postDetail = (TextView) convertView.findViewById(R.id.postDetail);
+
+        postDetail.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(mContext, "Clicked", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(mContext, PostDetailViewActivity.class);
+                mContext.startActivity(intent);
+            }
+        });
 
         postStarter.setText(user.getName());
 

@@ -66,8 +66,8 @@ public class NewPostActivity extends AppCompatActivity{
 
         if (id == R.id.menu_submit) {
             User currUser = UserService.getInstance(getApplicationContext()).getCurrentUser();
-            //Post post = new Post(0,newPostTitleEditText.getText().toString(), currUser, new Date(), newPostContentEditText.getText().toString(), false);
-            //DataService.getInstance(getApplicationContext()).addPost(post, currUser, addPostListener);
+            Post post = new Post(0,newPostTitleEditText.getText().toString(), currUser, new Date(), newPostContentEditText.getText().toString(), false);
+            DataService.getInstance(getApplicationContext()).addPost(post, currUser, addPostListener);
             //super.onBackPressed();
             Intent intent = new Intent(getApplicationContext(), NewPostLoadingActivity.class);
             startActivity(intent);
