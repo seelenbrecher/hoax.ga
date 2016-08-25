@@ -5,6 +5,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
 import ga.hoax.hilangnyatemanindiakami.hoaxga.fragment.FeedFragment;
+import ga.hoax.hilangnyatemanindiakami.hoaxga.fragment.ProfileFragment;
 
 /**
  * Created by kuwali on 8/21/16.
@@ -34,9 +35,9 @@ public class PagerAdapter extends FragmentStatePagerAdapter {
 //            case 1:
 //                NewQuestionFragment newQuestionFragment = new NewQuestionFragment();
 //                return newQuestionFragment;
-//            case 3:
-//                ListKakakFragment listKakakFragment = new ListKakakFragment();
-//                return listKakakFragment;
+            case 3:
+                ProfileFragment profileFragment = new ProfileFragment();
+                return profileFragment;
             default:
                 FeedFragment feedFragments = new FeedFragment();
                 return feedFragments;

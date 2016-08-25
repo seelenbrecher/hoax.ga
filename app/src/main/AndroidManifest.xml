@@ -48,6 +48,7 @@
         <activity android:name=".MainActivity" />
         <activity android:name=".NewPostLoadingActivity"/>
         <activity android:name=".NewPostResultActivity"/>
+        <activity android:name=".AccountSettingActivity"/>
     </application>
 
 </manifest>

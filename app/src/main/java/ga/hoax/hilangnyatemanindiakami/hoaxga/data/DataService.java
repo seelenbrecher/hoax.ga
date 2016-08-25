@@ -8,6 +8,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.PipedOutputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -46,6 +47,26 @@ public class DataService {
 
     public void getPostList(GetPostListListener getPostListListener) {
         getPostListListener.onResponse(true,"",postList);
+    }
+
+    public void getPostRelatedToCheckedUser(GetPostListListener getPostListListener, User currentUser) {
+        List<Post> filteredPostList = new ArrayList<>();
+        for(Post currentPost : postList) {
+            if( currentPost.getUser().equals(currentUser) ) filteredPostList.add(currentPost) ;
+        }
+
+        getPostListListener.onResponse(true, "", filteredPostList);
+    }
+
+    public void getPostRelatedtoContributedUser(GetPostListListener getPostListListener, User currentUser) {
+        List <Post> filteredPost = new ArrayList<>();
+        for(Comments comment : commentsList) {
+            if(comment.getUser().equals(currentUser)) {
+                Post relatedPost = postList.get(comment.getPostId());
+                filteredPost.add(relatedPost);
+            }
+        }
+        getPostListListener.onResponse(true, "", filteredPost);
     }
 
     public void getCommentList(GetCommentListListener getCommentListListener) {

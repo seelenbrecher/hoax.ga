@@ -71,6 +71,7 @@ public class NewPostActivity extends AppCompatActivity{
             //super.onBackPressed();
             Intent intent = new Intent(getApplicationContext(), NewPostLoadingActivity.class);
             startActivity(intent);
+            finish();
         } else if (id == android.R.id.home) {
             super.onBackPressed();
         }

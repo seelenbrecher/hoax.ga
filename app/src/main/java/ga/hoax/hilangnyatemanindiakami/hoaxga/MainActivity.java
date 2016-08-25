@@ -91,6 +91,10 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
             finish();
         }
+        else if(id == R.id.menu_account_setting){
+            Intent intent = new Intent(getApplicationContext(), AccountSettingActivity.class);
+            startActivity(intent);
+        }
         return true;
     }
 
@@ -100,10 +104,13 @@ public class MainActivity extends AppCompatActivity {
             if (tabId == R.id.feed) {
                 actionBar.setTitle("Feeds");
             } else if (tabId == R.id.discover) {
+                pager.setCurrentItem(2);
                 actionBar.setTitle("Discover");
             } else if (tabId == R.id.profile) {
+                pager.setCurrentItem(3);
                 actionBar.setTitle("Profile");
             } else if (tabId == R.id.notification) {
+                pager.setCurrentItem(1);
                 actionBar.setTitle("Notification");
             }
         }
