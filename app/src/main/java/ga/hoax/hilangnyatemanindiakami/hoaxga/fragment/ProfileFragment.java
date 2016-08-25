@@ -64,8 +64,8 @@ public class ProfileFragment extends Fragment {
         job.setText(user.getJob());
 
         //button for selecting feed type
-        Button checkedPostButton = (Button) view.findViewById(R.id.checkedPostButton);
-        Button contributedPostButton = (Button) view.findViewById(R.id.contributedPostButton);
+        TextView checkedPostButton = (TextView) view.findViewById(R.id.checkedPostButton);
+        TextView contributedPostButton = (TextView) view.findViewById(R.id.contributedPostButton);
 
         checkedPostButton.setOnClickListener(checkedPostClickListener);
         contributedPostButton.setOnClickListener(conributedPostClickListener);

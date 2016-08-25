@@ -226,7 +226,7 @@ public class UserService {
             String password = String.valueOf(objects[1]).trim();
             String email = String.valueOf(objects[2]).trim().toLowerCase();
             String name = String.valueOf(objects[3]);
-            listener = (RegisterListener)objects[3];
+            listener = (RegisterListener)objects[4];
 
             User user = new User();
             user.setUsername(username);
