@@ -9,13 +9,17 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.app.ProgressDialog;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.dd.CircularProgressButton;
+import com.mikhaellopez.circularimageview.CircularImageView;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -32,7 +36,7 @@ public class AccountSettingActivity extends AppCompatActivity {
 
     private ActionBar actionBar;
     private CircularProgressButton saveButton;
-    private ImageView changeProfilePicture;
+    private CircularImageView changeProfilePicture;
     private Bitmap bitmap;
     private ProgressDialog progressDialog;
 
@@ -56,7 +60,10 @@ public class AccountSettingActivity extends AppCompatActivity {
 
         actionBar = getSupportActionBar();
 
-        changeProfilePicture = (ImageView) findViewById(R.id.changeProfilePicture);
+        changeProfilePicture = (CircularImageView) findViewById(R.id.changeProfilePicture);
+        if (currentUser.getProfileImage() != null) {
+            changeProfilePicture.setImageBitmap(UserService.getInstance(getApplicationContext()).getProfileImage(currentUser));
+        }
 
         firstName = (EditText) findViewById(R.id.changeFirstNameEditText);
         lastName = (EditText) findViewById(R.id.changeLastNameEditText);
@@ -108,6 +115,7 @@ public class AccountSettingActivity extends AppCompatActivity {
         }
 
         saveButton.setOnClickListener(saveOnClickListener);
+        quotes.setOnEditorActionListener(finishUpdateListener);
     }
 
     private void chooseImage() {
@@ -122,7 +130,6 @@ public class AccountSettingActivity extends AppCompatActivity {
                 if (bitmap != null) {
                     bitmap.recycle();
                 }
-
                 InputStream stream = getContentResolver().openInputStream(data.getData());
                 BitmapFactory.Options options = new BitmapFactory.Options();
                 options.inSampleSize = 2;
@@ -145,41 +152,28 @@ public class AccountSettingActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
     }
 
-    private UserService.RegisterListener registerListener = new UserService.RegisterListener() {
-        @Override
-        public void onResponse(boolean registered, String message, User user) {
-            progressDialog.dismiss();
-            Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
-            if (registered) {
-                SharedPreferences sharedPreferences = getSharedPreferences("user_data", MODE_PRIVATE);
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putString("username", user.getUsername());
-                editor.putString("pass", user.getPassword());
-                editor.commit();
-            }
-        }
-    };
-
     private void saveChanges(){
         String firstNameText = firstName.getText().toString();
         String lastNameText = lastName.getText().toString();
-        String oldPasswordText = oldPassword.getText().toString();
         String newPasswordText = newPassword.getText().toString();
         String jobText = job.getText().toString();
         String quotesText = quotes.getText().toString();
 
+
         Toast.makeText(getApplicationContext(), "Changes Saved", Toast.LENGTH_SHORT).show();
 
-        currentUser.setFirstName(firstNameText);
-        currentUser.setLastName(lastNameText);
-        currentUser.setJob(jobText);
-        currentUser.setQuote(quotesText);
+        UserService.getInstance(this).updateProfile(firstNameText, lastNameText, newPasswordText, jobText, quotesText, updateListener, bitmap);
     }
 
     private View.OnClickListener saveOnClickListener = new View.OnClickListener(){
         @Override
         public void onClick(View v) {
-            saveChanges();
+            if(!oldPassword.getText().toString().equals(newPassword.getText().toString())){
+                Toast.makeText(getApplicationContext(), "Password Missmatch", Toast.LENGTH_SHORT).show();
+            }
+            else {
+                saveChanges();
+            }
         }
     };
 
@@ -189,4 +183,24 @@ public class AccountSettingActivity extends AppCompatActivity {
         startActivity(intent);
         finish();
     }
+
+    private UserService.UpdateListener updateListener = new UserService.UpdateListener() {
+        @Override
+        public void onResponse(boolean updated, String message, User user) {
+            progressDialog.dismiss();
+            if (updated) {
+                Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
+            }
+        }
+    };
+
+    private TextView.OnEditorActionListener finishUpdateListener = new TextView.OnEditorActionListener() {
+        @Override
+        public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+                saveChanges();
+            }
+            return false;
+        }
+    };
 }

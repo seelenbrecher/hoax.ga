@@ -1,6 +1,6 @@
 <tabs>
     <tab
-        id="@+id/feed"
+        id="@+id/feedBB"
         inActiveColor="@color/inactive"
         activeColor="@color/colorAccent"
         icon="@drawable/feeds_logo"
@@ -8,19 +8,17 @@
         />
 
     <tab
-        id="@+id/discover"
+        id="@+id/discoverBB"
         inActiveColor="@color/inactive"
         activeColor="@color/colorAccent"
         icon="@drawable/discover_logo"
         title="Discover"
         />
 
-    <tab
-
-        />
+    <tab />
 
     <tab
-        id="@+id/notification"
+        id="@+id/notificationBB"
         inActiveColor="@color/inactive"
         activeColor="@color/colorAccent"
         icon="@drawable/notification_logo"
@@ -28,7 +26,7 @@
         />
 
     <tab
-        id="@+id/profile"
+        id="@+id/profileBB"
         inActiveColor="@color/inactive"
         activeColor="@color/colorAccent"
         icon="@drawable/user_login_24"

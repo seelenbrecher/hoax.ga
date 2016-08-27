@@ -1,11 +1,15 @@
 package ga.hoax.hilangnyatemanindiakami.hoaxga.data;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.PipedOutputStream;
@@ -52,7 +56,7 @@ public class DataService {
     public void getPostRelatedToCheckedUser(GetPostListListener getPostListListener, User currentUser) {
         List<Post> filteredPostList = new ArrayList<>();
         for(Post currentPost : postList) {
-            if( currentPost.getUser().equals(currentUser) ) filteredPostList.add(currentPost) ;
+            if( currentPost.getUser().equals(currentUser.getUsername()) ) filteredPostList.add(currentPost) ;
         }
 
         getPostListListener.onResponse(true, "", filteredPostList);
@@ -61,7 +65,7 @@ public class DataService {
     public void getPostRelatedtoContributedUser(GetPostListListener getPostListListener, User currentUser) {
         List <Post> filteredPost = new ArrayList<>();
         for(Comments comment : commentsList) {
-            if(comment.getUser().equals(currentUser)) {
+            if(comment.getUser().equals(currentUser.getUsername())) {
                 Post relatedPost = postList.get(comment.getPostId());
                 filteredPost.add(relatedPost);
             }
@@ -87,13 +91,13 @@ public class DataService {
 
     }
 
-    public void addPost(Post post, User userAsked, AddPostListener listener) {
+    public void addPost(Post post, User userAsked, AddPostListener listener, Bitmap bitmap) {
         if (post == null) {
             if (listener != null) {
                 listener.onResponse(false, "Isi komentarnya terlebih dahulu", null);
             }
         } else {
-            new AddPostTask().execute(new Object[] {post, userAsked, listener});
+            new AddPostTask().execute(new Object[] {post, userAsked, listener, bitmap});
         }
     }
 
@@ -108,6 +112,49 @@ public class DataService {
             }
         } else {
             new AddCommentTask().execute(new Object[] {content, userAsked, postId, listener});
+        }
+    }
+
+    // TODO: to be update
+    public Bitmap getPostImage(Post post) {
+        Bitmap bitmap = null;
+        FileInputStream fin = null;
+        if (post.getPicture() != null) {
+            try {
+                fin = new FileInputStream(context.getFileStreamPath(post.getPicture()));
+                bitmap = BitmapFactory.decodeStream(fin);
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                try {
+                    if (fin != null) {
+                        fin.close();
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            return bitmap;
+        } else return null;
+    }
+
+
+    // TODO: to be update
+    private void saveBitmapTofile(Bitmap bitmap, String name) {
+        FileOutputStream out = null;
+        try {
+            out = new FileOutputStream(context.getFileStreamPath(name));
+            bitmap.compress(Bitmap.CompressFormat.PNG, 90, out);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (out != null) {
+                    out.close();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -184,17 +231,30 @@ public class DataService {
             Post post = (Post) objects[0];
             User userAsked = (User) objects[1];
             listener = (AddPostListener) objects[2];
+            Bitmap bitmap = (Bitmap) objects[3];
 
             Post postCreated = new Post();
             postCreated.setId(postList.size());
             postCreated.setTitle(post.getTitle());
             postCreated.setContent(post.getContent());
             postCreated.setDate(new Date());
-            postCreated.setUser(userAsked);
-//            postCreated.setPostId(postId);
+            postCreated.setUser(userAsked.getUsername());
+
+
+            if (bitmap != null) {
+                if (postCreated.getPicture() == null) postCreated.setPicture("post" + postList.size() + ".png");
+                saveBitmapTofile(bitmap, postCreated.getPicture());
+            }
+            if(postCreated.getPicture() == null){
+                Log.i("null kok", "null kokk");
+            }
+            serializeData();
+
+
+
 
             postList.add(postCreated);
-            serializeData();
+
             return postCreated;
         }
 

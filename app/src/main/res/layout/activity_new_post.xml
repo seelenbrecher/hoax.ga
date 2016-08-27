@@ -1,13 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:TagsEditText="http://schemas.android.com/apk/res-auto" >
+
+    <RelativeLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="10sp">
+        android:padding="10sp" >
+
         <TextView
             android:id="@+id/newPostTitlePlaceHolder"
             android:layout_width="wrap_content"
@@ -15,6 +18,7 @@
             android:text="Title"
             android:textColor="@color/placeholder"
             android:textSize="15sp"/>
+
         <EditText
             android:id="@+id/newPostTitle"
             android:layout_width="match_parent"
@@ -34,6 +38,7 @@
             android:layout_below="@id/newPostTitle"
             android:textColor="@color/placeholder"
             android:textSize="15sp"/>
+
         <EditText
             android:id="@+id/newPostURL"
             android:layout_width="match_parent"
@@ -53,6 +58,7 @@
             android:layout_below="@id/newPostURL"
             android:textColor="@color/placeholder"
             android:textSize="15sp"/>
+
         <EditText
             android:id="@+id/newPostContent"
             android:layout_width="match_parent"
@@ -62,6 +68,7 @@
             android:ems="10"
             android:inputType="textCapSentences|textMultiLine"
             android:textSize="15sp" />
+
         <TextView
             android:id="@+id/newPostTagsPlaceHolder"
             android:layout_width="wrap_content"
@@ -71,16 +78,19 @@
             android:textColor="@color/placeholder"
             android:textSize="15sp"/>
 
-        <EditText
+        <mabbas007.tagsedittext.TagsEditText
             android:id="@+id/newPostTags"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="#000000"
-            android:layout_below="@+id/newPostTagsPlaceHolder"
             android:ems="10"
-            android:textSize="15sp"
+            android:textSize="12sp"
             android:lines="1"
-            android:singleLine="true"/>
+            android:singleLine="true"
+            android:textColor="@color/black_overlay"
+            android:layout_below="@+id/newPostTagsPlaceHolder"
+            TagsEditText:tagsCloseImageRight="@drawable/cross"
+            TagsEditText:tagsBackground="@drawable/square"
+            TagsEditText:tagsTextColor="@color/white"/>
 
         <LinearLayout
             android:id="@+id/newPostAddImageLayout"
@@ -102,6 +112,31 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
+                <EditText
+                    android:id="@+id/newPostAddImageName"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:textSize="15sp"
+                    android:lines="1"
+                    android:singleLine="true"
+                    android:textColor="#000000"
+                    android:inputType="none" />
+
+                <com.dd.CircularProgressButton
+                    android:id="@+id/newPostAddImageButton"
+                    android:layout_width="75dp"
+                    android:layout_height="32dp"
+                    android:textColor="@color/white"
+                    android:textSize="12sp"
+                    app:cpb_cornerRadius="8dp"
+                    app:cpb_textComplete="Complete"
+                    app:cpb_textError="Error"
+                    android:padding="0dp"
+                    app:cpb_textIdle="browser.."
+                    android:layout_centerHorizontal="true"
+                    android:textAllCaps="false"
+                    app:cpb_selectorIdle="@drawable/login_button"/>
             </LinearLayout>
         </LinearLayout>
     </RelativeLayout>

@@ -11,8 +11,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import com.dd.CircularProgressButton;
+import com.mikhaellopez.circularimageview.CircularImageView;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -42,6 +46,9 @@ public class ProfileFragment extends Fragment {
     private List<Post> contributedPosts = new ArrayList<Post>();
     private FeedAdapter adapter;
 
+    private LinearLayout checkedPostLayout;
+    private LinearLayout contributedPostLayout;
+
     //user related
     private User myUser;
 
@@ -55,21 +62,32 @@ public class ProfileFragment extends Fragment {
 
         //user data
         user = UserService.getInstance(getContext()).getCurrentUser();
-        ImageView profilePicture = (ImageView) view.findViewById(R.id.profilePicture);
+        CircularImageView profilePicture = (CircularImageView) view.findViewById(R.id.profilePicture);
         TextView name = (TextView) view.findViewById(R.id.name);
         TextView job = (TextView) view.findViewById(R.id.job);
         TextView quote = (TextView) view.findViewById(R.id.quote);
+        CircularProgressButton followersButton = (CircularProgressButton) view.findViewById(R.id.followersButton);
+        CircularProgressButton followingsButton = (CircularProgressButton) view.findViewById(R.id.followingsButton);
 
         name.setText(user.getName());
         job.setText(user.getJob());
         quote.setText(user.getQuote());
+        if(user.getProfileImage() != null){
+            profilePicture.setImageBitmap(UserService.getInstance(getContext()).getProfileImage(user));
+        }
+        else{
+            profilePicture.setBackground(getResources().getDrawable(R.drawable.default_profpic));
+        }
+        followersButton.setText(user.getFollowersNumber()+" followers");
+        followingsButton.setText(user.getFollowingsNumber()+" followings");
 
-        //button for selecting feed type
-        TextView checkedPostButton = (TextView) view.findViewById(R.id.checkedPostButton);
-        TextView contributedPostButton = (TextView) view.findViewById(R.id.contributedPostButton);
 
-        checkedPostButton.setOnClickListener(checkedPostClickListener);
-        contributedPostButton.setOnClickListener(conributedPostClickListener);
+        //layout for selecting feed type
+        checkedPostLayout = (LinearLayout) view.findViewById(R.id.checkedPostLayout);
+        contributedPostLayout = (LinearLayout) view.findViewById(R.id.contributedPostLayout);
+
+        checkedPostLayout.setOnClickListener(checkedPostClickListener);
+        contributedPostLayout.setOnClickListener(conributedPostClickListener);
 
 
         //post list view data
@@ -81,9 +99,18 @@ public class ProfileFragment extends Fragment {
         return view;
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+
+    }
+
     private View.OnClickListener  checkedPostClickListener = new View.OnClickListener() {
+        @SuppressWarnings("ResourceAsColor")
         @Override
         public void onClick(View v) {
+            checkedPostLayout.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+            contributedPostLayout.setBackgroundColor(getResources().getColor(R.color.colorAccent));
             if(selectedFeed == CHECKED_POST) {
                 //status don't change, do nothing
             } else {
@@ -97,6 +124,8 @@ public class ProfileFragment extends Fragment {
     private View.OnClickListener  conributedPostClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
+            contributedPostLayout.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+            checkedPostLayout.setBackgroundColor(getResources().getColor(R.color.colorAccent));
             if(selectedFeed == CONTRIBUTED_POST) {
                 //status don't change, do nothing
             } else {
@@ -116,7 +145,6 @@ public class ProfileFragment extends Fragment {
                 posts.clear();
                 adapter.notifyDataSetChanged();
                 posts.addAll(postList);
-
                 adapter.notifyDataSetChanged();
             }
         }

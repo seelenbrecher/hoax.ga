@@ -31,4 +31,7 @@ dependencies {
     compile 'com.mikhaellopez:circularprogressbar:1.1.1'
     compile 'com.github.jakob-grabner:Circle-Progress-View:v1.2.9'
     compile 'com.akexorcist:RoundCornerProgressBar:2.0.3'
+    compile 'com.mikhaellopez:circularimageview:3.0.2'
+    compile 'com.ncapdevi:frag-nav:1.0.3'
+    compile 'com.github.mabbas007:TagsEditText:v1.0'
 }

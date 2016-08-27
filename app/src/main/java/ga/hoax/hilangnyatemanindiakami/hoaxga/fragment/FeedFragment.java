@@ -35,16 +35,30 @@ public class FeedFragment extends Fragment {
     private FeedAdapter adapter;
     private View view;
     private SwipeRefreshLayout swipeRefreshLayout;
+    private ListView timelineListView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         setHasOptionsMenu(true);
         view = inflater.inflate(R.layout.fragment_feed, container, false);
 
-        ListView timelineListView = (ListView) view.findViewById(R.id.feedsListView);
-        timelineListView.setAdapter(adapter);
+        timelineListView = (ListView) view.findViewById(R.id.feedsListView);
 
         swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swiperefresh);
+        return view;
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        adapter = new FeedAdapter(getContext(),posts);
+        DataService.getInstance(getContext()).getPostList(getPostListListener);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        timelineListView.setAdapter(adapter);
         /*
          * Sets up a SwipeRefreshLayout.OnRefreshListener that is invoked when the user
          * performs a swipe-to-refresh gesture.
@@ -57,18 +71,7 @@ public class FeedFragment extends Fragment {
                     }
                 }
         );
-
-
-        return view;
     }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        adapter = new FeedAdapter(getContext(),posts);
-        DataService.getInstance(getContext()).getPostList(getPostListListener);
-    }
-
 
     DataService.GetPostListListener getPostListListener = new DataService.GetPostListListener() {
         @Override

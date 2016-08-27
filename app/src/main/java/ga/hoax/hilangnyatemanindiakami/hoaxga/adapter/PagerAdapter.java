@@ -4,7 +4,14 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
+import com.roughike.bottombar.BottomBar;
+
+import java.util.List;
+
+import ga.hoax.hilangnyatemanindiakami.hoaxga.R;
+import ga.hoax.hilangnyatemanindiakami.hoaxga.fragment.DiscoverFragment;
 import ga.hoax.hilangnyatemanindiakami.hoaxga.fragment.FeedFragment;
+import ga.hoax.hilangnyatemanindiakami.hoaxga.fragment.NotificationFragment;
 import ga.hoax.hilangnyatemanindiakami.hoaxga.fragment.ProfileFragment;
 
 /**
@@ -12,40 +19,22 @@ import ga.hoax.hilangnyatemanindiakami.hoaxga.fragment.ProfileFragment;
  */
 public class PagerAdapter extends FragmentStatePagerAdapter {
 
-    private int mNumOfTabs = 4;
+    private BottomBar bottomBar;
+    private List<Fragment> fragmentList;
 
-    public PagerAdapter(FragmentManager fm) {
+    public PagerAdapter(FragmentManager fm, BottomBar bottomBar, List<Fragment> fragmentList) {
         super(fm);
-    }
-
-    @Override
-    public int getItemPosition(Object object) {
-        return super.getItemPosition(object);
+        this.bottomBar = bottomBar;
+        this.fragmentList = fragmentList;
     }
 
     @Override
     public Fragment getItem(int position) {
-        switch (position) {
-            case 0:
-                FeedFragment feedFragment = new FeedFragment();
-                return feedFragment;
-//            case 2:
-//                TopicsFragment topicsFragment= new TopicsFragment();
-//                return topicsFragment;
-//            case 1:
-//                NewQuestionFragment newQuestionFragment = new NewQuestionFragment();
-//                return newQuestionFragment;
-            case 3:
-                ProfileFragment profileFragment = new ProfileFragment();
-                return profileFragment;
-            default:
-                FeedFragment feedFragments = new FeedFragment();
-                return feedFragments;
-        }
+        return fragmentList.get(position);
     }
 
     @Override
     public int getCount() {
-        return mNumOfTabs;
+        return fragmentList.size();
     }
 }

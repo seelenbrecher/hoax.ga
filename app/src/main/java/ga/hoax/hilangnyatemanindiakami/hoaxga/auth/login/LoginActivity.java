@@ -86,11 +86,11 @@ public class LoginActivity extends Activity {
             progressDialog.dismiss();
             Toast.makeText(LoginActivity.this, message, Toast.LENGTH_SHORT).show();
             if(loggedIn) {
-                SharedPreferences sharedPreferences = getSharedPreferences("user_data", MODE_PRIVATE);
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putString("username", user.getUsername());
-                editor.putString("pass", user.getPassword());
-                editor.commit();
+//                SharedPreferences sharedPreferences = getSharedPreferences("user_data", MODE_PRIVATE);
+//                SharedPreferences.Editor editor = sharedPreferences.edit();
+//                editor.putString("username", user.getUsername());
+//                editor.putString("pass", user.getPassword());
+//                editor.commit();
                 goToMainActivity();
             }
         }

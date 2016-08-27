@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
+import android.widget.Toast;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -25,7 +26,7 @@ public class UserService {
     public static UserService getInstance(Context context) {
         if(instance==null)
             instance = new UserService(context);
-        return  instance;
+        return instance;
     }
 
     private Context context;
@@ -59,18 +60,23 @@ public class UserService {
         setCurrentUser(null);
     }
 
-    public User getUserById(int id) {
-        return users.get(id);
+    public User getUserByUsername(String username){
+        for (User user: users) {
+            if(user.getUsername().equals(username))
+                return user;
+        }
+        return null;
     }
 
     // TODO: to be update
-    public void updateProfile(String name, String email, String school, String major, UpdateListener listener, Bitmap bitmap) {
-        if (name == null || email == null || school == null || major == null) {
-            if (listener != null) {
-                listener.onResponse(false,"Jangan ada field yang kosong", null);
+    public void updateProfile(String firstName, String lastName, String password, String job, String quotes, UpdateListener listener, Bitmap bitmap){
+        if(firstName == null || lastName == null){
+            if(listener != null) {
+                listener.onResponse(false, "Jangan ada field yang kosong", null);
             }
-        } else {
-            new UpdateTask().execute(new Object[]{name, email, school, major, bitmap, listener});
+        }
+        else{
+            new UpdateTask().execute(new Object[]{firstName, lastName, password, job, quotes, bitmap, listener});
         }
     }
 
@@ -135,6 +141,7 @@ public class UserService {
         return bitmap;
     }
 
+
     // TODO: to be update
     private void saveBitmapTofile(Bitmap bitmap,String name) {
         FileOutputStream out = null;
@@ -192,16 +199,30 @@ public class UserService {
 
         @Override
         protected User doInBackground(Object... objects) {
-            String name = String.valueOf(objects[0]).trim();
-            String email = String.valueOf(objects[1]).trim();
-            Bitmap bitmap = (Bitmap) objects[4];
-            listener = (UpdateListener) objects[5];
+            String firstName = String.valueOf(objects[0]).trim();
+            String lastName = String.valueOf(objects[1]).trim();
+            String password = String.valueOf(objects[2]).trim();
+            String job = String.valueOf(objects[3]).trim();
+            String quotes = String.valueOf(objects[4]).trim();
+            Bitmap bitmap = (Bitmap) objects[5];
+            listener = (UpdateListener) objects[6];
 
             User user = getCurrentUser();
 
-            user.setEmail(email);
+            user.setFirstName(firstName);
+            user.setLastName(lastName);
 
-            saveBitmapTofile(bitmap, user.getProfileImage());
+            if(!password.equals("")) user.setPassword(password);
+
+            user.setJob(job);
+            user.setQuote(quotes);
+
+            serializeUser();
+            if (bitmap != null) {
+                if (user.getProfileImage() == null) user.setProfileImage(user.getUsername()+".png");
+                saveBitmapTofile(bitmap, user.getProfileImage());
+            }
+
 
             return user;
         }

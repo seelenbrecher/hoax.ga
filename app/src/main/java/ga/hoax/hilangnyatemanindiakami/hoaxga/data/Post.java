@@ -1,5 +1,7 @@
 package ga.hoax.hilangnyatemanindiakami.hoaxga.data;
 
+import android.graphics.Bitmap;
+
 import java.io.Serializable;
 import java.util.Comparator;
 import java.util.Date;
@@ -12,10 +14,11 @@ import ga.hoax.hilangnyatemanindiakami.hoaxga.auth.model.User;
 public class Post implements Serializable, Comparable<Post>{
     private int id;
     private String title;
-    private User user;
+    private String user;
     private Date date;
     private String content;
     private boolean selected;
+    private String picture;
 
     public Post() {
         this.id = 0;
@@ -24,15 +27,17 @@ public class Post implements Serializable, Comparable<Post>{
         this.date = null;
         this.content = "";
         this.selected = false;
+        this.picture = null;
     }
 
-    public Post(int id, String title, User user, Date date, String content, boolean selected) {
+    public Post(int id, String title, String user, Date date, String content, boolean selected) {
         this.id = id;
         this.title = title;
         this.user = user;
         this.date = date;
         this.content = content;
         this.selected = selected;
+        this.picture = null;
     }
 
     public int getId() {
@@ -51,11 +56,11 @@ public class Post implements Serializable, Comparable<Post>{
         this.title = title;
     }
 
-    public User getUser() {
+    public String getUser() {
         return user;
     }
 
-    public void setUser(User user) {
+    public void setUser(String user) {
         this.user = user;
     }
 
@@ -81,6 +86,14 @@ public class Post implements Serializable, Comparable<Post>{
 
     public void setSelected(boolean selected) {
         this.selected = selected;
+    }
+
+    public String getPicture() {
+        return picture;
+    }
+
+    public void setPicture(String picture) {
+        this.picture = picture;
     }
 
     @Override

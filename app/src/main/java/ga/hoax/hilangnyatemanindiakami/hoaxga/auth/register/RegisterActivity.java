@@ -5,7 +5,6 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.StrictMode;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -54,7 +53,7 @@ public class RegisterActivity extends Activity {
         lastNameEditText = (EditText) findViewById(R.id.lastNameEditText);
 
         registerButton.setOnClickListener(registerOnClickListener);
-        emailEditText.setOnEditorActionListener(emailDoneListener);
+        lastNameEditText.setOnEditorActionListener(finishRegisterListener);
     }
 
     @Override
@@ -94,17 +93,17 @@ public class RegisterActivity extends Activity {
             progressDialog.dismiss();
             Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
             if (registered) {
-                SharedPreferences sharedPreferences = getSharedPreferences("user_data", MODE_PRIVATE);
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putString("username", user.getUsername());
-                editor.putString("pass", user.getPassword());
-                editor.commit();
+//                SharedPreferences sharedPreferences = getSharedPreferences("user_data", MODE_PRIVATE);
+//                SharedPreferences.Editor editor = sharedPreferences.edit();
+//                editor.putString("username", user.getUsername());
+//                editor.putString("pass", user.getPassword());
+//                editor.commit();
                 goToMainActivity();
             }
         }
     };
 
-    private TextView.OnEditorActionListener emailDoneListener = new TextView.OnEditorActionListener() {
+    private TextView.OnEditorActionListener finishRegisterListener = new TextView.OnEditorActionListener() {
         @Override
         public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
             if (actionId == EditorInfo.IME_ACTION_DONE) {

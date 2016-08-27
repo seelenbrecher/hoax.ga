@@ -1,6 +1,8 @@
 package ga.hoax.hilangnyatemanindiakami.hoaxga.auth.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by kuwali on 08/01/16.
@@ -15,6 +17,8 @@ public class User implements Serializable, Comparable<User>{
     private String profileImage;
     private String job;
     private String quote;
+    private List<User> followings;
+    private List<User> followers;
     private int userRanking;
 
     public User() {
@@ -28,6 +32,8 @@ public class User implements Serializable, Comparable<User>{
         job = null;
         quote = null;
         userRanking = 0;
+        followings = new ArrayList<>();
+        followers = new ArrayList<>();
     }
 
     public int getId() {
@@ -85,6 +91,18 @@ public class User implements Serializable, Comparable<User>{
     public String getQuote() { return quote; }
 
     public void setQuote(String quote) { this.quote = quote; }
+
+    public void addFollowing(User user){ this.followings.add(user); }
+
+    public int getFollowingsNumber(){ return this.followings.size(); }
+
+    public void removeUserFromFollowing(User user){ this.followings.remove(user); }
+
+    public void addFollowers(User user){ this.followers.add(user); }
+
+    public int getFollowersNumber(){return this.followers.size(); }
+
+    public void removeUserFromFollowers(User user){this.followers.remove(user); }
 
     //@TODO: implement me!
     public int getUserRanking() {
