@@ -65,7 +65,7 @@ public class FeedAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         if (convertView == null) {
             convertView = LayoutInflater.from(mContext).inflate(R.layout.layout_list_feed, null);
         }
@@ -84,8 +84,10 @@ public class FeedAdapter extends BaseAdapter {
         postDetail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Post post = (Post) getItem(position);
                 Toast.makeText(mContext, "Clicked", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(mContext, PostDetailViewActivity.class);
+                intent.putExtra("post", post);
                 mContext.startActivity(intent);
             }
         });
