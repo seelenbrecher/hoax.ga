@@ -12,10 +12,16 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import org.w3c.dom.Comment;
 import org.w3c.dom.Text;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
+import ga.hoax.hilangnyatemanindiakami.hoaxga.adapter.CommentAdapter;
+import ga.hoax.hilangnyatemanindiakami.hoaxga.auth.model.User;
+import ga.hoax.hilangnyatemanindiakami.hoaxga.data.Comments;
 import ga.hoax.hilangnyatemanindiakami.hoaxga.data.Post;
 
 /**
@@ -26,16 +32,14 @@ public class PostDetailViewActivity extends AppCompatActivity {
     private ActionBar actionBar;
 
     //View related
-    private ImageView imagePostStarter;
-    private TextView titlePost;
-    private TextView postStarter;
-    private TextView datePosted;
-    private ImageView postImage;
-    private TextView postContent;
-    private RecyclerView commentRecyclerView;
+    private RecyclerView recyclerView;
 
     //Intent data related
     private Post post;
+    private List<Comments> comments = new ArrayList<>();
+
+    //adapter
+    private CommentAdapter adapter;
 
     //@TODO: use some library like momentjs or smth
     private String getMoment(Date postDate){
@@ -68,28 +72,39 @@ public class PostDetailViewActivity extends AppCompatActivity {
         actionBar = getSupportActionBar();
         actionBar.setTitle("Post Detail");
 
-        imagePostStarter = (ImageView) findViewById(R.id.imagePostStarter);
-        titlePost = (TextView) findViewById(R.id.titlePost);
-        postStarter = (TextView) findViewById(R.id.postStarter);
-        datePosted = (TextView) findViewById(R.id.datePosted);
-        postImage = (ImageView) findViewById(R.id.postImage);
-        postContent = (TextView) findViewById(R.id.postContent);
-        commentRecyclerView = (RecyclerView) findViewById(R.id.commentRecyclerView);
 
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
-        String datePostMoment = getMoment(post.getDate());
+        recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
 
-        postStarter.setText(post.getUser().getName());
-        titlePost.setText(post.getTitle());
-        datePosted.setText(datePostMoment);
-        postContent.setText(post.getContent());
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
 
-        commentRecyclerView.setHasFixedSize(true);
-        commentRecyclerView.setLayoutManager(layoutManager);
+        recyclerView.setLayoutManager(layoutManager);
+//        commentRecyclerView.setHasFixedSize(true);
+        buildData();
+        adapter = new CommentAdapter(post, comments);
+        System.out.println(comments);
+        recyclerView.setAdapter(adapter);
 
+    }
 
-
-
+    private void buildData(){
+        comments = new ArrayList<>();
+        User user1 = new User();
+        user1.setId(1);
+        user1.setFirstName("name1");
+        User user2 = new User();
+        user2.setId(2);
+        user2.setFirstName("name2");
+        User user3 = new User();
+        user3.setId(3);
+        user3.setFirstName("name3");
+        Comments c1 = new Comments(1, 1, user1, new Date(100), "anjing lo");
+        Comments c2 = new Comments(2, 2, user2, new Date(102), "lo yg anjing bangst");
+        Comments c3 = new Comments(3, 3, user3, new Date(106), "sama-sama anjing gausah ribut");
+        Comments c4 = new Comments(4, 4, user1, new Date(116), "bacot lo babi china");
+        comments.add(c1);
+        comments.add(c2);
+        comments.add(c3);
+        comments.add(c4);
     }
 
 
