@@ -16,6 +16,7 @@ import java.io.PipedOutputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 import ga.hoax.hilangnyatemanindiakami.hoaxga.auth.model.User;
@@ -38,15 +39,26 @@ public class DataService {
     private Context context;
     private List<Post> postList;
     private List<Comments> commentsList;
+    private List<Notification> notificationList;
+    private HashMap<String, Notification> notificationHashMap;
 
     public DataService(Context context) {
         this.context = context;
         deserializeData();
     }
 
+    public void getNotificationList (GetNotificationListener getNotificationListener) {
+        getNotificationListener.onResponse(true, "", notificationList);
+    }
+
     public void setPostChosen(int position, boolean checked) {
         postList.get(position).setSelected(checked);
         serializeData();
+    }
+
+    public Post getSinglePost(int position) {
+        return postList.get(position);
+
     }
 
     public void getPostList(GetPostListListener getPostListListener) {
@@ -166,15 +178,18 @@ public class DataService {
                 ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
                 commentsList = (List<Comments>) objectInputStream.readObject();
                 postList = (List<Post>) objectInputStream.readObject();
+                notificationHashMap = (HashMap<String, Notification>) objectInputStream.readObject();
                 objectInputStream.close();
                 fileInputStream.close();
             } catch (Exception e) {
                 commentsList = new ArrayList<Comments>();
                 postList = new ArrayList<Post>();
+                notificationHashMap = new HashMap<>();
             }
         } else {
             commentsList = new ArrayList<Comments>();
             postList = new ArrayList<Post>();
+            notificationHashMap = new HashMap<>();
         }
     }
 
@@ -184,6 +199,7 @@ public class DataService {
             ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
             objectOutputStream.writeObject(commentsList);
             objectOutputStream.writeObject(postList);
+            objectOutputStream.writeObject(notificationHashMap);
             objectOutputStream.flush();
             objectOutputStream.close();
             fileOutputStream.close();
@@ -210,6 +226,11 @@ public class DataService {
 
             commentsList.add(commentCreated);
             serializeData();
+
+            String userAffected = getSinglePost(postId).getUser();
+            Notification notification = new Notification(notificationHashMap.size(), Notification.NotificationType.COMMENT, userAffected, userAsked.getUsername(), postId, new Date());
+            notificationHashMap.put(userAffected, notification);
+
             return commentCreated;
         }
 
@@ -250,9 +271,6 @@ public class DataService {
             }
             serializeData();
 
-
-
-
             postList.add(postCreated);
 
             return postCreated;
@@ -282,5 +300,9 @@ public class DataService {
 
     public interface GetCommentListListener {
         void onResponse(boolean success, String message, List<Comments> comments);
+    }
+
+    public interface GetNotificationListener {
+        void onResponse(boolean success, String message, List<Notification> notifications);
     }
 }

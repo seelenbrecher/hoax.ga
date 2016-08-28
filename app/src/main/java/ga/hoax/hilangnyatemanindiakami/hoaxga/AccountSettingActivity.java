@@ -159,10 +159,9 @@ public class AccountSettingActivity extends AppCompatActivity {
         String jobText = job.getText().toString();
         String quotesText = quotes.getText().toString();
 
-
-        Toast.makeText(getApplicationContext(), "Changes Saved", Toast.LENGTH_SHORT).show();
-
         UserService.getInstance(this).updateProfile(firstNameText, lastNameText, newPasswordText, jobText, quotesText, updateListener, bitmap);
+
+        onBackPressed();
     }
 
     private View.OnClickListener saveOnClickListener = new View.OnClickListener(){
