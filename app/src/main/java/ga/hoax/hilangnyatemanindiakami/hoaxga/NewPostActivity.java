@@ -92,7 +92,6 @@ public class NewPostActivity extends AppCompatActivity{
         if (id == R.id.menu_submit) {
             User currUser = UserService.getInstance(getApplicationContext()).getCurrentUser();
             Post post = new Post(0, newPostTitleEditText.getText().toString(), currUser.getUsername(), new Date(), newPostContentEditText.getText().toString(), false);
-            Toast.makeText(getApplicationContext(), newPostContentEditText.getText().toString(), Toast.LENGTH_SHORT).show();
             DataService.getInstance(getApplicationContext()).addPost(post, currUser, addPostListener, bitmap);
             Intent intent = new Intent(getApplicationContext(), NewPostLoadingActivity.class);
             finish();
@@ -135,7 +134,6 @@ public class NewPostActivity extends AppCompatActivity{
                 width = (int)(width*scale);
                 bitmap = Bitmap.createScaledBitmap(bitmap, width, height, false);
                 stream.close();
-                Toast.makeText(this,bitmap.getConfig().toString(),Toast.LENGTH_SHORT).show();
                 newPostAddImageName.setText(bitmap.getConfig().toString());
             } catch (FileNotFoundException e) {
                 e.printStackTrace();

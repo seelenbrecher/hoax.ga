@@ -23,6 +23,7 @@
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:layout_alignParentBottom="true"
+        app:bb_titleTextAppearance="@style/CustomTitleTextAppearance"
         app:bb_tabXmlResource="@xml/bottom_navbar"
         android:background="@color/colorPrimary"/>
 

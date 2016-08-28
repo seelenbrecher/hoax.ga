@@ -35,4 +35,8 @@
         <item name="android:background">?android:attr/actionBarItemBackground</item>
         <item name="android:contentDescription">"Submit"</item>
     </style>
+
+    <style name="CustomTitleTextAppearance">
+        <item name="android:textSize">13sp</item>
+    </style>
 </resources>

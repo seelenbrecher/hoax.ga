@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.mikhaellopez.circularimageview.CircularImageView;
 
@@ -40,7 +41,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
         this.post = post;
         this.user = user;
         this.context = context;
-        this.dataService = new DataService(this.context);
+        this.dataService = new DataService(context);
     }
 
     @Override
@@ -102,7 +103,6 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
             if (user.getProfileImage() != null)
                 commentViewHolder.imagePostStarter.setImageBitmap(UserService.getInstance(context).getProfileImage(user));
 
-
             if (post.getPicture() != null && dataService.getPostImage(post) != null) {
                 commentViewHolder.postImage.setImageBitmap(dataService.getPostImage(post));
             } else
@@ -123,9 +123,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
                             String comment = (String) commentViewHolder.commentBox.getText().toString();
                             commentViewHolder.commentBox.setText("");
 
-
-
-                            dataService.addComment(comment, user, post.getId(), addCommentListener);
+                            DataService.getInstance(context).addComment(comment, UserService.getInstance(context).getCurrentUser(), post.getId(), addCommentListener);
 
                             return true;
                         }
@@ -143,13 +141,34 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
     }
 
     DataService.AddCommentListener addCommentListener = new DataService.AddCommentListener() {
-
         @Override
         public void onResponse(boolean added, String message, Comments comment) {
             if (added) {
+                comments.clear();
                 notifyDataSetChanged();
                 comments.add(comment);
                 notifyDataSetChanged();
+                Toast.makeText(context,"added comment", Toast.LENGTH_SHORT).show();
+                DataService.getInstance(context).getCommentList(getCommentListListener);
+            } else {
+                Toast.makeText(context,"not added comment", Toast.LENGTH_SHORT).show();
+            }
+        }
+    };
+
+
+    // BUG HERE
+    DataService.GetCommentListListener getCommentListListener = new DataService.GetCommentListListener() {
+        @Override
+        public void onResponse(boolean success, String message, List<Comments> listComment) {
+            if (success) {
+                Toast.makeText(context,"masuk get", Toast.LENGTH_SHORT).show();
+                comments.clear();
+                notifyDataSetChanged();
+                comments.addAll(listComment);
+                notifyDataSetChanged();
+                for (Comments comments : listComment)
+                    Toast.makeText(context, comments.getContent().toString(), Toast.LENGTH_SHORT).show();
             }
         }
     };
@@ -157,6 +176,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
     @Override
     public void onAttachedToRecyclerView(RecyclerView recyclerView) {
         super.onAttachedToRecyclerView(recyclerView);
+        DataService.getInstance(context).getCommentList(getCommentListListener);
     }
 
     public static class CommentViewHolder extends RecyclerView.ViewHolder {
@@ -177,8 +197,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
         private TextView commentContent;
 
 
-
-        CommentViewHolder(View itemView) {
+        public CommentViewHolder(View itemView) {
             super(itemView);
 
             imagePostStarter = (CircularImageView) itemView.findViewById(R.id.imagePostStarter);
@@ -190,12 +209,11 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
             commentBox = (EditText) itemView.findViewById(R.id.commentBox);
         }
 
-        CommentViewHolder(View itemView, int status) {
+        public CommentViewHolder(View itemView, int status) {
             super(itemView);
             commentCard = (CardView) itemView.findViewById(R.id.commentCard);
             postedUser = (TextView) itemView.findViewById(R.id.postedUser);
             commentContent = (TextView) itemView.findViewById(R.id.postContent);
         }
     }
-
 }

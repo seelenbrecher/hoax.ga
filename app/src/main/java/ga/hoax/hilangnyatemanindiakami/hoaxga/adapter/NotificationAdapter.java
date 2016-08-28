@@ -99,8 +99,6 @@ public class NotificationAdapter extends BaseAdapter {
             dateTextView.setText(Math.round(diff) + " seconds ago");
         }
 
-
-
         return convertView;
     }
 }

@@ -213,7 +213,7 @@ public class DataService {
 
         @Override
         protected Comments doInBackground(Object... objects) {
-            String comment = String.valueOf(objects[0]).trim().toString();
+            String comment = String.valueOf(objects[0]).toString();
             User userAsked = (User) objects[1];
             int postId = (int) objects[2];
             listener = (AddCommentListener) objects[3];
@@ -225,11 +225,12 @@ public class DataService {
             commentCreated.setPostId(postId);
 
             commentsList.add(commentCreated);
-            serializeData();
 
             String userAffected = getSinglePost(postId).getUser();
             Notification notification = new Notification(notificationHashMap.size(), Notification.NotificationType.COMMENT, userAffected, userAsked.getUsername(), postId, new Date());
             notificationHashMap.put(userAffected, notification);
+
+            serializeData();
 
             return commentCreated;
         }
@@ -269,9 +270,10 @@ public class DataService {
             if(postCreated.getPicture() == null){
                 Log.i("null kok", "null kokk");
             }
-            serializeData();
 
             postList.add(postCreated);
+
+            serializeData();
 
             return postCreated;
         }

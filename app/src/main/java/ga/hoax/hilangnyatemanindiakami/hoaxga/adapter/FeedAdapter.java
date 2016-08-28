@@ -71,7 +71,7 @@ public class FeedAdapter extends BaseAdapter {
         }
 
         Post post = (Post) getItem(position);
-        User user = userService.getUserByUsername(post.getUser());
+        final User user = userService.getUserByUsername(post.getUser());
 
         imagePostStarter = (CircularImageView) convertView.findViewById(R.id.imagePostStarter);
         titlePost = (TextView) convertView.findViewById(R.id.titlePost);
@@ -85,9 +85,9 @@ public class FeedAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 Post post = (Post) getItem(position);
-                Toast.makeText(mContext, "Clicked", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(mContext, PostDetailViewActivity.class);
                 intent.putExtra("post", post);
+                intent.putExtra("user", user);
                 mContext.startActivity(intent);
             }
         });

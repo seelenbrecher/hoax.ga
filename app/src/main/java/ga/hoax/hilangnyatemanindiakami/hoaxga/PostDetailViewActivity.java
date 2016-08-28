@@ -23,6 +23,7 @@ import ga.hoax.hilangnyatemanindiakami.hoaxga.adapter.CommentAdapter;
 import ga.hoax.hilangnyatemanindiakami.hoaxga.auth.model.User;
 import ga.hoax.hilangnyatemanindiakami.hoaxga.auth.model.UserService;
 import ga.hoax.hilangnyatemanindiakami.hoaxga.data.Comments;
+import ga.hoax.hilangnyatemanindiakami.hoaxga.data.DataService;
 import ga.hoax.hilangnyatemanindiakami.hoaxga.data.Post;
 
 /**
@@ -37,6 +38,7 @@ public class PostDetailViewActivity extends AppCompatActivity {
 
     //Intent data related
     private Post post;
+    private User user;
     private List<Comments> comments = new ArrayList<>();
 
     //adapter
@@ -68,24 +70,22 @@ public class PostDetailViewActivity extends AppCompatActivity {
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
 
-        post = (Post)bundle.get("post");
+        post = (Post) bundle.get("post");
+        user = (User) bundle.get("user");
 
         actionBar = getSupportActionBar();
         actionBar.setTitle("Post Detail");
-
 
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
 
         recyclerView.setLayoutManager(layoutManager);
-//        commentRecyclerView.setHasFixedSize(true);
-        buildData();
-        User user = UserService.getInstance(getApplicationContext()).getCurrentUser();
+
         adapter = new CommentAdapter(getApplicationContext(), user, post, comments);
-        System.out.println(comments);
         recyclerView.setAdapter(adapter);
 
+        DataService.getInstance(getApplicationContext()).getCommentList(getCommentListener);
     }
 
     private void buildData(){
@@ -109,5 +109,16 @@ public class PostDetailViewActivity extends AppCompatActivity {
         comments.add(c4);
     }
 
+    DataService.GetCommentListListener getCommentListener = new DataService.GetCommentListListener() {
+        @Override
+        public void onResponse(boolean success, String message, List<Comments> commentList) {
+            if (success) {
+                comments.clear();
+                adapter.notifyDataSetChanged();
+                comments.addAll(commentList);
+                adapter.notifyDataSetChanged();
+            }
+        }
+    };
 
 }
