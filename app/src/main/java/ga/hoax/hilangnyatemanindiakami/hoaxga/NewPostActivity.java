@@ -91,7 +91,8 @@ public class NewPostActivity extends AppCompatActivity{
 
         if (id == R.id.menu_submit) {
             User currUser = UserService.getInstance(getApplicationContext()).getCurrentUser();
-            Post post = new Post(0,newPostTitleEditText.getText().toString(), currUser.getUsername(), new Date(), newPostContentEditText.getText().toString(), false);
+            Post post = new Post(0, newPostTitleEditText.getText().toString(), currUser.getUsername(), new Date(), newPostContentEditText.getText().toString(), false);
+            Toast.makeText(getApplicationContext(), newPostContentEditText.getText().toString(), Toast.LENGTH_SHORT).show();
             DataService.getInstance(getApplicationContext()).addPost(post, currUser, addPostListener, bitmap);
             Intent intent = new Intent(getApplicationContext(), NewPostLoadingActivity.class);
             finish();
@@ -129,7 +130,7 @@ public class NewPostActivity extends AppCompatActivity{
                 bitmap = BitmapFactory.decodeStream(stream, null, options);
                 int width = bitmap.getWidth();
                 int height = bitmap.getHeight();
-                double scale = 0.35;
+                double scale = 0.4;
                 height = (int)(height*scale);
                 width = (int)(width*scale);
                 bitmap = Bitmap.createScaledBitmap(bitmap, width, height, false);

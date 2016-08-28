@@ -1,12 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:TagsEditText="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
 
-    <TextView
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Discover"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"/>
+        android:layout_marginLeft="10sp"
+        android:layout_marginTop="10sp"
+        android:orientation="vertical">
 
-</RelativeLayout>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Your Interest:"
+            android:textColor="@color/black_overlay"
+            android:textSize="15sp"
+            android:textStyle="bold"/>
+
+        <LinearLayout
+            android:id="@+id/tagsLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="2sp"
+            android:background="@drawable/corner_shape_color_primary"
+            android:layout_marginRight="10sp"
+            android:clipToPadding="false"
+            android:orientation="vertical"
+            >
+            <mabbas007.tagsedittext.TagsEditText
+                android:id="@+id/tagsText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black_overlay"
+                android:ems="10"
+                android:textSize="15sp"
+                TagsEditText:tagsCloseImageRight="@drawable/cross"
+                TagsEditText:tagsBackground="@drawable/square"
+                TagsEditText:tagsTextColor="@color/white"
+                TagsEditText:tagsTextSize="15sp"
+                android:layout_marginRight="10sp"
+                android:background="@null"
+                android:padding="10sp"
+                android:drawableRight="@drawable/add_circle_color_accent"
+                />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Your Interest:"
+                android:textColor="@color/black_overlay"
+                android:textSize="15sp"
+                android:textStyle="bold"/>
+
+            <ListView
+                android:id="@+id/selectedPostCategoryListView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAlignment="center"
+                android:layout_centerHorizontal="true" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

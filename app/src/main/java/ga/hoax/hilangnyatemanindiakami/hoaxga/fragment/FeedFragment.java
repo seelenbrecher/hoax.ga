@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -67,6 +68,11 @@ public class FeedFragment extends Fragment {
                 new SwipeRefreshLayout.OnRefreshListener() {
                     @Override
                     public void onRefresh() {
+                        for(Post post: posts){
+                            if(post.getPicture() != null) Log.i(post.getTitle(), post.getPicture());
+                            else
+                                Log.i(post.getTitle(), "null");
+                        }
                         DataService.getInstance(getContext()).getPostList(getPostListListener);
                     }
                 }
@@ -85,4 +91,9 @@ public class FeedFragment extends Fragment {
             }
         }
     };
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_main, menu);
+    }
 }

@@ -115,7 +115,8 @@ public class FeedAdapter extends BaseAdapter {
 
         if (post.getPicture() != null && dataService.getPostImage(post) != null) {
             postImage.setImageBitmap(dataService.getPostImage(post));
-        }
+        } else
+            postImage.setImageBitmap(null);
 
         return convertView;
     }

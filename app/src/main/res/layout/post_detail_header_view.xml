@@ -1,179 +1,221 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:card_view="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
-    <LinearLayout
-        android:id="@+id/postInfoLayout"
+    <android.support.v7.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:minHeight="75dp"
-        android:layout_centerVertical="true"
-        android:orientation="horizontal">
-
-
-        <ImageView
-            android:id="@+id/imagePostStarter"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_marginLeft="30sp"
-            android:layout_marginTop="25sp"
-            android:src="@drawable/user_login_24"
-            />
-
+        android:background="@color/white"
+        android:layout_height="wrap_content">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-            <TextView
-                android:id="@+id/titlePost"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10sp"
-                android:layout_marginLeft="30sp"
-                android:textSize="17sp"
-                android:textStyle="bold"
-                android:textColor="@color/black_overlay"
-                />
+
             <LinearLayout
+                android:id="@+id/postInfoLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:minHeight="75dp"
+                android:layout_centerVertical="true"
                 android:orientation="horizontal">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="30dp"
+
+
+                <com.mikhaellopez.circularimageview.CircularImageView
+                    android:id="@+id/imagePostStarter"
+                    android:layout_weight="0"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_centerHorizontal="true"
+                    app:civ_border_color="@color/colorAccent"
+                    app:civ_border_width="1dp"
+                    app:civ_shadow="true"
+                    app:civ_shadow_radius="5"
+                    app:civ_shadow_color="@color/colorAccent"
+                    android:src="@drawable/default_profpic"
+                    android:layout_marginTop="15sp"
+                    android:layout_marginLeft="10sp"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <TextView
+                        android:id="@+id/titlePost"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15sp"
+                        android:layout_marginLeft="30sp"
+                        android:textSize="17sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/black_overlay"
+                        />
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="30dp"
+                            android:layout_marginLeft="30sp"
+                            android:text="by "
+                            />
+                        <TextView
+                            android:id="@+id/postStarter"
+                            android:layout_width="100dp"
+                            android:layout_height="30dp"
+                            android:textColor="@color/colorPrimary"
+                            />
+                        <ImageView
+                            android:layout_width="15dp"
+                            android:layout_height="15dp"
+                            android:src="@drawable/access_time_logo"/>
+                        <TextView
+                            android:id="@+id/datePosted"
+                            android:layout_width="wrap_content"
+                            android:layout_height="30dp"
+                            android:textColor="@color/colorPrimary"
+                            android:layout_marginLeft="5sp"
+                            />
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/postContentLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:orientation="vertical"
+                >
+
+                <ImageView
+                    android:id="@+id/postImage"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:maxHeight="200sp"
+                    android:layout_marginTop="10sp"
                     android:layout_marginLeft="30sp"
-                    android:text="by "
-                    />
+                    android:layout_marginRight="30sp"/>
+
                 <TextView
-                    android:id="@+id/postStarter"
-                    android:layout_width="75dp"
-                    android:layout_height="30dp"
-                    android:textColor="@color/cpb_red"
-                    />
-                <TextView
-                    android:id="@+id/datePosted"
-                    android:layout_width="100dp"
-                    android:layout_height="30dp"
+                    android:id="@+id/postContent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="30sp"
+                    android:layout_marginRight="30sp"
                     />
             </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/postBottom"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginTop="30sp"
+                android:layout_marginBottom="20sp"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:id="@+id/resultLayout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginLeft="15sp"
+                    android:layout_marginTop="15sp">
+
+                    <TextView
+                        android:layout_width="70dp"
+                        android:layout_height="wrap_content"
+                        android:textAlignment="center"
+                        android:text="RESULT"/>
+
+                    <TextView
+                        android:id="@+id/postResult"
+                        android:layout_width="70dp"
+                        android:layout_height="match_parent"
+                        android:text="HOAX"
+                        android:textAlignment="center"
+                        android:textColor="@color/cpb_red"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/voteLayout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginLeft="120sp">
+
+                    <com.dd.CircularProgressButton
+                        android:id="@+id/upVoteButton"
+                        android:layout_width="57dp"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/white"
+                        android:textSize="12sp"
+                        app:cpb_cornerRadius="30dp"
+                        app:cpb_textComplete="Complete"
+                        app:cpb_textError="Error"
+                        app:cpb_textIdle="2"
+                        android:layout_centerHorizontal="true"
+                        app:cpb_selectorIdle="@color/colorAccent"
+                        android:layout_marginLeft="10sp"
+                        android:drawableTop="@drawable/up_logo"
+                        android:drawableTint="@color/white" />
+
+                    <com.dd.CircularProgressButton
+                        android:id="@+id/downVoteButton"
+                        android:layout_width="57dp"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/white"
+                        android:textSize="12sp"
+                        app:cpb_cornerRadius="30dp"
+                        app:cpb_textComplete="Complete"
+                        app:cpb_textError="Error"
+                        app:cpb_textIdle="23"
+                        android:layout_centerHorizontal="true"
+                        app:cpb_selectorIdle="@color/black_overlay"
+                        android:layout_marginLeft="20sp"
+                        android:drawableTop="@drawable/down_logo"
+                        android:drawableTint="@color/colorPrimary"/>
+                </LinearLayout>
+            </LinearLayout>
         </LinearLayout>
-    </LinearLayout>
+    </android.support.v7.widget.CardView>
 
-    <LinearLayout
-        android:id="@+id/postContentLayout"
+    <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:orientation="vertical"
-        >
-
-        <ImageView
-            android:id="@+id/postImage"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10sp"
-            android:layout_marginLeft="30sp"
-            android:layout_marginRight="30sp"/>
-
-        <TextView
-            android:id="@+id/postContent"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="30sp"
-            android:layout_marginRight="30sp"
-            android:maxLines="2"/>
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/postBottom"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_marginTop="30sp"
-        android:layout_marginBottom="20sp"
-        android:orientation="horizontal">
-
+        android:background="@color/white"
+        android:layout_marginTop="5sp"
+        android:layout_marginBottom="5sp">
         <LinearLayout
-            android:id="@+id/resultLayout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginLeft="15sp"
-            android:layout_marginTop="15sp">
-
-            <TextView
-                android:layout_width="70dp"
-                android:layout_height="wrap_content"
-                android:textAlignment="center"
-                android:text="RESULT"/>
-
-            <TextView
-                android:id="@+id/postResult"
-                android:layout_width="70dp"
-                android:layout_height="match_parent"
-                android:text="HOAX"
-                android:textAlignment="center"
-                android:textColor="@color/cpb_red"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/voteLayout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginLeft="130sp">
-
-            <com.dd.CircularProgressButton
-                android:id="@+id/upVoteButton"
-                android:layout_width="57dp"
-                android:layout_height="wrap_content"
-                android:textColor="@color/white"
-                android:textSize="12sp"
-                app:cpb_cornerRadius="30dp"
-                app:cpb_textComplete="Complete"
-                app:cpb_textError="Error"
-                app:cpb_textIdle="2"
-                android:layout_centerHorizontal="true"
-                app:cpb_selectorIdle="@color/colorAccent"
-                android:layout_marginLeft="10sp"
-                android:drawableTop="@drawable/up_logo"
-                android:drawableTint="@color/white" />
-
-            <com.dd.CircularProgressButton
-                android:id="@+id/downVoteButton"
-                android:layout_width="57dp"
-                android:layout_height="wrap_content"
-                android:textColor="@color/white"
-                android:textSize="12sp"
-                app:cpb_cornerRadius="30dp"
-                app:cpb_textComplete="Complete"
-                app:cpb_textError="Error"
-                app:cpb_textIdle="23"
-                android:layout_centerHorizontal="true"
-                app:cpb_selectorIdle="@color/black_overlay"
-                android:layout_marginLeft="20sp"
-                android:drawableTop="@drawable/down_logo"
-                android:drawableTint="@color/colorPrimary"/>
-        </LinearLayout>
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/commentLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:weightSum="3">
-
-        <TextView
+            android:id="@+id/commentLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="20sp"
-            android:layout_marginBottom="20sp"
-            android:text="comments"/>
+            android:orientation="vertical"
+            android:weightSum="3">
 
-    </LinearLayout>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20sp"
+                android:layout_marginTop="3sp"
+                android:layout_marginBottom="3sp"
+                android:text="comments"/>
+
+            <EditText
+                android:id="@+id/commentBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/corner_shape_color_grey"
+                android:textSize="15sp"
+                android:hint="type your comment here"
+                android:drawableRight="@drawable/add_circle_color_accent"
+                android:padding="10sp"/>
+
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
 </LinearLayout>

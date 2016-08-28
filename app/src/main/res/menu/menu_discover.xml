@@ -4,12 +4,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="id.asdos.asdosapp.mainMenu.MainActivity">
     <item
+        android:id="@+id/menu_search"
+        android:title="Search"
+        android:orderInCategory="1"
+        android:icon="@drawable/discover_white_logo"
+        app:showAsAction="always" />
+    <item
         android:id="@+id/menu_account_setting"
         android:title="Account Setting"
-        android:orderInCategory="1"
+        android:orderInCategory="2"
         app:showAsAction="never" />
     <item android:id="@+id/menu_logout"
         android:title="Log Out"
-        android:orderInCategory="2"
+        android:orderInCategory="3"
         app:showAsAction="never" />
 </menu>

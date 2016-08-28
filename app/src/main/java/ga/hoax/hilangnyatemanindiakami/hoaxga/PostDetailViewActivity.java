@@ -21,6 +21,7 @@ import java.util.List;
 
 import ga.hoax.hilangnyatemanindiakami.hoaxga.adapter.CommentAdapter;
 import ga.hoax.hilangnyatemanindiakami.hoaxga.auth.model.User;
+import ga.hoax.hilangnyatemanindiakami.hoaxga.auth.model.UserService;
 import ga.hoax.hilangnyatemanindiakami.hoaxga.data.Comments;
 import ga.hoax.hilangnyatemanindiakami.hoaxga.data.Post;
 
@@ -80,7 +81,8 @@ public class PostDetailViewActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(layoutManager);
 //        commentRecyclerView.setHasFixedSize(true);
         buildData();
-        adapter = new CommentAdapter(getApplicationContext(), post, comments);
+        User user = UserService.getInstance(getApplicationContext()).getCurrentUser();
+        adapter = new CommentAdapter(getApplicationContext(), user, post, comments);
         System.out.println(comments);
         recyclerView.setAdapter(adapter);
 
