@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -122,7 +123,8 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
 
                             String comment = (String) commentViewHolder.commentBox.getText().toString();
                             commentViewHolder.commentBox.setText("");
-
+                            InputMethodManager imm = (InputMethodManager) v.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                            imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
 
 
                             dataService.addComment(comment, user, post.getId(), addCommentListener);
@@ -139,6 +141,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
             System.out.println(comments.get(i).getContent());
             commentViewHolder.postedUser.setText(comments.get(i).getUser().getName());
             commentViewHolder.commentContent.setText(comments.get(i).getContent());
+            commentViewHolder.commentDate.setText(getMoment(comments.get(i).getDate()));
         }
     }
 
@@ -173,7 +176,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
         // comments
         private CardView commentCard;
         private TextView postedUser;
-        private TextView date;
+        private TextView commentDate;
         private TextView commentContent;
 
 
@@ -194,6 +197,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
             super(itemView);
             commentCard = (CardView) itemView.findViewById(R.id.commentCard);
             postedUser = (TextView) itemView.findViewById(R.id.postedUser);
+            commentDate = (TextView) itemView.findViewById(R.id.datePosted);
             commentContent = (TextView) itemView.findViewById(R.id.postContent);
         }
     }
