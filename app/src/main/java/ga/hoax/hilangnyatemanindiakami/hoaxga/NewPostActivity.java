@@ -124,7 +124,7 @@ public class NewPostActivity extends AppCompatActivity{
                 bitmap = BitmapFactory.decodeStream(stream, null, options);
                 int width = bitmap.getWidth();
                 int height = bitmap.getHeight();
-                double scale = 0.4;
+                double scale = width >= 1280 || height >= 1280 ? 0.4 : 1;
                 height = (int)(height*scale);
                 width = (int)(width*scale);
                 bitmap = Bitmap.createScaledBitmap(bitmap, width, height, false);

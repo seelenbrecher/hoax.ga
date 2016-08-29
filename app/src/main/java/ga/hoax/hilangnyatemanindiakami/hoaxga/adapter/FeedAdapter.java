@@ -2,6 +2,8 @@ package ga.hoax.hilangnyatemanindiakami.hoaxga.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
+import android.graphics.drawable.Drawable;
 import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -94,6 +96,9 @@ public class FeedAdapter extends BaseAdapter {
 
         if (user.getProfileImage() != null)
             imagePostStarter.setImageBitmap(UserService.getInstance(mContext).getProfileImage(user));
+        else {
+            imagePostStarter.setImageDrawable(Resources.getSystem().getDrawable(R.drawable.default_profpic));
+        }
 
         postStarter.setText(user.getName());
 
