@@ -81,7 +81,7 @@ public class PostDetailViewActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(layoutManager);
 //        commentRecyclerView.setHasFixedSize(true);
         buildData();
-        User user = UserService.getInstance(getApplicationContext()).getCurrentUser();
+        User user = UserService.getInstance(getApplicationContext()).getUserByUsername(post.getUser());
         adapter = new CommentAdapter(getApplicationContext(), user, post, comments);
         System.out.println(comments);
         recyclerView.setAdapter(adapter);

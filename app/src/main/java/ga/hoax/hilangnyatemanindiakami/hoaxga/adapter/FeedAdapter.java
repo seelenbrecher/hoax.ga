@@ -128,7 +128,7 @@ public class FeedAdapter extends BaseAdapter {
             public void onClick(View v) {
                 Post post = (Post) getItem(position);
                 User user = UserService.getInstance(mContext).getCurrentUser();
-                System.out.println(post.getUser() + user.getUsername() + post.isPermissedToVote(user) + " " + !post.isVoteDownContain(user));
+                System.out.println(post.getUser() + post.getTitle() + user.getUsername() + post.isPermissedToVote(user) + " " + !post.isVoteDownContain(user));
                 if(post.isPermissedToVote(user) && !post.isVoteDownContain(user)){
                     if(!post.isVoteUpContain(user)){
                         post.addVotedUpUser(user);
