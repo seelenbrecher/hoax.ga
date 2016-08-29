@@ -217,12 +217,11 @@ public class UserService {
             user.setJob(job);
             user.setQuote(quotes);
 
-            serializeUser();
             if (bitmap != null) {
                 if (user.getProfileImage() == null) user.setProfileImage(user.getUsername()+".png");
                 saveBitmapTofile(bitmap, user.getProfileImage());
             }
-
+            serializeUser();
 
             return user;
         }

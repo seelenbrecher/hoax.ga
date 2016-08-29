@@ -23,13 +23,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e1b587aa-1e57-422d-8966-5846eaee7c4d" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/app.iml" afterPath="$PROJECT_DIR$/app/app.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" afterPath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/ga/hoax/hilangnyatemanindiakami/hoaxga/AccountSettingActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/ga/hoax/hilangnyatemanindiakami/hoaxga/AccountSettingActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/ga/hoax/hilangnyatemanindiakami/hoaxga/NewPostActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/ga/hoax/hilangnyatemanindiakami/hoaxga/NewPostActivity.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/ga/hoax/hilangnyatemanindiakami/hoaxga/adapter/FeedAdapter.java" afterPath="$PROJECT_DIR$/app/src/main/java/ga/hoax/hilangnyatemanindiakami/hoaxga/adapter/FeedAdapter.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/ga/hoax/hilangnyatemanindiakami/hoaxga/auth/model/UserService.java" afterPath="$PROJECT_DIR$/app/src/main/java/ga/hoax/hilangnyatemanindiakami/hoaxga/auth/model/UserService.java" />
     </list>
     <ignored path="androidstudioapp.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -64,7 +60,7 @@
         <entry file="file://$PROJECT_DIR$/app/src/main/java/ga/hoax/hilangnyatemanindiakami/hoaxga/AccountSettingActivity.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="138" column="73" selection-start-line="138" selection-start-column="73" selection-end-line="138" selection-end-column="73" />
+              <caret line="143" column="60" selection-start-line="143" selection-start-column="60" selection-end-line="143" selection-end-column="60" />
               <folding />
             </state>
           </provider>
@@ -73,20 +69,20 @@
       <file leaf-file-name="workspace.xml" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/.idea/workspace.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-1541.875">
-              <caret line="2467" column="17" selection-start-line="2467" selection-start-column="17" selection-end-line="2467" selection-end-column="17" />
+            <state vertical-scroll-proportion="-1542.5">
+              <caret line="2468" column="17" selection-start-line="2468" selection-start-column="17" selection-end-line="2468" selection-end-column="17" />
               <folding>
-                <marker date="1472489896000" expanded="true" signature="59:177689" placeholder="..." />
-                <marker date="1472489896000" expanded="true" signature="95:567" placeholder="..." />
-                <marker date="1472489896000" expanded="true" signature="153:552" placeholder="..." />
-                <marker date="1472489896000" expanded="true" signature="235:347" placeholder="..." />
-                <marker date="1472489896000" expanded="true" signature="252:331" placeholder="..." />
-                <marker date="1472489896000" expanded="true" signature="425:537" placeholder="..." />
-                <marker date="1472489896000" expanded="true" signature="442:521" placeholder="..." />
-                <marker date="1472489896000" expanded="true" signature="606:774" placeholder="..." />
-                <marker date="1472489896000" expanded="true" signature="813:929" placeholder="..." />
-                <marker date="1472489896000" expanded="true" signature="907:929" placeholder="..." />
-                <marker date="1472489896000" expanded="true" signature="177590:177678" placeholder="..." />
+                <marker date="1472489947000" expanded="true" signature="59:177715" placeholder="..." />
+                <marker date="1472489947000" expanded="true" signature="95:567" placeholder="..." />
+                <marker date="1472489947000" expanded="true" signature="153:552" placeholder="..." />
+                <marker date="1472489947000" expanded="true" signature="235:347" placeholder="..." />
+                <marker date="1472489947000" expanded="true" signature="252:331" placeholder="..." />
+                <marker date="1472489947000" expanded="true" signature="425:537" placeholder="..." />
+                <marker date="1472489947000" expanded="true" signature="442:521" placeholder="..." />
+                <marker date="1472489947000" expanded="true" signature="606:774" placeholder="..." />
+                <marker date="1472489947000" expanded="true" signature="813:929" placeholder="..." />
+                <marker date="1472489947000" expanded="true" signature="907:929" placeholder="..." />
+                <marker date="1472489947000" expanded="true" signature="177616:177704" placeholder="..." />
               </folding>
             </state>
           </provider>
@@ -112,30 +108,22 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="FeedAdapter.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="FeedAdapter.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/ga/hoax/hilangnyatemanindiakami/hoaxga/adapter/FeedAdapter.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.7076023">
-              <caret line="99" column="106" selection-start-line="99" selection-start-column="106" selection-end-line="99" selection-end-column="106" />
+            <state vertical-scroll-proportion="0.0">
+              <caret line="97" column="101" selection-start-line="97" selection-start-column="101" selection-end-line="97" selection-end-column="101" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="UserService.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="UserService.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/ga/hoax/hilangnyatemanindiakami/hoaxga/auth/model/UserService.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="290" column="0" selection-start-line="290" selection-start-column="0" selection-end-line="290" selection-end-column="0" />
-              <folding>
-                <element signature="imports" expanded="false" />
-                <element signature="e#1026#1027#0" expanded="false" />
-                <element signature="e#1060#1061#0" expanded="false" />
-                <element signature="e#1113#1114#0" expanded="false" />
-                <element signature="e#1159#1160#0" expanded="false" />
-                <element signature="e#1622#1623#0" expanded="false" />
-                <element signature="e#1658#1659#0" expanded="false" />
-              </folding>
+            <state vertical-scroll-proportion="0.41520467">
+              <caret line="218" column="0" selection-start-line="218" selection-start-column="0" selection-end-line="218" selection-end-column="0" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -1953,7 +1941,6 @@
         <option value="$PROJECT_DIR$/app/src/main/java/ga/hoax/hilangnyatemanindiakami/hoaxga/fragment/BaseFragment.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/xml/bottom_navbar.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/ga/hoax/hilangnyatemanindiakami/hoaxga/adapter/PagerAdapter.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/ga/hoax/hilangnyatemanindiakami/hoaxga/auth/model/UserService.java" />
         <option value="$PROJECT_DIR$/app/build.gradle" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/layout_list_feed.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/drawable/dot.xml" />
@@ -1986,8 +1973,9 @@
         <option value="$PROJECT_DIR$/.idea/workspace.xml" />
         <option value="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/ga/hoax/hilangnyatemanindiakami/hoaxga/NewPostActivity.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/ga/hoax/hilangnyatemanindiakami/hoaxga/AccountSettingActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/ga/hoax/hilangnyatemanindiakami/hoaxga/adapter/FeedAdapter.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/ga/hoax/hilangnyatemanindiakami/hoaxga/AccountSettingActivity.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/ga/hoax/hilangnyatemanindiakami/hoaxga/auth/model/UserService.java" />
       </list>
     </option>
   </component>
@@ -2117,6 +2105,54 @@
             <PATH_ELEMENT>
               <option name="myItemId" value="hoaxga" />
               <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidPsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="androidstudioapp" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidSourceTypeNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="hoaxga" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidPsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="auth" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="androidstudioapp" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidSourceTypeNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="hoaxga" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidPsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="auth" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="model" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
           <PATH>
@@ -2381,7 +2417,7 @@
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3287841" sideWeight="0.50572246" order="1" side_tool="true" content_ui="tabs" />
-      <window_info id="Android Monitor" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3287841" sideWeight="0.49427754" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Android Monitor" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3287841" sideWeight="0.49427754" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3287841" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3287841" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3287841" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
@@ -2514,17 +2550,17 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="71" column="95" selection-start-line="71" selection-start-column="95" selection-end-line="71" selection-end-column="95" />
           <folding>
-            <marker date="1472489896000" expanded="true" signature="59:177689" placeholder="..." />
-            <marker date="1472489896000" expanded="true" signature="95:567" placeholder="..." />
-            <marker date="1472489896000" expanded="true" signature="153:552" placeholder="..." />
-            <marker date="1472489896000" expanded="true" signature="235:347" placeholder="..." />
-            <marker date="1472489896000" expanded="true" signature="252:331" placeholder="..." />
-            <marker date="1472489896000" expanded="true" signature="425:537" placeholder="..." />
-            <marker date="1472489896000" expanded="true" signature="442:521" placeholder="..." />
-            <marker date="1472489896000" expanded="true" signature="606:774" placeholder="..." />
-            <marker date="1472489896000" expanded="true" signature="813:929" placeholder="..." />
-            <marker date="1472489896000" expanded="true" signature="907:929" placeholder="..." />
-            <marker date="1472489896000" expanded="true" signature="177590:177678" placeholder="..." />
+            <marker date="1472489947000" expanded="true" signature="59:177715" placeholder="..." />
+            <marker date="1472489947000" expanded="true" signature="95:567" placeholder="..." />
+            <marker date="1472489947000" expanded="true" signature="153:552" placeholder="..." />
+            <marker date="1472489947000" expanded="true" signature="235:347" placeholder="..." />
+            <marker date="1472489947000" expanded="true" signature="252:331" placeholder="..." />
+            <marker date="1472489947000" expanded="true" signature="425:537" placeholder="..." />
+            <marker date="1472489947000" expanded="true" signature="442:521" placeholder="..." />
+            <marker date="1472489947000" expanded="true" signature="606:774" placeholder="..." />
+            <marker date="1472489947000" expanded="true" signature="813:929" placeholder="..." />
+            <marker date="1472489947000" expanded="true" signature="907:929" placeholder="..." />
+            <marker date="1472489947000" expanded="true" signature="177616:177704" placeholder="..." />
           </folding>
         </state>
       </provider>
@@ -2541,36 +2577,20 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/.idea/workspace.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-1541.875">
-          <caret line="2467" column="17" selection-start-line="2467" selection-start-column="17" selection-end-line="2467" selection-end-column="17" />
+        <state vertical-scroll-proportion="-1542.5">
+          <caret line="2468" column="17" selection-start-line="2468" selection-start-column="17" selection-end-line="2468" selection-end-column="17" />
           <folding>
-            <marker date="1472489896000" expanded="true" signature="59:177689" placeholder="..." />
-            <marker date="1472489896000" expanded="true" signature="95:567" placeholder="..." />
-            <marker date="1472489896000" expanded="true" signature="153:552" placeholder="..." />
-            <marker date="1472489896000" expanded="true" signature="235:347" placeholder="..." />
-            <marker date="1472489896000" expanded="true" signature="252:331" placeholder="..." />
-            <marker date="1472489896000" expanded="true" signature="425:537" placeholder="..." />
-            <marker date="1472489896000" expanded="true" signature="442:521" placeholder="..." />
-            <marker date="1472489896000" expanded="true" signature="606:774" placeholder="..." />
-            <marker date="1472489896000" expanded="true" signature="813:929" placeholder="..." />
-            <marker date="1472489896000" expanded="true" signature="907:929" placeholder="..." />
-            <marker date="1472489896000" expanded="true" signature="177590:177678" placeholder="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/ga/hoax/hilangnyatemanindiakami/hoaxga/auth/model/UserService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="290" column="0" selection-start-line="290" selection-start-column="0" selection-end-line="290" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="false" />
-            <element signature="e#1026#1027#0" expanded="false" />
-            <element signature="e#1060#1061#0" expanded="false" />
-            <element signature="e#1113#1114#0" expanded="false" />
-            <element signature="e#1159#1160#0" expanded="false" />
-            <element signature="e#1622#1623#0" expanded="false" />
-            <element signature="e#1658#1659#0" expanded="false" />
+            <marker date="1472489947000" expanded="true" signature="59:177715" placeholder="..." />
+            <marker date="1472489947000" expanded="true" signature="95:567" placeholder="..." />
+            <marker date="1472489947000" expanded="true" signature="153:552" placeholder="..." />
+            <marker date="1472489947000" expanded="true" signature="235:347" placeholder="..." />
+            <marker date="1472489947000" expanded="true" signature="252:331" placeholder="..." />
+            <marker date="1472489947000" expanded="true" signature="425:537" placeholder="..." />
+            <marker date="1472489947000" expanded="true" signature="442:521" placeholder="..." />
+            <marker date="1472489947000" expanded="true" signature="606:774" placeholder="..." />
+            <marker date="1472489947000" expanded="true" signature="813:929" placeholder="..." />
+            <marker date="1472489947000" expanded="true" signature="907:929" placeholder="..." />
+            <marker date="1472489947000" expanded="true" signature="177616:177704" placeholder="..." />
           </folding>
         </state>
       </provider>
@@ -2652,18 +2672,26 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/ga/hoax/hilangnyatemanindiakami/hoaxga/AccountSettingActivity.java">
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/ga/hoax/hilangnyatemanindiakami/hoaxga/adapter/FeedAdapter.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="138" column="73" selection-start-line="138" selection-start-column="73" selection-end-line="138" selection-end-column="73" />
+          <caret line="97" column="101" selection-start-line="97" selection-start-column="101" selection-end-line="97" selection-end-column="101" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/ga/hoax/hilangnyatemanindiakami/hoaxga/adapter/FeedAdapter.java">
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/ga/hoax/hilangnyatemanindiakami/hoaxga/AccountSettingActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.7076023">
-          <caret line="99" column="106" selection-start-line="99" selection-start-column="106" selection-end-line="99" selection-end-column="106" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="143" column="60" selection-start-line="143" selection-start-column="60" selection-end-line="143" selection-end-column="60" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/ga/hoax/hilangnyatemanindiakami/hoaxga/auth/model/UserService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.41520467">
+          <caret line="218" column="0" selection-start-line="218" selection-start-column="0" selection-end-line="218" selection-end-column="0" />
           <folding />
         </state>
       </provider>

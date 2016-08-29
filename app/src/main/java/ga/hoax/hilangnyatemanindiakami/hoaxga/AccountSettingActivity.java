@@ -141,7 +141,6 @@ public class AccountSettingActivity extends AppCompatActivity {
                 width = (int)(width*scale);
                 bitmap = Bitmap.createScaledBitmap(bitmap, width,height, false);
                 stream.close();
-                Toast.makeText(this,bitmap.getConfig().toString(),Toast.LENGTH_SHORT).show();
                 changeProfilePicture.setImageBitmap(bitmap);
             } catch (FileNotFoundException e) {
                 e.printStackTrace();

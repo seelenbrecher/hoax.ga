@@ -96,9 +96,6 @@ public class FeedAdapter extends BaseAdapter {
 
         if (user.getProfileImage() != null)
             imagePostStarter.setImageBitmap(UserService.getInstance(mContext).getProfileImage(user));
-        else {
-            imagePostStarter.setImageDrawable(Resources.getSystem().getDrawable(R.drawable.default_profpic));
-        }
 
         postStarter.setText(user.getName());
 
