@@ -2,6 +2,7 @@ package ga.hoax.hilangnyatemanindiakami.hoaxga.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.dd.CircularProgressButton;
 import com.mikhaellopez.circularimageview.CircularImageView;
 
 import java.util.Date;
@@ -38,6 +40,9 @@ public class FeedAdapter extends BaseAdapter {
     private ImageView postImage;
     private TextView postContent;
     private TextView postDetail;
+
+    private CircularProgressButton voteUp;
+    private CircularProgressButton voteDown;
 
     private UserService userService;
     private DataService dataService;
@@ -80,6 +85,8 @@ public class FeedAdapter extends BaseAdapter {
         postImage = (ImageView) convertView.findViewById(R.id.postImage);
         postContent = (TextView) convertView.findViewById(R.id.postContent);
         postDetail = (TextView) convertView.findViewById(R.id.postDetail);
+        voteUp = (CircularProgressButton) convertView.findViewById(R.id.upVoteButton);
+        voteDown = (CircularProgressButton) convertView.findViewById(R.id.downVoteButton);
 
         postDetail.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -112,6 +119,59 @@ public class FeedAdapter extends BaseAdapter {
 
         titlePost.setText(post.getTitle());
         postContent.setText(post.getContent());
+
+        voteUp.setText(Integer.toString(post.getVoteUp()));
+        if(post.isVoteUpContain(user)) voteUp.setProgress(100);
+        voteUp.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                Post post = (Post) getItem(position);
+                User user = UserService.getInstance(mContext).getCurrentUser();
+                System.out.println(post.getUser() + user.getUsername() + post.isPermissedToVote(user) + " " + !post.isVoteDownContain(user));
+                if(post.isPermissedToVote(user) && !post.isVoteDownContain(user)){
+                    if(!post.isVoteUpContain(user)){
+                        post.addVotedUpUser(user);
+                        post.setVoteUp(post.getVoteUp() + 1);
+                    } else {
+                        post.removeVotedUpUser(user);
+                        post.setVoteUp(post.getVoteUp() - 1);
+                    }
+                }
+                if(post.isVoteUpContain(user))
+                    voteUp.setProgress(100);
+                else
+                    voteUp.setProgress(0);
+
+                voteUp.setText(Integer.toString(post.getVoteUp()));
+            }
+        });
+
+        voteDown.setText(Integer.toString(post.getVoteDown()));
+        if(post.isVoteDownContain(user)) voteDown.setProgress(100);
+        voteDown.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                Post post = (Post) getItem(position);
+                User user = UserService.getInstance(mContext).getCurrentUser();
+                if(post.isPermissedToVote(user) && !post.isVoteUpContain(user)){
+                    if(!post.isVoteDownContain(user)){
+                        post.addVotedDownUser(user);
+                        post.setVoteDown(post.getVoteDown() + 1);
+                    } else {
+                        post.removeVotedDownUser(user);
+                        post.setVoteDown(post.getVoteDown() - 1);
+                    }
+                }
+
+                if(post.isVoteDownContain(user))
+                    voteDown.setProgress(100);
+                else
+                    voteDown.setProgress(0);
+                voteDown.setText(Integer.toString(post.getVoteDown()));
+            }
+        });
 
         if (post.getPicture() != null && dataService.getPostImage(post) != null) {
             postImage.setImageBitmap(dataService.getPostImage(post));

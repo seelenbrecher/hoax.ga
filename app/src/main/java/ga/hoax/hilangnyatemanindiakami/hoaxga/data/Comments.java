@@ -1,7 +1,9 @@
 package ga.hoax.hilangnyatemanindiakami.hoaxga.data;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import ga.hoax.hilangnyatemanindiakami.hoaxga.auth.model.User;
 
@@ -18,12 +20,18 @@ public class Comments implements Serializable, Comparable<Comments> {
     private int voteUp;
     private int voteDown;
 
+    private List<User> votedUpUser;
+    private  List<User> votedDownUser;
+
     public Comments() {
         this.id = 0;
         this.postId = 0;
         this.user = null;
         this.date = null;
         this.content = "";
+
+        this.votedDownUser = new ArrayList<>();
+        this.votedUpUser = new ArrayList<>();
 
         this.voteUp = 0;
         this.voteDown = 0;
@@ -83,6 +91,37 @@ public class Comments implements Serializable, Comparable<Comments> {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    //if not comment maker and did't vote before
+    public boolean isPermissedToVote(User user){
+        return ( !user.getUsername().equals(this.user.getUsername()) );
+    }
+
+    public void addVotedUpUser(User user){
+        this.votedUpUser.add(user);
+    }
+
+    public boolean isVoteUpContain(User user){
+        return votedUpUser.contains(user);
+    }
+
+    public void removeVotedUpUser(User user){
+        this.votedUpUser.remove(user);
+    }
+
+
+    public void addVotedDownUser(User user){
+        this.votedDownUser.add(user);
+    }
+
+    public boolean isVoteDownContain(User user){
+        return votedDownUser.contains(user.getUsername());
+    }
+
+
+    public void removeVotedDownUser(User user){
+        this.votedDownUser.remove(user);
     }
 
     private int rankingDiffCalculator(int cur, int other){

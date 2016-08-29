@@ -30,7 +30,6 @@
                     android:textColor="@color/colorPrimary"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="an jing"
                     android:layout_marginLeft="10sp"/>
 
                 <ImageView
@@ -43,7 +42,6 @@
                     android:id="@+id/datePosted"
                     android:layout_width="wrap_content"
                     android:layout_height="30dp"
-                    android:text="anj"
                     android:textColor="@color/colorPrimary"
                     android:layout_marginLeft="10sp"
                     />

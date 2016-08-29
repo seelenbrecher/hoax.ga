@@ -1,6 +1,7 @@
 package ga.hoax.hilangnyatemanindiakami.hoaxga.adapter;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.text.format.DateUtils;
@@ -8,11 +9,13 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.CorrectionInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.dd.CircularProgressButton;
 import com.mikhaellopez.circularimageview.CircularImageView;
 
 import java.util.List;
@@ -109,6 +112,55 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
             } else
                 commentViewHolder.postImage.setImageBitmap(null);
 
+            commentViewHolder.voteUp.setText(Integer.toString(post.getVoteUp()));
+            if(post.isVoteUpContain(user)) commentViewHolder.voteUp.setProgress(100);
+            commentViewHolder.voteUp.setOnClickListener(new View.OnClickListener() {
+
+                @Override
+                public void onClick(View v) {
+                    System.out.println(post.getUser() + user.getUsername() + post.isPermissedToVote(user) + " " + !post.isVoteDownContain(user));
+                    if(post.isPermissedToVote(user) && !post.isVoteDownContain(user)){
+                        if(!post.isVoteUpContain(user)){
+                            post.addVotedUpUser(user);
+                            post.setVoteUp(post.getVoteUp() + 1);
+                        } else {
+                            post.removeVotedUpUser(user);
+                            post.setVoteUp(post.getVoteUp() - 1);
+                        }
+                    }
+
+                    if(post.isVoteUpContain(user))
+                        commentViewHolder.voteUp.setProgress(100);
+                    else
+                        commentViewHolder.voteUp.setProgress(0);
+                    commentViewHolder.voteUp.setText(Integer.toString(post.getVoteUp()));
+                }
+            });
+
+            commentViewHolder.voteDown.setText(Integer.toString(post.getVoteDown()));
+            if(post.isVoteDownContain(user)) commentViewHolder.voteDown.setProgress(100);
+            commentViewHolder.voteDown.setOnClickListener(new View.OnClickListener() {
+
+                @Override
+                public void onClick(View v) {
+                    if(post.isPermissedToVote(user) && !post.isVoteUpContain(user)){
+                        if(!post.isVoteDownContain(user)){
+                            post.addVotedDownUser(user);
+                            post.setVoteDown(post.getVoteDown() + 1);
+                        } else {
+                            post.removeVotedDownUser(user);
+                            post.setVoteDown(post.getVoteDown() - 1);
+                        }
+                    }
+
+                    if(post.isVoteDownContain(user))
+                        commentViewHolder.voteDown.setProgress(100);
+                    else
+                        commentViewHolder.voteDown.setProgress(0);
+                    commentViewHolder.voteDown.setText(Integer.toString(post.getVoteDown()));
+                }
+            });
+
             commentViewHolder.commentBox.setOnTouchListener(new View.OnTouchListener() {
                 @Override
                 public boolean onTouch(View v, MotionEvent event) {
@@ -172,6 +224,8 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
         private EditText commentBox;
         private TextView postContent;
         private ImageView postImage;
+        private CircularProgressButton voteUp;
+        private CircularProgressButton voteDown;
 
         // comments
         private CardView commentCard;
@@ -191,6 +245,8 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
             postContent = (TextView) itemView.findViewById(R.id.postContent);
             postImage = (ImageView) itemView.findViewById(R.id.postImage);
             commentBox = (EditText) itemView.findViewById(R.id.commentBox);
+            voteUp = (CircularProgressButton) itemView.findViewById(R.id.upVoteButton);
+            voteDown = (CircularProgressButton) itemView.findViewById(R.id.downVoteButton);
         }
 
         CommentViewHolder(View itemView, int status) {
