@@ -73,6 +73,10 @@ public class PostDetailViewActivity extends AppCompatActivity {
         post = (Post) bundle.get("post");
         user = (User) bundle.get("user");
 
+        System.out.println("pp" + post.getTitle());
+        DataService.getInstance(getApplicationContext()).setPostChosen(post.getId(), true);
+        System.out.println(post.isSelected());
+
         actionBar = getSupportActionBar();
         actionBar.setTitle("Post Detail");
 
@@ -87,6 +91,13 @@ public class PostDetailViewActivity extends AppCompatActivity {
 
         DataService.getInstance(getApplicationContext()).getCommentList(getCommentListener);
     }
+
+    @Override
+    protected void onDestroy(){
+       super.onDestroy();
+        DataService.getInstance(getApplicationContext()).setPostChosen(post.getId(), false);
+    }
+
 
     private void buildData(){
         comments = new ArrayList<>();
@@ -115,6 +126,7 @@ public class PostDetailViewActivity extends AppCompatActivity {
             if (success) {
                 comments.clear();
                 adapter.notifyDataSetChanged();
+                System.out.println(commentList);
                 comments.addAll(commentList);
                 adapter.notifyDataSetChanged();
             }

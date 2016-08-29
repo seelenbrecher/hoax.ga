@@ -19,6 +19,8 @@ import java.util.List;
 
 import ga.hoax.hilangnyatemanindiakami.hoaxga.R;
 import ga.hoax.hilangnyatemanindiakami.hoaxga.adapter.NotificationAdapter;
+import ga.hoax.hilangnyatemanindiakami.hoaxga.auth.model.User;
+import ga.hoax.hilangnyatemanindiakami.hoaxga.auth.model.UserService;
 import ga.hoax.hilangnyatemanindiakami.hoaxga.data.DataService;
 import ga.hoax.hilangnyatemanindiakami.hoaxga.data.Notification;
 import ga.hoax.hilangnyatemanindiakami.hoaxga.data.Post;
@@ -32,6 +34,8 @@ public class NotificationFragment extends Fragment {
     private ListView notificationListView;
     private SwipeRefreshLayout swipeRefreshLayout;
     private NotificationAdapter adapter;
+
+    protected String currentUser;
 
     @Nullable
     @Override
@@ -49,7 +53,8 @@ public class NotificationFragment extends Fragment {
     public void onAttach(Context context) {
         super.onAttach(context);
         adapter  = new NotificationAdapter(context, notificationList);
-        DataService.getInstance(context).getNotificationList(getNotificationListener);
+        currentUser = UserService.getInstance(context).getCurrentUser().getUsername();
+        DataService.getInstance(context).getNotificationList(currentUser, getNotificationListener);
     }
 
     @Override
@@ -64,7 +69,7 @@ public class NotificationFragment extends Fragment {
                 new SwipeRefreshLayout.OnRefreshListener() {
                     @Override
                     public void onRefresh() {
-                        DataService.getInstance(getContext()).getNotificationList(getNotificationListener);
+                        DataService.getInstance(getContext()).getNotificationList(currentUser, getNotificationListener);
                     }
                 }
         );

@@ -120,11 +120,11 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
                         if(event.getRawX() >= (commentViewHolder.commentBox.getRight()
                                 - commentViewHolder.commentBox.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width())) {
 
-                            String comment = (String) commentViewHolder.commentBox.getText().toString();
+                            String comment = commentViewHolder.commentBox.getText().toString();
                             commentViewHolder.commentBox.setText("");
 
+                            System.out.println("commentnya" + comment);
                             DataService.getInstance(context).addComment(comment, UserService.getInstance(context).getCurrentUser(), post.getId(), addCommentListener);
-
                             return true;
                         }
                     }
@@ -144,12 +144,10 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
         @Override
         public void onResponse(boolean added, String message, Comments comment) {
             if (added) {
-                comments.clear();
                 notifyDataSetChanged();
                 comments.add(comment);
                 notifyDataSetChanged();
                 Toast.makeText(context,"added comment", Toast.LENGTH_SHORT).show();
-                DataService.getInstance(context).getCommentList(getCommentListListener);
             } else {
                 Toast.makeText(context,"not added comment", Toast.LENGTH_SHORT).show();
             }
@@ -162,13 +160,15 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
         @Override
         public void onResponse(boolean success, String message, List<Comments> listComment) {
             if (success) {
-                Toast.makeText(context,"masuk get", Toast.LENGTH_SHORT).show();
+                // pass array kosong terus
+                System.out.println(listComment);
                 comments.clear();
                 notifyDataSetChanged();
                 comments.addAll(listComment);
                 notifyDataSetChanged();
-                for (Comments comments : listComment)
+                for (Comments comments : listComment) {
                     Toast.makeText(context, comments.getContent().toString(), Toast.LENGTH_SHORT).show();
+                }
             }
         }
     };

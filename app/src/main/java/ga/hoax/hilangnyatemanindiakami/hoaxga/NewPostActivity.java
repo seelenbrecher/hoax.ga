@@ -75,11 +75,6 @@ public class NewPostActivity extends AppCompatActivity{
     }
 
     @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-    }
-
-    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_new_post, menu);
         return true;
@@ -143,6 +138,4 @@ public class NewPostActivity extends AppCompatActivity{
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
-
-
 }

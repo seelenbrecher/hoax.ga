@@ -40,14 +40,16 @@ public class DataService {
     private List<Post> postList;
     private List<Comments> commentsList;
     private List<Notification> notificationList;
-    private HashMap<String, Notification> notificationHashMap;
+    private HashMap<String, List<Notification>> notificationHashMap;
+    private int lastNotifId;
 
     public DataService(Context context) {
         this.context = context;
         deserializeData();
     }
 
-    public void getNotificationList (GetNotificationListener getNotificationListener) {
+    public void getNotificationList (String currentUser, GetNotificationListener getNotificationListener) {
+        notificationList = notificationHashMap.get(currentUser);
         getNotificationListener.onResponse(true, "", notificationList);
     }
 
@@ -67,6 +69,7 @@ public class DataService {
 
     public void getPostRelatedToCheckedUser(GetPostListListener getPostListListener, User currentUser) {
         List<Post> filteredPostList = new ArrayList<>();
+        System.out.println("CU" + currentUser);
         for(Post currentPost : postList) {
             if( currentPost.getUser().equals(currentUser.getUsername()) ) filteredPostList.add(currentPost) ;
         }
@@ -86,21 +89,25 @@ public class DataService {
     }
 
     public void getCommentList(GetCommentListListener getCommentListListener) {
-        if (postList.get(0).isSelected()) {
+
+        if (postList.size()>0 && postList.get(0).isSelected()) {
             Collections.sort(postList);
             getCommentListListener.onResponse(true,"",commentsList);
         } else {
-            List<Comments> commentsList = new ArrayList<Comments>();
+            List<Comments> relatedCommentsList = new ArrayList<Comments>();
+            for(Post p : postList) {
+                System.out.println(p.getId() + " " + p.getTitle());
+            }
             for (Comments c : this.commentsList) {
+                System.out.println(c.getContent() + c.getPostId() + postList.get(c.getPostId()).isSelected() + postList.get(0).getTitle());
                 if (postList.get(c.getPostId()).isSelected()) {
-                    commentsList.add(c);
+                    relatedCommentsList.add(c);
                     break;
                 }
             }
-            Collections.sort(commentsList);
-            getCommentListListener.onResponse(true,"",commentsList);
+            Collections.sort(relatedCommentsList);
+            getCommentListListener.onResponse(true,"",relatedCommentsList);
         }
-
     }
 
     public void addPost(Post post, User userAsked, AddPostListener listener, Bitmap bitmap) {
@@ -178,18 +185,21 @@ public class DataService {
                 ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
                 commentsList = (List<Comments>) objectInputStream.readObject();
                 postList = (List<Post>) objectInputStream.readObject();
-                notificationHashMap = (HashMap<String, Notification>) objectInputStream.readObject();
+                notificationHashMap = (HashMap<String, List<Notification>>) objectInputStream.readObject();
+                lastNotifId = objectInputStream.readInt();
                 objectInputStream.close();
                 fileInputStream.close();
             } catch (Exception e) {
                 commentsList = new ArrayList<Comments>();
                 postList = new ArrayList<Post>();
                 notificationHashMap = new HashMap<>();
+                lastNotifId = 0;
             }
         } else {
             commentsList = new ArrayList<Comments>();
             postList = new ArrayList<Post>();
             notificationHashMap = new HashMap<>();
+            lastNotifId = 0;
         }
     }
 
@@ -200,6 +210,7 @@ public class DataService {
             objectOutputStream.writeObject(commentsList);
             objectOutputStream.writeObject(postList);
             objectOutputStream.writeObject(notificationHashMap);
+            objectOutputStream.writeInt(lastNotifId);
             objectOutputStream.flush();
             objectOutputStream.close();
             fileOutputStream.close();
@@ -227,8 +238,14 @@ public class DataService {
             commentsList.add(commentCreated);
 
             String userAffected = getSinglePost(postId).getUser();
-            Notification notification = new Notification(notificationHashMap.size(), Notification.NotificationType.COMMENT, userAffected, userAsked.getUsername(), postId, new Date());
-            notificationHashMap.put(userAffected, notification);
+            Notification notification = new Notification(lastNotifId, Notification.NotificationType.COMMENT, userAffected, userAsked.getUsername(), postId, new Date());
+            if (notificationHashMap.get(userAffected) == null) {
+                List<Notification> listNotif = new ArrayList<>();
+                listNotif.add(notification);
+                notificationHashMap.put(userAffected, listNotif);
+            } else {
+                notificationHashMap.get(userAffected).add(notification);
+            }
 
             serializeData();
 
