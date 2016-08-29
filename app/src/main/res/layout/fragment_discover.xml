@@ -44,8 +44,15 @@
                 android:layout_marginRight="10sp"
                 android:background="@null"
                 android:padding="10sp"
-                android:drawableRight="@drawable/add_circle_color_accent"
                 />
+
+            <ImageView
+                android:id="@+id/tagsButton"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:src="@drawable/add_circle_color_accent"
+                android:layout_gravity="end"
+                android:padding="2sp"/>
 
         </LinearLayout>
 
