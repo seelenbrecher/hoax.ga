@@ -1,6 +1,7 @@
 package ga.hoax.hilangnyatemanindiakami.hoaxga.adapter;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.text.format.DateUtils;
@@ -8,13 +9,18 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.CorrectionInfo;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.dd.CircularProgressButton;
 import com.mikhaellopez.circularimageview.CircularImageView;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Date;
 
@@ -32,6 +38,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
 
     private List<Comments> comments;
     private User user;
+    private User loggedUser;
     private Post post;
     private Context context;
     private DataService dataService;
@@ -42,6 +49,8 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
         this.user = user;
         this.context = context;
         this.dataService = new DataService(context);
+
+        this.loggedUser = UserService.getInstance(this.context).getCurrentUser();
     }
 
     @Override
@@ -75,6 +84,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
 
     public String getMoment(Date date){
         Date now = new Date();
+        System.out.println(now+ " " + date);
         long diff = now.getTime() - date.getTime();
         diff = diff / DateUtils.SECOND_IN_MILLIS;
 
@@ -108,6 +118,50 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
             } else
                 commentViewHolder.postImage.setImageBitmap(null);
 
+            commentViewHolder.voteUp.setText(Integer.toString(post.getVoteUp()));
+            commentViewHolder.voteUp.setOnClickListener(new View.OnClickListener() {
+
+                @Override
+                public void onClick(View v) {
+                    System.out.println(post.getUser() + loggedUser.getUsername() + post.isPermissedToVote(loggedUser) + " " + !post.isVoteDownContain(loggedUser));
+                    if(post.isPermissedToVote(loggedUser) && !post.isVoteDownContain(loggedUser)){
+                        if(!post.isVoteUpContain(loggedUser)){
+                            post.addVotedUpUser(loggedUser);
+                            post.setVoteUp(post.getVoteUp() + 1);
+                        } else {
+                            post.removeVotedUpUser(loggedUser);
+                            post.setVoteUp(post.getVoteUp() - 1);
+                        }
+                    }
+
+                    commentViewHolder.voteUp.setText(Integer.toString(post.getVoteUp()));
+                    dataService.setPostVote(post);
+                    System.out.println(post.getVoteDown() +" "+  post.getVoteUp());
+                    notifyDataSetChanged();
+                }
+            });
+
+            commentViewHolder.voteDown.setText(Integer.toString(post.getVoteDown()));
+            commentViewHolder.voteDown.setOnClickListener(new View.OnClickListener() {
+
+                @Override
+                public void onClick(View v) {
+                    if(post.isPermissedToVote(loggedUser) && !post.isVoteUpContain(loggedUser)){
+                        if(!post.isVoteDownContain(loggedUser)){
+                            post.addVotedDownUser(loggedUser);
+                            post.setVoteDown(post.getVoteDown() + 1);
+                        } else {
+                            post.removeVotedDownUser(loggedUser);
+                            post.setVoteDown(post.getVoteDown() - 1);
+                        }
+                    }
+
+                    commentViewHolder.voteDown.setText(Integer.toString(post.getVoteDown()));
+                    dataService.setPostVote(post);
+                    notifyDataSetChanged();
+                }
+            });
+
             commentViewHolder.commentBox.setOnTouchListener(new View.OnTouchListener() {
                 @Override
                 public boolean onTouch(View v, MotionEvent event) {
@@ -123,8 +177,13 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
                             String comment = commentViewHolder.commentBox.getText().toString();
                             commentViewHolder.commentBox.setText("");
 
-                            System.out.println("commentnya" + comment);
-                            DataService.getInstance(context).addComment(comment, UserService.getInstance(context).getCurrentUser(), post.getId(), addCommentListener);
+                            InputMethodManager imm = (InputMethodManager) v.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                            imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+
+
+
+                            dataService.addComment(comment, user, post.getId(), addCommentListener);
+
                             return true;
                         }
                     }
@@ -134,9 +193,9 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
 
         } else {
             i--;
-            System.out.println(comments.get(i).getContent());
             commentViewHolder.postedUser.setText(comments.get(i).getUser().getName());
             commentViewHolder.commentContent.setText(comments.get(i).getContent());
+            commentViewHolder.commentDate.setText(getMoment(comments.get(i).getDate()));
         }
     }
 
@@ -146,6 +205,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
             if (added) {
                 notifyDataSetChanged();
                 comments.add(comment);
+                Collections.sort(comments);
                 notifyDataSetChanged();
                 Toast.makeText(context,"added comment", Toast.LENGTH_SHORT).show();
             } else {
@@ -189,11 +249,13 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
         private EditText commentBox;
         private TextView postContent;
         private ImageView postImage;
+        private Button voteUp;
+        private Button voteDown;
 
         // comments
         private CardView commentCard;
         private TextView postedUser;
-        private TextView date;
+        private TextView commentDate;
         private TextView commentContent;
 
 
@@ -207,12 +269,15 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
             postContent = (TextView) itemView.findViewById(R.id.postContent);
             postImage = (ImageView) itemView.findViewById(R.id.postImage);
             commentBox = (EditText) itemView.findViewById(R.id.commentBox);
+            voteUp = (Button) itemView.findViewById(R.id.upVoteButton);
+            voteDown = (Button) itemView.findViewById(R.id.downVoteButton);
         }
 
         public CommentViewHolder(View itemView, int status) {
             super(itemView);
             commentCard = (CardView) itemView.findViewById(R.id.commentCard);
             postedUser = (TextView) itemView.findViewById(R.id.postedUser);
+            commentDate = (TextView) itemView.findViewById(R.id.datePosted);
             commentContent = (TextView) itemView.findViewById(R.id.postContent);
         }
     }

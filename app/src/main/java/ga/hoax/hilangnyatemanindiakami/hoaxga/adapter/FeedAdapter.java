@@ -2,18 +2,24 @@ package ga.hoax.hilangnyatemanindiakami.hoaxga.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
+
+import android.graphics.Color;
+
 import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.dd.CircularProgressButton;
 import com.mikhaellopez.circularimageview.CircularImageView;
 
 import java.util.Date;
@@ -40,6 +46,9 @@ public class FeedAdapter extends BaseAdapter {
     private ImageView postImage;
     private TextView postContent;
     private TextView postDetail;
+
+    private Button voteUp;
+    private Button voteDown;
 
     private UserService userService;
     private DataService dataService;
@@ -82,6 +91,8 @@ public class FeedAdapter extends BaseAdapter {
         postImage = (ImageView) convertView.findViewById(R.id.postImage);
         postContent = (TextView) convertView.findViewById(R.id.postContent);
         postDetail = (TextView) convertView.findViewById(R.id.postDetail);
+        voteUp = (Button) convertView.findViewById(R.id.upVoteButton);
+        voteDown = (Button) convertView.findViewById(R.id.downVoteButton);
 
         postDetail.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -114,6 +125,51 @@ public class FeedAdapter extends BaseAdapter {
 
         titlePost.setText(post.getTitle());
         postContent.setText(post.getContent());
+
+        voteUp.setText(Integer.toString(post.getVoteUp()));
+        User loggedUser = UserService.getInstance(mContext).getCurrentUser();
+        voteUp.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                Post post = (Post) getItem(position);
+                User user = UserService.getInstance(mContext).getCurrentUser();
+                System.out.println(post.getUser() + post.getTitle() + user.getUsername() + post.isPermissedToVote(user) + " " + !post.isVoteDownContain(user));
+                if(post.isPermissedToVote(user) && !post.isVoteDownContain(user)){
+                    if(!post.isVoteUpContain(user)){
+                        post.addVotedUpUser(user);
+                        post.setVoteUp(post.getVoteUp() + 1);
+                    } else {
+                        post.removeVotedUpUser(user);
+                        post.setVoteUp(post.getVoteUp() - 1);
+                    }
+                }
+                voteUp.setText(Integer.toString(post.getVoteUp()));
+                notifyDataSetChanged();
+            }
+        });
+
+        voteDown.setText(Integer.toString(post.getVoteDown()));
+        voteDown.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                Post post = (Post) getItem(position);
+                User user = UserService.getInstance(mContext).getCurrentUser();
+                if(post.isPermissedToVote(user) && !post.isVoteUpContain(user)){
+                    if(!post.isVoteDownContain(user)){
+                        post.addVotedDownUser(user);
+                        post.setVoteDown(post.getVoteDown() + 1);
+                    } else {
+                        post.removeVotedDownUser(user);
+                        post.setVoteDown(post.getVoteDown() - 1);
+                    }
+                }
+
+                voteDown.setText(Integer.toString(post.getVoteDown()));
+                notifyDataSetChanged();
+            }
+        });
 
         if (post.getPicture() != null && dataService.getPostImage(post) != null) {
             postImage.setImageBitmap(dataService.getPostImage(post));

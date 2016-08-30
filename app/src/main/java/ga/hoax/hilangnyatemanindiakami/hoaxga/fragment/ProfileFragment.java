@@ -44,16 +44,19 @@ public class ProfileFragment extends Fragment {
     private boolean selectedFeed = true; //default to your checked post
     private List<Post> checkedPosts = new ArrayList<Post>();
     private List<Post> contributedPosts = new ArrayList<Post>();
+    private int checkedPostsCount;
+    private int contributedPostsCount;
     private FeedAdapter adapter;
 
-    private LinearLayout checkedPostLayout;
-    private LinearLayout contributedPostLayout;
 
     //user related
     private User myUser;
 
     //view related
     private View view;
+    private LinearLayout checkedPostLayout;
+    private LinearLayout contributedPostLayout;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -69,9 +72,18 @@ public class ProfileFragment extends Fragment {
         CircularProgressButton followersButton = (CircularProgressButton) view.findViewById(R.id.followersButton);
         CircularProgressButton followingsButton = (CircularProgressButton) view.findViewById(R.id.followingsButton);
 
+        TextView checkedPostButton = (TextView) view.findViewById(R.id.checkedPostButton);
+        TextView contributedPostButton = (TextView) view.findViewById(R.id.contributedPostButton);
+
         name.setText(user.getName());
         job.setText(user.getJob());
         quote.setText(user.getQuote());
+
+        checkedPostsCount = DataService.getInstance(getContext()).countCheckedPosts(user);
+        contributedPostsCount = DataService.getInstance(getContext()).countContributedPosts(user);
+        checkedPostButton.setText(Integer.toString(checkedPostsCount));
+        contributedPostButton.setText(Integer.toString(contributedPostsCount));
+
         if(user.getProfileImage() != null){
             profilePicture.setImageBitmap(UserService.getInstance(getContext()).getProfileImage(user));
         }
@@ -131,7 +143,7 @@ public class ProfileFragment extends Fragment {
             } else {
                 selectedFeed = CONTRIBUTED_POST;
                 adapter = new FeedAdapter(getContext(), contributedPosts);
-                DataService.getInstance(getContext()).getPostRelatedtoContributedUser(getPostListListener, user);
+                DataService.getInstance(getContext()).getPostRelatedToContributedUser(getPostListListener, user);
             }
         }
     };

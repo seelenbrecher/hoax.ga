@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 
 import ga.hoax.hilangnyatemanindiakami.hoaxga.auth.model.User;
@@ -61,6 +62,11 @@ public class DataService {
 
     public Post getSinglePost(int position) {
         return postList.get(position);
+    }
+
+    public void setPostVote(Post post){
+        postList.get(post.getId()).setVoteUp(post.getVoteUp());
+        postList.get(post.getId()).setVoteDown(post.getVoteDown());
 
     }
 
@@ -68,9 +74,19 @@ public class DataService {
         getPostListListener.onResponse(true,"",postList);
     }
 
+    public int countCheckedPosts(User currentUser) {
+        List<Post> filteredPostList = new ArrayList<>();
+
+        for(Post currentPost : postList) {
+            if( currentPost.getUser().equals(currentUser.getUsername()) ) filteredPostList.add(currentPost) ;
+        }
+        return filteredPostList.size();
+    }
+
+
     public void getPostRelatedToCheckedUser(GetPostListListener getPostListListener, User currentUser) {
         List<Post> filteredPostList = new ArrayList<>();
-        System.out.println("CU" + currentUser);
+
         for(Post currentPost : postList) {
             if( currentPost.getUser().equals(currentUser.getUsername()) ) filteredPostList.add(currentPost) ;
         }
@@ -78,10 +94,26 @@ public class DataService {
         getPostListListener.onResponse(true, "", filteredPostList);
     }
 
-    public void getPostRelatedtoContributedUser(GetPostListListener getPostListListener, User currentUser) {
+    public int countContributedPosts(User currentUser){
         List <Post> filteredPost = new ArrayList<>();
         for(Comments comment : commentsList) {
-            if(comment.getUser().equals(currentUser.getUsername())) {
+
+            if(comment.getUser().getUsername().equals(currentUser.getUsername())) {
+                Post relatedPost = postList.get(comment.getPostId());
+                filteredPost.add(relatedPost);
+            }
+        }
+
+        HashSet<Post> dummySet = new HashSet<>();
+        dummySet.addAll(filteredPost);
+        return dummySet.size();
+    }
+
+    public void getPostRelatedToContributedUser(GetPostListListener getPostListListener, User currentUser) {
+        List <Post> filteredPost = new ArrayList<>();
+        for(Comments comment : commentsList) {
+
+            if(comment.getUser().getUsername().equals(currentUser.getUsername())) {
                 Post relatedPost = postList.get(comment.getPostId());
                 filteredPost.add(relatedPost);
             }
@@ -91,24 +123,20 @@ public class DataService {
 
     public void getCommentList(GetCommentListListener getCommentListListener) {
 
-        if (postList.size()>0 && postList.get(0).isSelected()) {
-            Collections.sort(postList);
-            getCommentListListener.onResponse(true,"",commentsList);
-        } else {
-            List<Comments> relatedCommentsList = new ArrayList<Comments>();
-            for(Post p : postList) {
-                System.out.println(p.getId() + " " + p.getTitle());
+        List<Comments> relatedCommentsList = new ArrayList<Comments>();
+
+        for (Comments c : commentsList) {
+            System.out.println("tapp");
+            System.out.println("BUTUNH" + c.getContent() + c.getPostId() + postList.get(c.getPostId()).isSelected() + postList.get(0).getTitle());
+            if (postList.get(c.getPostId()).isSelected()) {
+                relatedCommentsList.add(c);
             }
-            for (Comments c : this.commentsList) {
-                System.out.println(c.getContent() + c.getPostId() + postList.get(c.getPostId()).isSelected() + postList.get(0).getTitle());
-                if (postList.get(c.getPostId()).isSelected()) {
-                    relatedCommentsList.add(c);
-                    break;
-                }
-            }
-            Collections.sort(relatedCommentsList);
-            getCommentListListener.onResponse(true,"",relatedCommentsList);
         }
+        Collections.sort(relatedCommentsList);
+
+        for(Comments c: relatedCommentsList) System.out.println(c.getContent());
+        getCommentListListener.onResponse(true,"",relatedCommentsList);
+
     }
 
     public void addPost(Post post, User userAsked, AddPostListener listener, Bitmap bitmap) {
@@ -122,6 +150,7 @@ public class DataService {
     }
 
     public void addComment(String content, User userAsked, int postId, AddCommentListener listener) {
+        System.out.println("BEHO");
         if (content == null) {
             if (listener != null) {
                 listener.onResponse(false, "Isi komentarnya terlebih dahulu", null);
@@ -131,6 +160,7 @@ public class DataService {
                 listener.onResponse(false, "Error on post select", null);
             }
         } else {
+            System.out.println("BEHO" + content);
             new AddCommentTask().execute(new Object[] {content, userAsked, postId, listener});
         }
     }
@@ -234,6 +264,7 @@ public class DataService {
             commentCreated.setId(commentsList.size());
             commentCreated.setContent(comment);
             commentCreated.setUser(userAsked);
+            commentCreated.setDate(new Date());
             commentCreated.setPostId(postId);
 
             commentsList.add(commentCreated);
@@ -248,6 +279,9 @@ public class DataService {
             } else {
                 notificationHashMap.get(userAffected).add(notification);
             }
+
+            Collections.sort(commentsList);
+            for(Comments c: commentsList) System.out.println(c.getId());
 
             serializeData();
 
@@ -293,6 +327,7 @@ public class DataService {
             postList.add(postCreated);
 
             serializeData();
+            Collections.sort(postList);
 
             return postCreated;
         }

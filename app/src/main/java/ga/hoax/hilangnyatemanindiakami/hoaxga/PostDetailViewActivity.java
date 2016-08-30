@@ -29,7 +29,7 @@ import ga.hoax.hilangnyatemanindiakami.hoaxga.data.Post;
 /**
  * Created by fahmi on 25/08/2016.
  */
-public class PostDetailViewActivity extends AppCompatActivity {
+public class  PostDetailViewActivity extends AppCompatActivity {
     //parent View related
     private ActionBar actionBar;
 
@@ -85,6 +85,10 @@ public class PostDetailViewActivity extends AppCompatActivity {
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
 
         recyclerView.setLayoutManager(layoutManager);
+
+//        commentRecyclerView.setHasFixedSize(true);
+        buildData();
+        User user = UserService.getInstance(getApplicationContext()).getUserByUsername(post.getUser());
 
         adapter = new CommentAdapter(getApplicationContext(), user, post, comments);
         recyclerView.setAdapter(adapter);
