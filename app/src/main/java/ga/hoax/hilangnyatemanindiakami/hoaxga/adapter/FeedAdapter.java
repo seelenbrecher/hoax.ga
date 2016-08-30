@@ -43,7 +43,7 @@ public class FeedAdapter extends BaseAdapter {
     private TextView postDetail;
 
     private Button voteUp;
-    private CircularProgressButton voteDown;
+    private Button voteDown;
 
     private UserService userService;
     private DataService dataService;
@@ -87,7 +87,7 @@ public class FeedAdapter extends BaseAdapter {
         postContent = (TextView) convertView.findViewById(R.id.postContent);
         postDetail = (TextView) convertView.findViewById(R.id.postDetail);
         voteUp = (Button) convertView.findViewById(R.id.upVoteButton);
-        voteDown = (CircularProgressButton) convertView.findViewById(R.id.downVoteButton);
+        voteDown = (Button) convertView.findViewById(R.id.downVoteButton);
 
         postDetail.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -123,10 +123,6 @@ public class FeedAdapter extends BaseAdapter {
 
         voteUp.setText(Integer.toString(post.getVoteUp()));
         User loggedUser = UserService.getInstance(mContext).getCurrentUser();
-        if(post.isVoteUpContain(loggedUser)){
-            voteUp.setBackgroundColor(Color.parseColor("#ff9800"));
-            notifyDataSetChanged();
-        }
         voteUp.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -143,20 +139,12 @@ public class FeedAdapter extends BaseAdapter {
                         post.setVoteUp(post.getVoteUp() - 1);
                     }
                 }
-                if(post.isVoteUpContain(user)){
-                    voteUp.setBackgroundColor(Color.parseColor("#ff9800"));
-                    notifyDataSetChanged();
-                } else {
-                    voteUp.setBackgroundColor(Color.parseColor("#000000"));
-                    notifyDataSetChanged();
-                }
                 voteUp.setText(Integer.toString(post.getVoteUp()));
                 notifyDataSetChanged();
             }
         });
 
         voteDown.setText(Integer.toString(post.getVoteDown()));
-        if(post.isVoteDownContain(user)) voteDown.setProgress(100);
         voteDown.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -173,10 +161,6 @@ public class FeedAdapter extends BaseAdapter {
                     }
                 }
 
-                if(post.isVoteDownContain(user))
-                    voteDown.setProgress(100);
-                else
-                    voteDown.setProgress(0);
                 voteDown.setText(Integer.toString(post.getVoteDown()));
                 notifyDataSetChanged();
             }

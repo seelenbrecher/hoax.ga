@@ -131,7 +131,7 @@ public class ProfileFragment extends Fragment {
             } else {
                 selectedFeed = CONTRIBUTED_POST;
                 adapter = new FeedAdapter(getContext(), contributedPosts);
-                DataService.getInstance(getContext()).getPostRelatedtoContributedUser(getPostListListener, user);
+                DataService.getInstance(getContext()).getPostRelatedToContributedUser(getPostListListener, user);
             }
         }
     };

@@ -151,27 +151,33 @@
             android:orientation="horizontal"
             android:layout_marginLeft="20sp">
 
-            <Button
-                android:id="@+id/upVoteButton"
-                android:layout_width="57dp"
+            <FrameLayout
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/white"
-                android:textSize="12sp"/>
+                android:background="@drawable/round_button"
+                android:layout_marginLeft="40sp">
+                <Button
+                    android:id="@+id/upVoteButton"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:textColor="@color/white"
+                    android:textSize="12sp"
+                    android:background="@drawable/up_vote"/>
+            </FrameLayout>
 
-            <com.dd.CircularProgressButton
-                android:id="@+id/downVoteButton"
-                android:layout_width="57dp"
+            <FrameLayout
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/white"
-                android:textSize="12sp"
-                app:cpb_cornerRadius="30dp"
-
-                android:layout_centerHorizontal="true"
-                app:cpb_selectorIdle="@color/black_overlay"
-                app:cpb_selectorComplete="@color/colorAccent"
-                android:layout_marginLeft="20sp"
-                android:drawableTop="@drawable/down_logo"
-                android:drawableTint="@color/colorPrimary"/>
+                android:background="@drawable/round_button"
+                android:layout_marginLeft="10sp">
+                <Button
+                    android:id="@+id/downVoteButton"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:textColor="@color/white"
+                    android:textSize="12sp"
+                    android:background="@drawable/down_vote"/>
+            </FrameLayout>
         </LinearLayout>
 
 

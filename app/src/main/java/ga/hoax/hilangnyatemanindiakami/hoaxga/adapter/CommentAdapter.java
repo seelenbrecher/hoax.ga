@@ -131,13 +131,14 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
                         }
                     }
 
-
                     commentViewHolder.voteUp.setText(Integer.toString(post.getVoteUp()));
+                    dataService.setPostVote(post);
+                    System.out.println(post.getVoteDown() +" "+  post.getVoteUp());
+                    notifyDataSetChanged();
                 }
             });
 
             commentViewHolder.voteDown.setText(Integer.toString(post.getVoteDown()));
-            if(post.isVoteDownContain(loggedUser)) commentViewHolder.voteDown.setProgress(100);
             commentViewHolder.voteDown.setOnClickListener(new View.OnClickListener() {
 
                 @Override
@@ -152,11 +153,9 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
                         }
                     }
 
-                    if(post.isVoteDownContain(loggedUser))
-                        commentViewHolder.voteDown.setProgress(100);
-                    else
-                        commentViewHolder.voteDown.setProgress(0);
                     commentViewHolder.voteDown.setText(Integer.toString(post.getVoteDown()));
+                    dataService.setPostVote(post);
+                    notifyDataSetChanged();
                 }
             });
 
@@ -224,7 +223,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
         private TextView postContent;
         private ImageView postImage;
         private Button voteUp;
-        private CircularProgressButton voteDown;
+        private Button voteDown;
 
         // comments
         private CardView commentCard;
@@ -245,7 +244,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
             postImage = (ImageView) itemView.findViewById(R.id.postImage);
             commentBox = (EditText) itemView.findViewById(R.id.commentBox);
             voteUp = (Button) itemView.findViewById(R.id.upVoteButton);
-            voteDown = (CircularProgressButton) itemView.findViewById(R.id.downVoteButton);
+            voteDown = (Button) itemView.findViewById(R.id.downVoteButton);
         }
 
         CommentViewHolder(View itemView, int status) {

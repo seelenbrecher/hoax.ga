@@ -48,10 +48,12 @@ public class DiscoverFragment extends Fragment {
         adapter = new FeedAdapter(getContext(), searchResult);
 
         user = UserService.getInstance(getContext()).getCurrentUser();
+        System.out.println(user+"hehe");
 
         //post list view data
         ListView selectedPostCategoryListView = (ListView) view.findViewById(R.id.selectedPostCategoryListView);
         adapter = new FeedAdapter(getContext(), searchResult);
+
         DataService.getInstance(getContext()).getPostRelatedToCheckedUser(getPostListListener, user);
         selectedPostCategoryListView.setAdapter(adapter);
 

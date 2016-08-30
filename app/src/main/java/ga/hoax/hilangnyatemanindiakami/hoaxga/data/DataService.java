@@ -49,23 +49,29 @@ public class DataService {
         serializeData();
     }
 
+    public void setPostVote(Post post){
+        postList.get(post.getId()).setVoteUp(post.getVoteUp());
+        postList.get(post.getId()).setVoteDown(post.getVoteDown());
+    }
+
     public void getPostList(GetPostListListener getPostListListener) {
         getPostListListener.onResponse(true,"",postList);
     }
 
     public void getPostRelatedToCheckedUser(GetPostListListener getPostListListener, User currentUser) {
         List<Post> filteredPostList = new ArrayList<>();
-        for(Post currentPost : postList) {
-            if( currentPost.getUser().equals(currentUser.getUsername()) ) filteredPostList.add(currentPost) ;
-        }
+        for(Post currentPost : postList)
+            if (currentPost.getUser().equals(currentUser.getUsername()))
+                filteredPostList.add(currentPost);
 
         getPostListListener.onResponse(true, "", filteredPostList);
     }
 
-    public void getPostRelatedtoContributedUser(GetPostListListener getPostListListener, User currentUser) {
+    public void getPostRelatedToContributedUser(GetPostListListener getPostListListener, User currentUser) {
         List <Post> filteredPost = new ArrayList<>();
         for(Comments comment : commentsList) {
-            if(comment.getUser().equals(currentUser.getUsername())) {
+
+            if(comment.getUser().getUsername().equals(currentUser.getUsername())) {
                 Post relatedPost = postList.get(comment.getPostId());
                 filteredPost.add(relatedPost);
             }
@@ -209,6 +215,7 @@ public class DataService {
             commentCreated.setPostId(postId);
 
             commentsList.add(commentCreated);
+            Collections.sort(commentsList);
             serializeData();
             return commentCreated;
         }
@@ -254,6 +261,8 @@ public class DataService {
 
 
             postList.add(postCreated);
+
+            Collections.sort(postList);
 
             return postCreated;
         }
