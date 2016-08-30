@@ -147,7 +147,7 @@ public class FeedAdapter extends BaseAdapter {
                     voteUp.setBackgroundColor(Color.parseColor("#ff9800"));
                     notifyDataSetChanged();
                 } else {
-                    voteUp.setBackgroundColor(Color.parseColor("#000000-"));
+                    voteUp.setBackgroundColor(Color.parseColor("#000000"));
                     notifyDataSetChanged();
                 }
                 voteUp.setText(Integer.toString(post.getVoteUp()));
