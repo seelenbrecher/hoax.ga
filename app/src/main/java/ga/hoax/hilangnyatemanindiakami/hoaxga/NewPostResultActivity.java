@@ -9,6 +9,8 @@ import android.view.View;
 import com.dd.CircularProgressButton;
 
 import ga.hoax.hilangnyatemanindiakami.hoaxga.auth.login.LoginActivity;
+import ga.hoax.hilangnyatemanindiakami.hoaxga.auth.model.UserService;
+import ga.hoax.hilangnyatemanindiakami.hoaxga.data.DataService;
 
 /**
  * Created by kuwali on 8/24/16.
@@ -16,6 +18,7 @@ import ga.hoax.hilangnyatemanindiakami.hoaxga.auth.login.LoginActivity;
 public class NewPostResultActivity extends AppCompatActivity{
     private ActionBar actionBar;
     private CircularProgressButton feedButton;
+    private CircularProgressButton shareButton;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,6 +28,7 @@ public class NewPostResultActivity extends AppCompatActivity{
         actionBar.setTitle("Result");
 
         feedButton = (CircularProgressButton) findViewById(R.id.feedButton);
+        shareButton = (CircularProgressButton) findViewById(R.id.sharedButton);
 
         feedButton.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -32,6 +36,17 @@ public class NewPostResultActivity extends AppCompatActivity{
                 Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                 finish();
                 startActivity(intent);
+            }
+        });
+
+        shareButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                Intent sendIntent = new Intent();
+                sendIntent.setAction(Intent.ACTION_SEND);
+                sendIntent.putExtra(Intent.EXTRA_TEXT, UserService.getInstance(getApplicationContext()).getCurrentUser().getName() + " has post " + getIntent().getStringExtra("postTitle") + " at Hoax.ga.. find out more");
+                sendIntent.setType("text/plain");
+                startActivity(Intent.createChooser(sendIntent, "Share via"));
             }
         });
     }

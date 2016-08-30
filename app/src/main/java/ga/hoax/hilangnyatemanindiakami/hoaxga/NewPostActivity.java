@@ -89,6 +89,7 @@ public class NewPostActivity extends AppCompatActivity{
             Post post = new Post(0, newPostTitleEditText.getText().toString(), currUser.getUsername(), new Date(), newPostContentEditText.getText().toString(), false);
             DataService.getInstance(getApplicationContext()).addPost(post, currUser, addPostListener, bitmap);
             Intent intent = new Intent(getApplicationContext(), NewPostLoadingActivity.class);
+            intent.putExtra("postTitle", newPostTitleEditText.getText().toString());
             finish();
             startActivity(intent);
         } else if (id == android.R.id.home) {

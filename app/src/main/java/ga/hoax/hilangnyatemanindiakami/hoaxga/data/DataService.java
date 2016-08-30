@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.widget.Toast;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -238,6 +239,7 @@ public class DataService {
             commentsList.add(commentCreated);
 
             String userAffected = getSinglePost(postId).getUser();
+            System.out.println("affected: " + userAffected);
             Notification notification = new Notification(lastNotifId, Notification.NotificationType.COMMENT, userAffected, userAsked.getUsername(), postId, new Date());
             if (notificationHashMap.get(userAffected) == null) {
                 List<Notification> listNotif = new ArrayList<>();

@@ -1,39 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <ImageView
-        android:id="@+id/notificationImage"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:clipToPadding="false"
+        android:padding="10sp">
 
-    <TextView
-        android:id="@+id/otherUserNotificationText"
-        android:textColor="@color/colorPrimary"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="4"
+            android:orientation="horizontal"
+            >
 
-    <TextView
-        android:id="@+id/typeNotificationText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+            <com.mikhaellopez.circularimageview.CircularImageView
+                android:id="@+id/notificationImage"
+                android:layout_width="75dp"
+                android:layout_height="75dp"
+                android:layout_centerHorizontal="true"
+                app:civ_border_color="@color/colorAccent"
+                app:civ_border_width="1dp"
+                app:civ_shadow="true"
+                app:civ_shadow_radius="10"
+                app:civ_shadow_color="@color/colorAccent"
+                android:src="@drawable/default_profpic"/>
 
-    <TextView
-        android:id="@+id/postNotificationText"
-        android:textColor="@color/colorPrimary"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/notificationContent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="75dp"
+                android:layout_weight="4"
+                android:layout_marginLeft="5sp"
+                android:layout_marginTop="5sp"/>
+        </LinearLayout>
 
-    <TextView
-        android:id="@+id/voteUserNotificationText"
-        android:textColor="@color/colorAccent"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginRight="10dp"
+            android:layout_gravity="end">
 
-    <TextView
-        android:id="@+id/dateNotificationText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+            <ImageView
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:src="@drawable/access_time_logo"
+                />
+            
+            <TextView
+                android:id="@+id/dateNotificationText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5sp"/>
+
+        </LinearLayout>
+    </LinearLayout>
+
 
 </LinearLayout>
