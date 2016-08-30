@@ -149,19 +149,12 @@
                     android:orientation="horizontal"
                     android:layout_marginLeft="120sp">
 
-                    <com.dd.CircularProgressButton
+                    <Button
                         android:id="@+id/upVoteButton"
                         android:layout_width="57dp"
                         android:layout_height="wrap_content"
                         android:textColor="@color/white"
-                        android:textSize="12sp"
-                        app:cpb_cornerRadius="30dp"
-                        android:layout_centerHorizontal="true"
-                        app:cpb_selectorIdle="@color/black_overlay"
-                        app:cpb_selectorComplete="@color/colorAccent"
-                        android:layout_marginLeft="10sp"
-                        android:drawableTop="@drawable/up_logo"
-                        android:drawableTint="@color/white" />
+                        android:textSize="12sp"/>
 
                     <com.dd.CircularProgressButton
                         android:id="@+id/downVoteButton"

@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.CorrectionInfo;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -35,6 +36,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
 
     private List<Comments> comments;
     private User user;
+    private User loggedUser;
     private Post post;
     private Context context;
     private DataService dataService;
@@ -45,6 +47,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
         this.user = user;
         this.context = context;
         this.dataService = new DataService(this.context);
+        this.loggedUser = UserService.getInstance(this.context).getCurrentUser();
     }
 
     @Override
@@ -113,47 +116,43 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
                 commentViewHolder.postImage.setImageBitmap(null);
 
             commentViewHolder.voteUp.setText(Integer.toString(post.getVoteUp()));
-            if(post.isVoteUpContain(user)) commentViewHolder.voteUp.setProgress(100);
             commentViewHolder.voteUp.setOnClickListener(new View.OnClickListener() {
 
                 @Override
                 public void onClick(View v) {
-                    System.out.println(post.getUser() + user.getUsername() + post.isPermissedToVote(user) + " " + !post.isVoteDownContain(user));
-                    if(post.isPermissedToVote(user) && !post.isVoteDownContain(user)){
-                        if(!post.isVoteUpContain(user)){
-                            post.addVotedUpUser(user);
+                    System.out.println(post.getUser() + loggedUser.getUsername() + post.isPermissedToVote(loggedUser) + " " + !post.isVoteDownContain(loggedUser));
+                    if(post.isPermissedToVote(loggedUser) && !post.isVoteDownContain(loggedUser)){
+                        if(!post.isVoteUpContain(loggedUser)){
+                            post.addVotedUpUser(loggedUser);
                             post.setVoteUp(post.getVoteUp() + 1);
                         } else {
-                            post.removeVotedUpUser(user);
+                            post.removeVotedUpUser(loggedUser);
                             post.setVoteUp(post.getVoteUp() - 1);
                         }
                     }
 
-                    if(post.isVoteUpContain(user))
-                        commentViewHolder.voteUp.setProgress(100);
-                    else
-                        commentViewHolder.voteUp.setProgress(0);
+
                     commentViewHolder.voteUp.setText(Integer.toString(post.getVoteUp()));
                 }
             });
 
             commentViewHolder.voteDown.setText(Integer.toString(post.getVoteDown()));
-            if(post.isVoteDownContain(user)) commentViewHolder.voteDown.setProgress(100);
+            if(post.isVoteDownContain(loggedUser)) commentViewHolder.voteDown.setProgress(100);
             commentViewHolder.voteDown.setOnClickListener(new View.OnClickListener() {
 
                 @Override
                 public void onClick(View v) {
-                    if(post.isPermissedToVote(user) && !post.isVoteUpContain(user)){
-                        if(!post.isVoteDownContain(user)){
-                            post.addVotedDownUser(user);
+                    if(post.isPermissedToVote(loggedUser) && !post.isVoteUpContain(loggedUser)){
+                        if(!post.isVoteDownContain(loggedUser)){
+                            post.addVotedDownUser(loggedUser);
                             post.setVoteDown(post.getVoteDown() + 1);
                         } else {
-                            post.removeVotedDownUser(user);
+                            post.removeVotedDownUser(loggedUser);
                             post.setVoteDown(post.getVoteDown() - 1);
                         }
                     }
 
-                    if(post.isVoteDownContain(user))
+                    if(post.isVoteDownContain(loggedUser))
                         commentViewHolder.voteDown.setProgress(100);
                     else
                         commentViewHolder.voteDown.setProgress(0);
@@ -224,7 +223,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
         private EditText commentBox;
         private TextView postContent;
         private ImageView postImage;
-        private CircularProgressButton voteUp;
+        private Button voteUp;
         private CircularProgressButton voteDown;
 
         // comments
@@ -245,7 +244,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
             postContent = (TextView) itemView.findViewById(R.id.postContent);
             postImage = (ImageView) itemView.findViewById(R.id.postImage);
             commentBox = (EditText) itemView.findViewById(R.id.commentBox);
-            voteUp = (CircularProgressButton) itemView.findViewById(R.id.upVoteButton);
+            voteUp = (Button) itemView.findViewById(R.id.upVoteButton);
             voteDown = (CircularProgressButton) itemView.findViewById(R.id.downVoteButton);
         }
 

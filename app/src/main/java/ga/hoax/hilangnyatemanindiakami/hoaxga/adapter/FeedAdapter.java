@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -41,7 +42,7 @@ public class FeedAdapter extends BaseAdapter {
     private TextView postContent;
     private TextView postDetail;
 
-    private CircularProgressButton voteUp;
+    private Button voteUp;
     private CircularProgressButton voteDown;
 
     private UserService userService;
@@ -85,7 +86,7 @@ public class FeedAdapter extends BaseAdapter {
         postImage = (ImageView) convertView.findViewById(R.id.postImage);
         postContent = (TextView) convertView.findViewById(R.id.postContent);
         postDetail = (TextView) convertView.findViewById(R.id.postDetail);
-        voteUp = (CircularProgressButton) convertView.findViewById(R.id.upVoteButton);
+        voteUp = (Button) convertView.findViewById(R.id.upVoteButton);
         voteDown = (CircularProgressButton) convertView.findViewById(R.id.downVoteButton);
 
         postDetail.setOnClickListener(new View.OnClickListener() {
@@ -121,7 +122,11 @@ public class FeedAdapter extends BaseAdapter {
         postContent.setText(post.getContent());
 
         voteUp.setText(Integer.toString(post.getVoteUp()));
-        if(post.isVoteUpContain(user)) voteUp.setProgress(100);
+        User loggedUser = UserService.getInstance(mContext).getCurrentUser();
+        if(post.isVoteUpContain(loggedUser)){
+            voteUp.setBackgroundColor(Color.parseColor("#ff9800"));
+            notifyDataSetChanged();
+        }
         voteUp.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -138,12 +143,15 @@ public class FeedAdapter extends BaseAdapter {
                         post.setVoteUp(post.getVoteUp() - 1);
                     }
                 }
-                if(post.isVoteUpContain(user))
-                    voteUp.setProgress(100);
-                else
-                    voteUp.setProgress(0);
-
+                if(post.isVoteUpContain(user)){
+                    voteUp.setBackgroundColor(Color.parseColor("#ff9800"));
+                    notifyDataSetChanged();
+                } else {
+                    voteUp.setBackgroundColor(Color.parseColor("#000000-"));
+                    notifyDataSetChanged();
+                }
                 voteUp.setText(Integer.toString(post.getVoteUp()));
+                notifyDataSetChanged();
             }
         });
 
@@ -170,6 +178,7 @@ public class FeedAdapter extends BaseAdapter {
                 else
                     voteDown.setProgress(0);
                 voteDown.setText(Integer.toString(post.getVoteDown()));
+                notifyDataSetChanged();
             }
         });
 
