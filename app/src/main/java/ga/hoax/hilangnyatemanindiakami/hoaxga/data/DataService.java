@@ -127,8 +127,10 @@ public class DataService {
     public void getCommentList(GetCommentListListener getCommentListListener) {
 
         List<Comments> relatedCommentsList = new ArrayList<Comments>();
+        System.out.println(commentsList.size());
 
         for (Comments c : commentsList) {
+            System.out.println(c.getContent());
             if (postList.get(c.getPostId()).isSelected()) {
                 relatedCommentsList.add(c);
             }
@@ -150,6 +152,7 @@ public class DataService {
     }
 
     public void addComment(String content, User userAsked, int postId, AddCommentListener listener) {
+        System.out.println("anjing ini komen" + userAsked.getUsername() + content);
         if (content == null) {
             if (listener != null) {
                 listener.onResponse(false, "Isi komentarnya terlebih dahulu", null);
@@ -266,8 +269,11 @@ public class DataService {
             commentCreated.setDate(new Date());
             commentCreated.setPostId(postId);
 
+            System.out.println(commentsList.size());
+
             commentsList.add(commentCreated);
 
+            System.out.println(commentsList.size());
 
             String userAffected = getSinglePost(postId).getUser();
             Notification notification = new Notification(lastNotifId, Notification.NotificationType.COMMENT, userAffected, userAsked.getUsername(), postId, new Date());

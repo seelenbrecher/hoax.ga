@@ -41,14 +41,12 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
     private User loggedUser;
     private Post post;
     private Context context;
-    private DataService dataService;
 
     public CommentAdapter(Context context, User user, Post post, List<Comments> comments){
         this.comments = comments;
         this.post = post;
         this.user = user;
         this.context = context;
-        this.dataService = new DataService(context);
 
         this.loggedUser = UserService.getInstance(this.context).getCurrentUser();
     }
@@ -112,8 +110,8 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
             if (user.getProfileImage() != null)
                 commentViewHolder.imagePostStarter.setImageBitmap(UserService.getInstance(context).getProfileImage(user));
 
-            if (post.getPicture() != null && dataService.getPostImage(post) != null) {
-                commentViewHolder.postImage.setImageBitmap(dataService.getPostImage(post));
+            if (post.getPicture() != null && DataService.getInstance(context).getPostImage(post) != null) {
+                commentViewHolder.postImage.setImageBitmap(DataService.getInstance(context).getPostImage(post));
             } else
                 commentViewHolder.postImage.setImageBitmap(null);
 
@@ -133,7 +131,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
                     }
 
                     commentViewHolder.voteUp.setText(Integer.toString(post.getVoteUp()));
-                    dataService.setPostVote(post);
+                    DataService.getInstance(context).setPostVote(post);
                     notifyDataSetChanged();
                 }
             });
@@ -154,7 +152,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
                     }
 
                     commentViewHolder.voteDown.setText(Integer.toString(post.getVoteDown()));
-                    dataService.setPostVote(post);
+                    DataService.getInstance(context).setPostVote(post);
                     notifyDataSetChanged();
                 }
             });
@@ -179,7 +177,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
 
 
 
-                            dataService.addComment(comment, loggedUser, post.getId(), addCommentListener);
+                            DataService.getInstance(context).addComment(comment, loggedUser, post.getId(), addCommentListener);
 
                             return true;
                         }
