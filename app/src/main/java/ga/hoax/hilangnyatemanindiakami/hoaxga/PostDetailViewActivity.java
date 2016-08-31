@@ -73,7 +73,7 @@ public class  PostDetailViewActivity extends AppCompatActivity {
         post = (Post) bundle.get("post");
         user = (User) bundle.get("user");
 
-        System.out.println("pp" + post.getTitle());
+        System.out.println("pp" + post.getTitle() + post.getId());
         DataService.getInstance(getApplicationContext()).setPostChosen(post.getId(), true);
         System.out.println(post.isSelected());
 

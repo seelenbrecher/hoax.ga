@@ -71,7 +71,10 @@ public class DataService {
     }
 
     public void getPostList(GetPostListListener getPostListListener) {
-        getPostListListener.onResponse(true,"",postList);
+        List<Post> tmp = new ArrayList<>();
+        tmp.addAll(postList);
+        Collections.sort(tmp);
+        getPostListListener.onResponse(true,"",tmp);
     }
 
     public int countCheckedPosts(User currentUser) {
@@ -126,15 +129,12 @@ public class DataService {
         List<Comments> relatedCommentsList = new ArrayList<Comments>();
 
         for (Comments c : commentsList) {
-            System.out.println("tapp");
-            System.out.println("BUTUNH" + c.getContent() + c.getPostId() + postList.get(c.getPostId()).isSelected() + postList.get(0).getTitle());
             if (postList.get(c.getPostId()).isSelected()) {
                 relatedCommentsList.add(c);
             }
         }
         Collections.sort(relatedCommentsList);
 
-        for(Comments c: relatedCommentsList) System.out.println(c.getContent());
         getCommentListListener.onResponse(true,"",relatedCommentsList);
 
     }
@@ -150,7 +150,6 @@ public class DataService {
     }
 
     public void addComment(String content, User userAsked, int postId, AddCommentListener listener) {
-        System.out.println("BEHO");
         if (content == null) {
             if (listener != null) {
                 listener.onResponse(false, "Isi komentarnya terlebih dahulu", null);
@@ -160,7 +159,6 @@ public class DataService {
                 listener.onResponse(false, "Error on post select", null);
             }
         } else {
-            System.out.println("BEHO" + content);
             new AddCommentTask().execute(new Object[] {content, userAsked, postId, listener});
         }
     }
@@ -260,6 +258,7 @@ public class DataService {
             int postId = (int) objects[2];
             listener = (AddCommentListener) objects[3];
 
+
             Comments commentCreated = new Comments();
             commentCreated.setId(commentsList.size());
             commentCreated.setContent(comment);
@@ -269,8 +268,8 @@ public class DataService {
 
             commentsList.add(commentCreated);
 
+
             String userAffected = getSinglePost(postId).getUser();
-            System.out.println("affected: " + userAffected);
             Notification notification = new Notification(lastNotifId, Notification.NotificationType.COMMENT, userAffected, userAsked.getUsername(), postId, new Date());
             if (notificationHashMap.get(userAffected) == null) {
                 List<Notification> listNotif = new ArrayList<>();
@@ -280,8 +279,6 @@ public class DataService {
                 notificationHashMap.get(userAffected).add(notification);
             }
 
-            Collections.sort(commentsList);
-            for(Comments c: commentsList) System.out.println(c.getId());
 
             serializeData();
 
@@ -327,7 +324,6 @@ public class DataService {
             postList.add(postCreated);
 
             serializeData();
-            Collections.sort(postList);
 
             return postCreated;
         }

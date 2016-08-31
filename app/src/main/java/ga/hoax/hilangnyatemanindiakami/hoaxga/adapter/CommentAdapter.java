@@ -84,7 +84,6 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
 
     public String getMoment(Date date){
         Date now = new Date();
-        System.out.println(now+ " " + date);
         long diff = now.getTime() - date.getTime();
         diff = diff / DateUtils.SECOND_IN_MILLIS;
 
@@ -123,7 +122,6 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
 
                 @Override
                 public void onClick(View v) {
-                    System.out.println(post.getUser() + loggedUser.getUsername() + post.isPermissedToVote(loggedUser) + " " + !post.isVoteDownContain(loggedUser));
                     if(post.isPermissedToVote(loggedUser) && !post.isVoteDownContain(loggedUser)){
                         if(!post.isVoteUpContain(loggedUser)){
                             post.addVotedUpUser(loggedUser);
@@ -136,7 +134,6 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
 
                     commentViewHolder.voteUp.setText(Integer.toString(post.getVoteUp()));
                     dataService.setPostVote(post);
-                    System.out.println(post.getVoteDown() +" "+  post.getVoteUp());
                     notifyDataSetChanged();
                 }
             });
@@ -182,7 +179,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
 
 
 
-                            dataService.addComment(comment, user, post.getId(), addCommentListener);
+                            dataService.addComment(comment, loggedUser, post.getId(), addCommentListener);
 
                             return true;
                         }
@@ -221,7 +218,6 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
         public void onResponse(boolean success, String message, List<Comments> listComment) {
             if (success) {
                 // pass array kosong terus
-                System.out.println(listComment);
                 comments.clear();
                 notifyDataSetChanged();
                 comments.addAll(listComment);
