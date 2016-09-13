@@ -52,7 +52,7 @@ public class UserService {
                 listener.onResponse(false,"Please enter username and password",null);
         }
         else {
-            new LoginTask().execute(new Object[]{username, password, listener});
+            new LoginTask().execute(username, password, listener);
         }
     }
 
@@ -76,7 +76,7 @@ public class UserService {
             }
         }
         else{
-            new UpdateTask().execute(new Object[]{firstName, lastName, password, job, quotes, bitmap, listener});
+            new UpdateTask().execute(firstName, lastName, password, job, quotes, bitmap, listener);
         }
     }
 
@@ -86,7 +86,7 @@ public class UserService {
                 listener.onResponse(false,"Please enter username, password, and email",null);
         }
         else {
-            new RegisterTask().execute(new Object[]{username, password, email, firstName, lastName, listener});
+            new RegisterTask().execute(username, password, email, firstName, lastName, listener);
         }
     }
 

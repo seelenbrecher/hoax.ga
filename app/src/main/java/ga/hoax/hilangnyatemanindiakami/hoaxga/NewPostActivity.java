@@ -3,14 +3,10 @@ package ga.hoax.hilangnyatemanindiakami.hoaxga;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -24,7 +20,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Date;
 
-import ga.hoax.hilangnyatemanindiakami.hoaxga.R;
 import ga.hoax.hilangnyatemanindiakami.hoaxga.auth.model.User;
 import ga.hoax.hilangnyatemanindiakami.hoaxga.auth.model.UserService;
 import ga.hoax.hilangnyatemanindiakami.hoaxga.data.DataService;
@@ -34,7 +29,7 @@ import mabbas007.tagsedittext.TagsEditText;
 /**
  * Created by kuwali on 8/24/16.
  */
-public class NewPostActivity extends AppCompatActivity{
+public class NewPostActivity extends BaseActivity {
     public static final int SELECT_PICTURE = 1;
 
     private ActionBar actionBar;

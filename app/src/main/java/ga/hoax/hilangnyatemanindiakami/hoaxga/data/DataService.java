@@ -147,7 +147,7 @@ public class DataService {
                 listener.onResponse(false, "Isi komentarnya terlebih dahulu", null);
             }
         } else {
-            new AddPostTask().execute(new Object[] {post, userAsked, listener, bitmap});
+            new AddPostTask().execute(post, userAsked, listener, bitmap);
         }
     }
 
@@ -162,7 +162,7 @@ public class DataService {
                 listener.onResponse(false, "Error on post select", null);
             }
         } else {
-            new AddCommentTask().execute(new Object[] {content, userAsked, postId, listener});
+            new AddCommentTask().execute(content, userAsked, postId, listener);
         }
     }
 

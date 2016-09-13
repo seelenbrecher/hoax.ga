@@ -3,19 +3,16 @@ package ga.hoax.hilangnyatemanindiakami.hoaxga;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 import com.dd.CircularProgressButton;
 
-import ga.hoax.hilangnyatemanindiakami.hoaxga.auth.login.LoginActivity;
 import ga.hoax.hilangnyatemanindiakami.hoaxga.auth.model.UserService;
-import ga.hoax.hilangnyatemanindiakami.hoaxga.data.DataService;
 
 /**
  * Created by kuwali on 8/24/16.
  */
-public class NewPostResultActivity extends AppCompatActivity{
+public class NewPostResultActivity extends BaseActivity {
     private ActionBar actionBar;
     private CircularProgressButton feedButton;
     private CircularProgressButton shareButton;

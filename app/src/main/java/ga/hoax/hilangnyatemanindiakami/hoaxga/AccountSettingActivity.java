@@ -2,18 +2,14 @@ package ga.hoax.hilangnyatemanindiakami.hoaxga;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.app.ProgressDialog;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -31,7 +27,7 @@ import ga.hoax.hilangnyatemanindiakami.hoaxga.auth.model.UserService;
 /**
  * Created by kuwali on 8/25/16.
  */
-public class AccountSettingActivity extends AppCompatActivity {
+public class AccountSettingActivity extends BaseActivity {
     private static final int SELECT_PICTURE = 1;
 
     private ActionBar actionBar;
@@ -50,7 +46,7 @@ public class AccountSettingActivity extends AppCompatActivity {
     private User currentUser;
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_account_setting);
 

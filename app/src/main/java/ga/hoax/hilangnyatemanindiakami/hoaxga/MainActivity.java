@@ -3,13 +3,11 @@ package ga.hoax.hilangnyatemanindiakami.hoaxga;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.annotation.IdRes;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,7 +17,6 @@ import android.widget.RelativeLayout;
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.OnTabSelectListener;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 
@@ -32,51 +29,64 @@ import ga.hoax.hilangnyatemanindiakami.hoaxga.fragment.NotificationFragment;
 import ga.hoax.hilangnyatemanindiakami.hoaxga.fragment.ProfileFragment;
 
 /**
- * Created by kuwali on 8/21/16.
+ * Main Activity that consist of BottomBar, ActionBar and Fragment
  */
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseActivity {
 
-    private User activeUser;
-    private ActionBar actionBar;
-    private BottomBar bottomBar;
-    private ViewPager pager;
-    private ImageView newPost;
-    private RelativeLayout parentView;
-    private List<Fragment> fragmentList;
+    private static String TAG = "MainActivity";
+
+    private User mActiveUser;
+    private ActionBar mActionBar;
+    private BottomBar mBottomBar;
+    private ViewPager mViewPager;
+    private ImageView mNewPostImage;
+    private RelativeLayout mParentViewLayout;
+    private List<Fragment> mFragmentList;
+    private PagerAdapter mPagerAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        actionBar = getSupportActionBar();
+        mActionBar = getSupportActionBar();
 
-        activeUser = UserService.getInstance(this).getCurrentUser();
+        mActiveUser = UserService.getInstance(this).getCurrentUser();
 
-        if (activeUser == null) {
+        mBottomBar = (BottomBar) findViewById(R.id.bottomBar);
+        mViewPager = (ViewPager) findViewById(R.id.pager);
+        mParentViewLayout = (RelativeLayout) findViewById(R.id.activity_main_layout);
+        mNewPostImage = (ImageView) findViewById(R.id.newPost);
+
+        mFragmentList = new Vector<>();
+        mFragmentList.add(Fragment.instantiate(this, FeedFragment.class.getName()));
+        mFragmentList.add(Fragment.instantiate(this, DiscoverFragment.class.getName()));
+        mFragmentList.add(Fragment.instantiate(this, NotificationFragment.class.getName()));
+        mFragmentList.add(Fragment.instantiate(this, ProfileFragment.class.getName()));
+
+        mPagerAdapter = new PagerAdapter(this.getSupportFragmentManager(), mBottomBar, mFragmentList);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        if (mActiveUser == null) {
             finish();
             return;
         }
 
-        fragmentList = new Vector<>();
-        fragmentList.add(Fragment.instantiate(this, FeedFragment.class.getName()));
-        fragmentList.add(Fragment.instantiate(this, DiscoverFragment.class.getName()));
-        fragmentList.add(Fragment.instantiate(this, NotificationFragment.class.getName()));
-        fragmentList.add(Fragment.instantiate(this, ProfileFragment.class.getName()));
+        try {
+            assert mNewPostImage != null;
+            mNewPostImage.bringToFront();
+        } catch (NullPointerException e) {
+            Log.e(TAG, e.toString());
+        }
 
-        bottomBar = (BottomBar) findViewById(R.id.bottomBar);
-        pager = (ViewPager) findViewById(R.id.pager);
+        ViewCompat.setTranslationZ(mNewPostImage, 100);
+        mParentViewLayout.invalidate();
 
-        PagerAdapter pagerAdapter = new PagerAdapter(this.getSupportFragmentManager(), bottomBar, fragmentList);
-
-        parentView = (RelativeLayout) findViewById(R.id.activity_main_layout);
-
-        newPost = (ImageView) findViewById(R.id.newPost);
-        newPost.bringToFront();
-        ViewCompat.setTranslationZ(newPost, 100);
-        parentView.invalidate();
-
-        newPost.setOnClickListener(new View.OnClickListener() {
+        mNewPostImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), NewPostActivity.class);
@@ -84,8 +94,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        pager.setAdapter(pagerAdapter);
-        pager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+        mViewPager.setAdapter(mPagerAdapter);
+        mViewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
@@ -94,9 +104,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onPageSelected(int position) {
                 if (position >=2)
-                    bottomBar.selectTabAtPosition(position+1);
+                    mBottomBar.selectTabAtPosition(position+1);
                 else
-                    bottomBar.selectTabAtPosition(position);
+                    mBottomBar.selectTabAtPosition(position);
             }
 
             @Override
@@ -104,7 +114,7 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-        bottomBar.setOnTabSelectListener(bottomBarOnTabListener);
+        mBottomBar.setOnTabSelectListener(bottomBarOnTabListener);
     }
 
     @Override
@@ -122,7 +132,7 @@ public class MainActivity extends AppCompatActivity {
             SharedPreferences.Editor editor = sharedPreferences.edit();
             editor.remove("username");
             editor.remove("pass");
-            editor.commit();
+            editor.apply();
             Intent intent = new Intent(getApplicationContext(), LandingPageActivity.class);
             startActivity(intent);
             finish();
@@ -136,19 +146,19 @@ public class MainActivity extends AppCompatActivity {
 
     private OnTabSelectListener bottomBarOnTabListener = new OnTabSelectListener() {
         @Override
-        public void onTabSelected(@IdRes int tabId) {
+        public void onTabSelected(int tabId) {
             if (tabId == R.id.feedBB) {
-                if (pager != null) pager.setCurrentItem(0);
-                actionBar.setTitle("Feeds");
+                if (mViewPager != null) mViewPager.setCurrentItem(0);
+                mActionBar.setTitle("Feeds");
             } else if (tabId == R.id.discoverBB) {
-                if (pager != null) pager.setCurrentItem(1);
-                actionBar.setTitle("Discover");
+                if (mViewPager != null) mViewPager.setCurrentItem(1);
+                mActionBar.setTitle("Discover");
             } else if (tabId == R.id.profileBB) {
-                if (pager != null) pager.setCurrentItem(3);
-                actionBar.setTitle("Profile");
+                if (mViewPager != null) mViewPager.setCurrentItem(3);
+                mActionBar.setTitle("Profile");
             } else if (tabId == R.id.notificationBB) {
-                if (pager != null) pager.setCurrentItem(2);
-                actionBar.setTitle("Notification");
+                if (mViewPager != null) mViewPager.setCurrentItem(2);
+                mActionBar.setTitle("Notification");
             }
         }
     };

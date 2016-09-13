@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="ga.hoax.hilangnyatemanindiakami.hoaxga">
+<manifest
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    package="ga.hoax.hilangnyatemanindiakami.hoaxga" >
 
+     <!-- needed for write and read from external storage -->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
@@ -11,47 +13,67 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
+        <!-- Splash Activity -->
         <activity
             android:name=".SplashActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/app_name"
             android:theme="@style/FullscreenTheme">
+            <!-- to be called as launcher activity -->
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <!-- Landing Page Activity -->
         <activity android:name=".LandingPageActivity" />
 
+        <!-- Login Activity -->
         <activity android:name=".auth.login.LoginActivity"
             android:parentActivityName=".LandingPageActivity"
             android:windowSoftInputMode="adjustResize">
+            <!-- add parent activity -->
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".LandingPageActivity"/>
         </activity>
 
+        <!-- Register Activity -->
         <activity android:name=".auth.register.RegisterActivity"
             android:parentActivityName=".LandingPageActivity"
             android:windowSoftInputMode="adjustResize">
+            <!-- add parent activity -->
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".LandingPageActivity"/>
         </activity>
 
+        <!-- New Post Activity -->
         <activity android:name=".NewPostActivity"
             android:parentActivityName=".MainActivity"
             android:windowSoftInputMode="adjustResize">
+            <!-- add parent activity -->
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity"/>
         </activity>
 
+        <!-- Main Activity -->
         <activity android:name=".MainActivity" />
+
+        <!-- New Post Loading Activity -->
         <activity android:name=".NewPostLoadingActivity"/>
+
+        <!-- New Post Result Activity -->
         <activity android:name=".NewPostResultActivity"/>
+
+        <!-- Account Setting Activity -->
         <activity android:name=".AccountSettingActivity"/>
+
+        <!-- Post Detail Activity -->
         <activity android:name=".PostDetailViewActivity"/>
     </application>
 
