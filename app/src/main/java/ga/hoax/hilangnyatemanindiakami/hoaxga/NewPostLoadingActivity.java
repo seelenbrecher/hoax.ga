@@ -13,6 +13,7 @@ import com.mikhaellopez.circularprogressbar.CircularProgressBar;
  * Created by kuwali on 8/24/16.
  */
 public class NewPostLoadingActivity extends Activity {
+    private final int POST_DELAY = 6000;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,7 +23,6 @@ public class NewPostLoadingActivity extends Activity {
         CircularProgressBar mProgressBar = (CircularProgressBar) findViewById(R.id.newPostProgress);
         mProgressBar.setProgressWithAnimation(100, 5000);
 
-        int POST_DELAY = 6000;
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {

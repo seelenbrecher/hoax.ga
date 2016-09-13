@@ -3,19 +3,14 @@ package ga.hoax.hilangnyatemanindiakami.hoaxga.fragment;
 import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.view.MenuItemCompat;
 import android.text.InputType;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SearchView;
 
@@ -34,76 +29,82 @@ import mabbas007.tagsedittext.TagsEditText;
  * Created by kuwali on 8/27/16.
  */
 public class DiscoverFragment extends Fragment {
-    private boolean currentStatus = false;
+    private boolean mYourInterestEditableIndicator = false;
 
     private View view;
 
     //tags
-    private TagsEditText tagsEdit;
-    private ImageView tagsButton;
+    private TagsEditText mTagsEdit;
+    private ImageView mTagsButton;
 
     //search in action bar
-    private MenuItem searchItem;
-    private SearchView searchView;
+    private MenuItem mSearchItem;
+    private SearchView mSearchView;
 
-    private List<Post> searchResult = new ArrayList<Post>();
-    private FeedAdapter adapter;
+    private List<Post> mSearchResultList = new ArrayList<Post>();
+    private ListView mSelectedPostCategoryListView;
+    private FeedAdapter mFeedAdapter;
 
-    private User user;
+    private User mCurrentUser;
 
-    @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         setHasOptionsMenu(true);
         view = inflater.inflate(R.layout.fragment_discover, container, false);
 
-        tagsEdit = (TagsEditText) view.findViewById(R.id.tagsText);
-
-        tagsButton = (ImageView) view.findViewById(R.id.tagsButton);
-
-        adapter = new FeedAdapter(getContext(), searchResult);
-
-        user = UserService.getInstance(getContext()).getCurrentUser();
-        System.out.println(user+"hehe");
+        mTagsEdit = (TagsEditText) view.findViewById(R.id.tagsText);
+        mTagsButton = (ImageView) view.findViewById(R.id.tagsButton);
 
         //post list view data
-        ListView selectedPostCategoryListView = (ListView) view.findViewById(R.id.selectedPostCategoryListView);
-        adapter = new FeedAdapter(getContext(), searchResult);
+        mSelectedPostCategoryListView = (ListView) view.findViewById(R.id.selectedPostCategoryListView);
 
-        DataService.getInstance(getContext()).getPostRelatedToCheckedUser(getPostListListener, user);
-        selectedPostCategoryListView.setAdapter(adapter);
-
-        //initial tagsEdit
-        tagsEdit.setEnabled(!currentStatus);
-        tagsEdit.setInputType(InputType.TYPE_NULL);
-        tagsEdit.setFocusableInTouchMode(!currentStatus);
-
-        //tagsButton listener
-        tagsButton.setOnClickListener(new View.OnClickListener(){
+        //mTagsButton listener
+        mTagsButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
                 //add tags
-                if(!currentStatus){
-                    Log.i("ASD", "ASD");
-                    tagsEdit.setEnabled(!currentStatus);
-                    tagsEdit.setInputType(InputType.TYPE_CLASS_TEXT);
-                    tagsEdit.setFocusableInTouchMode(!currentStatus);
-                    tagsButton.setImageResource(R.drawable.check_circle_color_accent);
+                if(!mYourInterestEditableIndicator){
+                    mTagsEdit.setEnabled(!mYourInterestEditableIndicator);
+                    mTagsEdit.setInputType(InputType.TYPE_CLASS_TEXT);
+                    mTagsEdit.setFocusableInTouchMode(!mYourInterestEditableIndicator);
+                    mTagsButton.setImageResource(R.drawable.check_circle_color_accent);
                 }
                 //search tags
                 else{
-                    tagsEdit.setEnabled(!currentStatus);
-                    tagsEdit.setInputType(InputType.TYPE_NULL);
-                    tagsEdit.setFocusableInTouchMode(!currentStatus);
-                    tagsButton.setImageResource(R.drawable.add_circle_color_accent);
+                    mTagsEdit.setEnabled(!mYourInterestEditableIndicator);
+                    mTagsEdit.setInputType(InputType.TYPE_NULL);
+                    mTagsEdit.setFocusableInTouchMode(!mYourInterestEditableIndicator);
+                    mTagsButton.setImageResource(R.drawable.add_circle_color_accent);
 
-                    //TODO refresh adapter
+                    //TODO refresh mFeedAdapter
                 }
-                currentStatus = !currentStatus;
+                mYourInterestEditableIndicator = !mYourInterestEditableIndicator;
             }
         });
 
         return view;
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+
+        mFeedAdapter = new FeedAdapter(getContext(), mSearchResultList);
+        mCurrentUser = UserService.getInstance(getContext()).getCurrentUser();
+
+        DataService.getInstance(getContext()).getPostRelatedToCheckedUser(getPostListListener, mCurrentUser);
+
+        //initial mTagsEdit
+        mTagsEdit.setEnabled(!mYourInterestEditableIndicator);
+        mTagsEdit.setInputType(InputType.TYPE_NULL);
+        mTagsEdit.setFocusableInTouchMode(!mYourInterestEditableIndicator);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        mSelectedPostCategoryListView.setAdapter(mFeedAdapter);
     }
 
     @Override
@@ -119,11 +120,11 @@ public class DiscoverFragment extends Fragment {
         @Override
         public void onResponse(boolean success, String message, List<Post> postList) {
             if (success) {
-                List<Post> posts = searchResult;
+                List<Post> posts = mSearchResultList;
                 posts.clear();
-                adapter.notifyDataSetChanged ();
+                mFeedAdapter.notifyDataSetChanged ();
                 posts.addAll(postList);
-                adapter.notifyDataSetChanged();
+                mFeedAdapter.notifyDataSetChanged();
             }
         }
     };
