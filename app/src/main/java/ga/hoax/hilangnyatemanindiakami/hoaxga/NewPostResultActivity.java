@@ -13,21 +13,21 @@ import ga.hoax.hilangnyatemanindiakami.hoaxga.auth.model.UserService;
  * Created by kuwali on 8/24/16.
  */
 public class NewPostResultActivity extends BaseActivity {
-    private ActionBar actionBar;
-    private CircularProgressButton feedButton;
-    private CircularProgressButton shareButton;
+    private ActionBar mActionBar;
+    private CircularProgressButton mFeedButton;
+    private CircularProgressButton mShareButton;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_post_result);
 
-        actionBar = getSupportActionBar();
-        actionBar.setTitle("Result");
+        mActionBar = getSupportActionBar();
 
-        feedButton = (CircularProgressButton) findViewById(R.id.feedButton);
-        shareButton = (CircularProgressButton) findViewById(R.id.sharedButton);
+        mFeedButton = (CircularProgressButton) findViewById(R.id.feedButton);
+        mShareButton = (CircularProgressButton) findViewById(R.id.sharedButton);
 
-        feedButton.setOnClickListener(new View.OnClickListener(){
+        mFeedButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), MainActivity.class);
@@ -36,7 +36,7 @@ public class NewPostResultActivity extends BaseActivity {
             }
         });
 
-        shareButton.setOnClickListener(new View.OnClickListener(){
+        mShareButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
                 Intent sendIntent = new Intent();
@@ -46,5 +46,12 @@ public class NewPostResultActivity extends BaseActivity {
                 startActivity(Intent.createChooser(sendIntent, "Share via"));
             }
         });
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        mActionBar.setTitle("Result");
     }
 }

@@ -13,13 +13,13 @@ import ga.hoax.hilangnyatemanindiakami.hoaxga.auth.model.UserService;
  */
 
 public class SplashActivity extends BaseActivity {
-    private final int SPLASH_WAIT_TIME = 1500;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
 
+        int SPLASH_WAIT_TIME = 1500;
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {

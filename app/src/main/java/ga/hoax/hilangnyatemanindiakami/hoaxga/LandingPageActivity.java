@@ -19,11 +19,9 @@ import it.chengdazhi.decentbanner.DecentBanner;
  * Created by kuwali on 8/13/16.
  */
 public class LandingPageActivity extends Activity {
-    private DecentBanner decentBanner;
-    private List<View> views;
-    private List<String> titles;
-    private CircularProgressButton buttonLogin;
-    private CircularProgressButton buttonRegister;
+    private DecentBanner mDecentBanner;
+    private CircularProgressButton mButtonLogin;
+    private CircularProgressButton mButtonRegister;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,25 +35,11 @@ public class LandingPageActivity extends Activity {
             return;
         }
 
-        decentBanner = (DecentBanner) findViewById(R.id.decentBanner);
-        decentBanner.setBackgroundResource(R.color.transparent);
-        View view1 = getLayoutInflater().inflate(R.layout.decent_banner_view1, null);
-        View view2 = getLayoutInflater().inflate(R.layout.decent_banner_view2, null);
+        mDecentBanner = (DecentBanner) findViewById(R.id.decentBanner);
+        mButtonLogin = (CircularProgressButton) findViewById(R.id.loginButton);
+        mButtonRegister = (CircularProgressButton) findViewById(R.id.registerButton);
 
-        views = new ArrayList<>();
-        views.add(view1);
-        views.add(view2);
-
-        titles = new ArrayList<>();
-        titles.add("");
-        titles.add("");
-
-        decentBanner.start(views, titles, 2, 500);
-
-        buttonLogin = (CircularProgressButton) findViewById(R.id.loginButton);
-        buttonRegister = (CircularProgressButton) findViewById(R.id.registerButton);
-
-        buttonLogin.setOnClickListener(new View.OnClickListener() {
+        mButtonLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
@@ -64,7 +48,7 @@ public class LandingPageActivity extends Activity {
             }
         });
 
-        buttonRegister.setOnClickListener(new View.OnClickListener() {
+        mButtonRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), RegisterActivity.class);
@@ -72,5 +56,24 @@ public class LandingPageActivity extends Activity {
                 startActivity(intent);
             }
         });
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        mDecentBanner.setBackgroundResource(R.color.transparent);
+        View view1 = getLayoutInflater().inflate(R.layout.decent_banner_view1, null);
+        View view2 = getLayoutInflater().inflate(R.layout.decent_banner_view2, null);
+
+        List<View> mViewList = new ArrayList<>();
+        mViewList.add(view1);
+        mViewList.add(view2);
+
+        List<String> mTitleList = new ArrayList<>();
+        mTitleList.add("");
+        mTitleList.add("");
+
+        mDecentBanner.start(mViewList, mTitleList, 2, 500);
     }
 }

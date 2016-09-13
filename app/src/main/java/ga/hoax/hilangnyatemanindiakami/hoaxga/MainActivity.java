@@ -41,7 +41,6 @@ public class MainActivity extends BaseActivity {
     private ViewPager mViewPager;
     private ImageView mNewPostImage;
     private RelativeLayout mParentViewLayout;
-    private List<Fragment> mFragmentList;
     private PagerAdapter mPagerAdapter;
 
     @Override
@@ -58,7 +57,7 @@ public class MainActivity extends BaseActivity {
         mParentViewLayout = (RelativeLayout) findViewById(R.id.activity_main_layout);
         mNewPostImage = (ImageView) findViewById(R.id.newPost);
 
-        mFragmentList = new Vector<>();
+        List<Fragment> mFragmentList = new Vector<>();
         mFragmentList.add(Fragment.instantiate(this, FeedFragment.class.getName()));
         mFragmentList.add(Fragment.instantiate(this, DiscoverFragment.class.getName()));
         mFragmentList.add(Fragment.instantiate(this, NotificationFragment.class.getName()));
@@ -125,23 +124,28 @@ public class MainActivity extends BaseActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-
         if (id == R.id.menu_logout) {
-            UserService.getInstance(getApplicationContext()).logout();
-            SharedPreferences sharedPreferences = getSharedPreferences("user_data", MODE_PRIVATE);
-            SharedPreferences.Editor editor = sharedPreferences.edit();
-            editor.remove("username");
-            editor.remove("pass");
-            editor.apply();
+            Log.d(TAG, "Logout pressed");
+            logout();
             Intent intent = new Intent(getApplicationContext(), LandingPageActivity.class);
             startActivity(intent);
             finish();
         }
         else if (id == R.id.menu_account_setting){
+            Log.d(TAG, "Account Setting pressed");
             Intent intent = new Intent(getApplicationContext(), AccountSettingActivity.class);
             startActivity(intent);
         }
         return true;
+    }
+
+    private void logout() {
+        UserService.getInstance(getApplicationContext()).logout();
+        SharedPreferences sharedPreferences = getSharedPreferences("user_data", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.remove("username");
+        editor.remove("pass");
+        editor.apply();
     }
 
     private OnTabSelectListener bottomBarOnTabListener = new OnTabSelectListener() {
@@ -153,12 +157,12 @@ public class MainActivity extends BaseActivity {
             } else if (tabId == R.id.discoverBB) {
                 if (mViewPager != null) mViewPager.setCurrentItem(1);
                 mActionBar.setTitle("Discover");
-            } else if (tabId == R.id.profileBB) {
-                if (mViewPager != null) mViewPager.setCurrentItem(3);
-                mActionBar.setTitle("Profile");
             } else if (tabId == R.id.notificationBB) {
                 if (mViewPager != null) mViewPager.setCurrentItem(2);
                 mActionBar.setTitle("Notification");
+            } else if (tabId == R.id.profileBB) {
+                if (mViewPager != null) mViewPager.setCurrentItem(3);
+                mActionBar.setTitle("Profile");
             }
         }
     };

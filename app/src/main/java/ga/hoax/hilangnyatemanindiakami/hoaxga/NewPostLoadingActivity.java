@@ -13,16 +13,16 @@ import com.mikhaellopez.circularprogressbar.CircularProgressBar;
  * Created by kuwali on 8/24/16.
  */
 public class NewPostLoadingActivity extends Activity {
-    private CircularProgressBar progressBar;
-    private ImageView progressLogo;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_post_loading);
 
-        progressBar = (CircularProgressBar) findViewById(R.id.newPostProgress);
-        progressBar.setProgressWithAnimation(100, 5000);
+        CircularProgressBar mProgressBar = (CircularProgressBar) findViewById(R.id.newPostProgress);
+        mProgressBar.setProgressWithAnimation(100, 5000);
 
+        int POST_DELAY = 6000;
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -31,6 +31,6 @@ public class NewPostLoadingActivity extends Activity {
                 NewPostLoadingActivity.this.finish();
                 NewPostLoadingActivity.this.startActivity(intent);
             }
-        }, 6000);
+        }, POST_DELAY);
     }
 }

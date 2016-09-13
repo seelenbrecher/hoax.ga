@@ -1,12 +1,12 @@
 package ga.hoax.hilangnyatemanindiakami.hoaxga;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -15,7 +15,6 @@ import android.widget.Toast;
 
 import com.dd.CircularProgressButton;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Date;
@@ -31,42 +30,52 @@ import mabbas007.tagsedittext.TagsEditText;
  */
 public class NewPostActivity extends BaseActivity {
     public static final int SELECT_PICTURE = 1;
+    private static final String TAG = "New Post Activity";
 
-    private ActionBar actionBar;
-    private EditText newPostTitleEditText;
-    private EditText newPostUrlEditText;
-    private EditText newPostContentEditText;
-    private TagsEditText newPostTagEditText;
-    private EditText newPostAddImageName;
-    private ProgressDialog progressDialog;
-    private CircularProgressButton newPostAddImageButton;
-    private Bitmap bitmap;
+    private ActionBar mActionBar;
+    private EditText mNewPostTitleEditText;
+    private EditText mNewPostUrlEditText;
+    private EditText mNewPostContentEditText;
+    private TagsEditText mNewPostTagEditText;
+    private EditText mNewPostAddImageName;
+    private CircularProgressButton mNewPostAddImageButton;
+    private Bitmap mBitmap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_post);
 
-        actionBar = getSupportActionBar();
-        actionBar.setTitle("Detect It!");
-        actionBar.setDisplayHomeAsUpEnabled(true);
+        mActionBar = getSupportActionBar();
 
-        newPostTitleEditText = (EditText) findViewById(R.id.newPostTitle);
-        newPostUrlEditText = (EditText) findViewById(R.id.newPostURL);
-        newPostContentEditText = (EditText) findViewById(R.id.newPostContent);
-        newPostTagEditText = (TagsEditText) findViewById(R.id.newPostTags);
-        newPostAddImageName = (EditText) findViewById(R.id.newPostAddImageName);
+        mNewPostTitleEditText = (EditText) findViewById(R.id.newPostTitle);
+        mNewPostUrlEditText = (EditText) findViewById(R.id.newPostURL);
+        mNewPostContentEditText = (EditText) findViewById(R.id.newPostContent);
+        mNewPostTagEditText = (TagsEditText) findViewById(R.id.newPostTags);
+        mNewPostAddImageName = (EditText) findViewById(R.id.newPostAddImageName);
+        mNewPostAddImageButton = (CircularProgressButton) findViewById(R.id.newPostAddImageButton);
 
-        newPostAddImageButton = (CircularProgressButton) findViewById(R.id.newPostAddImageButton);
-
-        newPostAddImageButton.setOnClickListener(new View.OnClickListener(){
+        mNewPostAddImageButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
                 chooseImage();
             }
         });
+    }
 
-        newPostAddImageName.setClickable(false);
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        try {
+            assert mActionBar != null;
+            mActionBar.setTitle("Detect It!");
+            mActionBar.setDisplayHomeAsUpEnabled(true);
+        } catch (NullPointerException e) {
+            Log.e(TAG, e.toString());
+        }
+
+        mNewPostAddImageName.setClickable(false);
     }
 
     @Override
@@ -80,17 +89,21 @@ public class NewPostActivity extends BaseActivity {
         int id = item.getItemId();
 
         if (id == R.id.menu_submit) {
-            User currUser = UserService.getInstance(getApplicationContext()).getCurrentUser();
-            Post post = new Post(0, newPostTitleEditText.getText().toString(), currUser.getUsername(), new Date(), newPostContentEditText.getText().toString(), false);
-            DataService.getInstance(getApplicationContext()).addPost(post, currUser, addPostListener, bitmap);
+            submit();
             Intent intent = new Intent(getApplicationContext(), NewPostLoadingActivity.class);
-            intent.putExtra("postTitle", newPostTitleEditText.getText().toString());
+            intent.putExtra("postTitle", mNewPostTitleEditText.getText().toString());
             finish();
             startActivity(intent);
         } else if (id == android.R.id.home) {
             super.onBackPressed();
         }
         return true;
+    }
+
+    private void submit() {
+        User currUser = UserService.getInstance(getApplicationContext()).getCurrentUser();
+        Post post = new Post(0, mNewPostTitleEditText.getText().toString(), currUser.getUsername(), new Date(), mNewPostContentEditText.getText().toString(), false);
+        DataService.getInstance(getApplicationContext()).addPost(post, currUser, addPostListener, mBitmap);
     }
 
     private DataService.AddPostListener addPostListener = new DataService.AddPostListener() {
@@ -111,23 +124,24 @@ public class NewPostActivity extends BaseActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == SELECT_PICTURE && resultCode == Activity.RESULT_OK) {
             try {
-                if (bitmap != null) {
-                    bitmap.recycle();
+                if (mBitmap != null) {
+                    mBitmap.recycle();
                 }
+                // This is so fucking unreadable :v
                 InputStream stream = getContentResolver().openInputStream(data.getData());
                 BitmapFactory.Options options = new BitmapFactory.Options();
                 options.inSampleSize = 2;
-                bitmap = BitmapFactory.decodeStream(stream, null, options);
-                int width = bitmap.getWidth();
-                int height = bitmap.getHeight();
+                mBitmap = BitmapFactory.decodeStream(stream, null, options);
+                int width = mBitmap.getWidth();
+                int height = mBitmap.getHeight();
                 double scale = width >= 1280 || height >= 1280 ? 0.4 : 1;
                 height = (int)(height*scale);
                 width = (int)(width*scale);
-                bitmap = Bitmap.createScaledBitmap(bitmap, width, height, false);
-                stream.close();
-                newPostAddImageName.setText(bitmap.getConfig().toString());
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
+                mBitmap = Bitmap.createScaledBitmap(mBitmap, width, height, false);
+                if (stream != null) {
+                    stream.close();
+                }
+                mNewPostAddImageName.setText(mBitmap.getConfig().toString());
             } catch (IOException e) {
                 e.printStackTrace();
             }
