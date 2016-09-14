@@ -13,6 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.dd.CircularProgressButton;
+import com.google.firebase.auth.FirebaseAuth;
 
 import ga.hoax.hilangnyatemanindiakami.hoaxga.MainActivity;
 import ga.hoax.hilangnyatemanindiakami.hoaxga.LandingPageActivity;

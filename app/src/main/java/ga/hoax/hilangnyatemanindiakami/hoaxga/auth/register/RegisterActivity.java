@@ -5,6 +5,8 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -13,6 +15,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.dd.CircularProgressButton;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import ga.hoax.hilangnyatemanindiakami.hoaxga.LandingPageActivity;
 import ga.hoax.hilangnyatemanindiakami.hoaxga.R;
@@ -32,6 +36,13 @@ public class RegisterActivity extends Activity {
     private EditText firstNameEditText;
     private EditText lastNameEditText;
     private CircularProgressButton registerButton;
+
+    //firebase related begin
+    private final String TAG="register";
+
+    private FirebaseAuth mAuth;
+    private FirebaseAuth.AuthStateListener mAuthListener;
+    //firebase related end
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +65,34 @@ public class RegisterActivity extends Activity {
 
         registerButton.setOnClickListener(registerOnClickListener);
         lastNameEditText.setOnEditorActionListener(finishRegisterListener);
+
+        mAuth = FirebaseAuth.getInstance();
+        mAuthListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                FirebaseUser user = firebaseAuth.getCurrentUser();
+                if (user != null) {
+                    Log.d(TAG, "onAuthStateChanged:signed_in:" + user.getUid());
+                } else {
+                    // User is signed out
+                    Log.d(TAG, "onAuthStateChanged:signed_out");
+                }
+            }
+        };
+    }
+
+    @Override
+    public void onStart(){
+        super.onStart();
+        mAuth.addAuthStateListener(mAuthListener);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (mAuthListener != null) {
+            mAuth.removeAuthStateListener(mAuthListener);
+        }
     }
 
     @Override
