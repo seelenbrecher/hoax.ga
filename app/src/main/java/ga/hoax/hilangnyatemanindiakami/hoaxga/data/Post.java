@@ -1,19 +1,24 @@
 package ga.hoax.hilangnyatemanindiakami.hoaxga.data;
 
-import android.graphics.Bitmap;
+import com.google.firebase.database.Exclude;
+import com.google.firebase.database.IgnoreExtraProperties;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
 import ga.hoax.hilangnyatemanindiakami.hoaxga.auth.model.User;
 
 /**
  * Created by kuwali on 8/21/16.
  */
+@IgnoreExtraProperties
 public class Post implements Serializable, Comparable<Post>{
+
     private int id;
     private String title;
     private String user;
@@ -58,6 +63,19 @@ public class Post implements Serializable, Comparable<Post>{
 
         this.votedDownUser = new ArrayList<>();
         this.votedUpUser = new ArrayList<>();
+    }
+
+    @Exclude
+    public Map<String, Object> toMap() {
+        HashMap<String, Object> result = new HashMap<>();
+        result.put("title", title);
+        result.put("content", content);
+        result.put("user", user);
+        result.put("picture", picture);
+        result.put("voteup", voteUp);
+        result.put("votedown", voteDown);
+
+        return result;
     }
 
     public int getId() {
