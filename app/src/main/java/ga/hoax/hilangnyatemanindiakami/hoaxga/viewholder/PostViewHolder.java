@@ -45,11 +45,11 @@ public class PostViewHolder extends RecyclerView.ViewHolder {
         voteDown = (Button) itemView.findViewById(R.id.downVoteButton);
     }
 
-    public void bindToPost(Post post, View.OnClickListener showDetailListener, User user) {
+    public void bindToPost(Post post, View.OnClickListener showDetailListener) {
 //        if (user.getProfileImage() != null)
 //            imagePostStarter.setImageBitmap(UserService.getInstance(mContext).getProfileImage(user));
 
-        postStarter.setText(user.getName());
+        postStarter.setText("name");
 
         Date date = new Date();
         long diff = date.getTime() - post.getDate().getTime();

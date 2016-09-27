@@ -25,7 +25,6 @@ import ga.hoax.hilangnyatemanindiakami.hoaxga.PostDetailViewActivity;
 import ga.hoax.hilangnyatemanindiakami.hoaxga.R;
 import ga.hoax.hilangnyatemanindiakami.hoaxga.adapter.FeedAdapter;
 import ga.hoax.hilangnyatemanindiakami.hoaxga.auth.model.User;
-import ga.hoax.hilangnyatemanindiakami.hoaxga.data.DataService;
 import ga.hoax.hilangnyatemanindiakami.hoaxga.data.Post;
 import ga.hoax.hilangnyatemanindiakami.hoaxga.viewholder.PostViewHolder;
 
@@ -100,9 +99,9 @@ public class FeedFragment extends Fragment {
 //                }
 
                 // Bind Post to ViewHolder, setting OnClickListener for the star button
-//                viewHolder.bindToPost(model, new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View starView) {
+                viewHolder.bindToPost(model, new View.OnClickListener() {
+                    @Override
+                    public void onClick(View starView) {
 //                        // Need to write to both places the post is stored
 //                        DatabaseReference globalPostRef = mDatabase.child("posts").child(postRef.getKey());
 //                        DatabaseReference userPostRef = mDatabase.child("user-posts").child(model.uid).child(postRef.getKey());
@@ -110,8 +109,14 @@ public class FeedFragment extends Fragment {
 //                        // Run two transactions
 //                        onStarClicked(globalPostRef);
 //                        onStarClicked(userPostRef);
-//                    }
-//                });
+                        // Launch PostDetailActivity
+
+                        Intent intent = new Intent(getActivity(), PostDetailViewActivity.class);
+                        intent.putExtra("post", model);
+                        intent.putExtra("user", new User());
+                        startActivity(intent);
+                    }
+                });
             }
         };
 

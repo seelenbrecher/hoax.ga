@@ -58,6 +58,30 @@ public class DiscoverFragment extends Fragment {
         //post list view data
         mSelectedPostCategoryListView = (ListView) view.findViewById(R.id.selectedPostCategoryListView);
 
+        return view;
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+
+        mFeedAdapter = new FeedAdapter(getContext(), mSearchResultList);
+        mCurrentUser = UserService.getInstance(getContext()).getCurrentUser();
+
+        DataService.getInstance(getContext()).getPostRelatedToCheckedUser(getPostListListener, mCurrentUser);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        mSelectedPostCategoryListView.setAdapter(mFeedAdapter);
+
+        //initial mTagsEdit
+        mTagsEdit.setEnabled(!mYourInterestEditableIndicator);
+        mTagsEdit.setInputType(InputType.TYPE_NULL);
+        mTagsEdit.setFocusableInTouchMode(!mYourInterestEditableIndicator);
+
         //mTagsButton listener
         mTagsButton.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -81,30 +105,6 @@ public class DiscoverFragment extends Fragment {
                 mYourInterestEditableIndicator = !mYourInterestEditableIndicator;
             }
         });
-
-        return view;
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-
-        mFeedAdapter = new FeedAdapter(getContext(), mSearchResultList);
-        mCurrentUser = UserService.getInstance(getContext()).getCurrentUser();
-
-        DataService.getInstance(getContext()).getPostRelatedToCheckedUser(getPostListListener, mCurrentUser);
-
-        //initial mTagsEdit
-        mTagsEdit.setEnabled(!mYourInterestEditableIndicator);
-        mTagsEdit.setInputType(InputType.TYPE_NULL);
-        mTagsEdit.setFocusableInTouchMode(!mYourInterestEditableIndicator);
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-
-        mSelectedPostCategoryListView.setAdapter(mFeedAdapter);
     }
 
     @Override

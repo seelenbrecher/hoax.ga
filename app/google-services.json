@@ -1,21 +1,21 @@
 {
   "project_info": {
-    "project_number": "566462623919",
-    "firebase_url": "https://hoaxga.firebaseio.com",
-    "project_id": "hoaxga",
-    "storage_bucket": "hoaxga.appspot.com"
+    "project_number": "871749217863",
+    "firebase_url": "https://hoaxga-f3334.firebaseio.com",
+    "project_id": "hoaxga-f3334",
+    "storage_bucket": "hoaxga-f3334.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:566462623919:android:4ccc643c767f5d89",
+        "mobilesdk_app_id": "1:871749217863:android:4ccc643c767f5d89",
         "android_client_info": {
           "package_name": "ga.hoax.hilangnyatemanindiakami.hoaxga"
         }
       },
       "oauth_client": [
         {
-          "client_id": "566462623919-hr1sa8crdp15okqqde49ubphmk66beop.apps.googleusercontent.com",
+          "client_id": "871749217863-grm1qafe02jnahv0qsqvcvmusva1k2dn.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "ga.hoax.hilangnyatemanindiakami.hoaxga",
@@ -23,13 +23,13 @@
           }
         },
         {
-          "client_id": "566462623919-vs140rsv6r4crj5u49f6ncv05mbjqpso.apps.googleusercontent.com",
+          "client_id": "871749217863-k6t7bo5osk16akqo9lgtfeh5raiuj573.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyAQDkukCj2XzMw5An-1mvANzznwEkJN5io"
+          "current_key": "AIzaSyArOYiun8Wz6EZU55fKav1Vy1_EeZ7TZxg"
         }
       ],
       "services": {
@@ -40,7 +40,7 @@
           "status": 2,
           "other_platform_oauth_client": [
             {
-              "client_id": "566462623919-vs140rsv6r4crj5u49f6ncv05mbjqpso.apps.googleusercontent.com",
+              "client_id": "871749217863-k6t7bo5osk16akqo9lgtfeh5raiuj573.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
