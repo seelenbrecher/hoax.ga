@@ -35,7 +35,8 @@
         <!-- Login Activity -->
         <activity android:name=".auth.login.LoginActivity"
             android:parentActivityName=".LandingPageActivity"
-            android:windowSoftInputMode="adjustResize">
+            android:windowSoftInputMode="adjustResize"
+            android:theme="@style/FullscreenTheme">
             <!-- add parent activity -->
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -45,7 +46,8 @@
         <!-- Register Activity -->
         <activity android:name=".auth.register.RegisterActivity"
             android:parentActivityName=".LandingPageActivity"
-            android:windowSoftInputMode="adjustResize">
+            android:windowSoftInputMode="adjustResize"
+            android:theme="@style/FullscreenTheme">
             <!-- add parent activity -->
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

@@ -3,9 +3,15 @@ package ga.hoax.hilangnyatemanindiakami.hoaxga;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import com.dd.CircularProgressButton;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,7 +24,7 @@ import it.chengdazhi.decentbanner.DecentBanner;
 /**
  * Created by kuwali on 8/13/16.
  */
-public class LandingPageActivity extends Activity {
+public class LandingPageActivity extends Activity implements View.OnClickListener {
     private DecentBanner mDecentBanner;
     private CircularProgressButton mButtonLogin;
     private CircularProgressButton mButtonRegister;
@@ -28,34 +34,36 @@ public class LandingPageActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_landing_page);
 
-        if (UserService.getInstance(this).getCurrentUser() != null) {
-            Intent intent = new Intent(this, MainActivity.class);
-            startActivity(intent);
-            finish();
-            return;
-        }
-
         mDecentBanner = (DecentBanner) findViewById(R.id.decentBanner);
         mButtonLogin = (CircularProgressButton) findViewById(R.id.loginButton);
         mButtonRegister = (CircularProgressButton) findViewById(R.id.registerButton);
 
-        mButtonLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
-                finish();
-                startActivity(intent);
-            }
-        });
+        mButtonLogin.setOnClickListener(this);
+        mButtonRegister.setOnClickListener(this);
+    }
 
-        mButtonRegister.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), RegisterActivity.class);
-                finish();
-                startActivity(intent);
-            }
-        });
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.loginButton:
+                signIn();
+                break;
+            case R.id.registerButton:
+                register();
+                break;
+        }
+    }
+
+    public void signIn() {
+        Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+        finish();
+        startActivity(intent);
+    }
+
+    public void register() {
+        Intent intent = new Intent(getApplicationContext(), RegisterActivity.class);
+        finish();
+        startActivity(intent);
     }
 
     @Override
@@ -75,5 +83,20 @@ public class LandingPageActivity extends Activity {
         mTitleList.add("");
 
         mDecentBanner.start(mViewList, mTitleList, 2, 500);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
     }
 }

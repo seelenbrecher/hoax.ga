@@ -15,6 +15,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.dd.CircularProgressButton;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -27,7 +31,7 @@ import ga.hoax.hilangnyatemanindiakami.hoaxga.auth.model.UserService;
 /**
  * Created by kuwali on 8/21/16.
  */
-public class RegisterActivity extends Activity {
+public class RegisterActivity extends Activity implements View.OnClickListener {
 
     private ProgressDialog progressDialog;
     private EditText usernameEditText;
@@ -38,7 +42,7 @@ public class RegisterActivity extends Activity {
     private CircularProgressButton registerButton;
 
     //firebase related begin
-    private final String TAG="register";
+    private final String TAG = "RegisterActivity";
 
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
@@ -48,10 +52,6 @@ public class RegisterActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
-
-        if (UserService.getInstance(this).getCurrentUser() != null) {
-            goToMainActivity();
-        }
 
         progressDialog = new ProgressDialog(this);
         progressDialog.setIndeterminate(true);
@@ -79,6 +79,15 @@ public class RegisterActivity extends Activity {
                 }
             }
         };
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.registerButton:
+                register();
+                break;
+        }
     }
 
     @Override
@@ -116,7 +125,23 @@ public class RegisterActivity extends Activity {
         String lastName = lastNameEditText.getText().toString();
 
         progressDialog.show();
-        UserService.getInstance(getApplicationContext()).registerUser(username, password, email, firstName, lastName, registerListener);
+        mAuth.createUserWithEmailAndPassword(email, password)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        Log.d(TAG, "createUserWithEmail:onComplete:" + task.isSuccessful());
+
+                        // If sign in fails, display a message to the user. If sign in succeeds
+                        // the auth state listener will be notified and logic to handle the
+                        // signed in user can be handled in the listener.
+                        if (!task.isSuccessful()) {
+                            Toast.makeText(RegisterActivity.this, "Failed to register",
+                                    Toast.LENGTH_SHORT).show();
+                        } else {
+                            goToMainActivity();
+                        }
+                    }
+                });
     }
 
     private View.OnClickListener registerOnClickListener = new View.OnClickListener() {
@@ -126,21 +151,6 @@ public class RegisterActivity extends Activity {
         }
     };
 
-    private UserService.RegisterListener registerListener = new UserService.RegisterListener() {
-        @Override
-        public void onResponse(boolean registered, String message, User user) {
-            progressDialog.dismiss();
-            Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
-            if (registered) {
-//                SharedPreferences sharedPreferences = getSharedPreferences("user_data", MODE_PRIVATE);
-//                SharedPreferences.Editor editor = sharedPreferences.edit();
-//                editor.putString("username", user.getUsername());
-//                editor.putString("pass", user.getPassword());
-//                editor.commit();
-                goToMainActivity();
-            }
-        }
-    };
 
     private TextView.OnEditorActionListener finishRegisterListener = new TextView.OnEditorActionListener() {
         @Override

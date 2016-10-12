@@ -3,6 +3,8 @@ package ga.hoax.hilangnyatemanindiakami.hoaxga;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.view.ViewPager;
@@ -13,7 +15,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.OnTabSelectListener;
 
@@ -31,9 +39,9 @@ import ga.hoax.hilangnyatemanindiakami.hoaxga.fragment.ProfileFragment;
 /**
  * Main Activity that consist of BottomBar, ActionBar and Fragment
  */
-public class MainActivity extends BaseActivity {
+public class MainActivity extends BaseActivity implements GoogleApiClient.OnConnectionFailedListener {
 
-    private static String TAG = "MainActivity";
+    private static final String TAG = "MainActivity";
 
     private User mActiveUser;
     private ActionBar mActionBar;
@@ -43,13 +51,28 @@ public class MainActivity extends BaseActivity {
     private RelativeLayout mParentViewLayout;
     private PagerAdapter mPagerAdapter;
 
+    private String mUsername;
+    private SharedPreferences mSharedPreferences;
+    private GoogleApiClient mGoogleApiClient;
+
+    // Firebase instance variables
+    private FirebaseAuth mFirebaseAuth;
+    private FirebaseUser mFirebaseUser;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+
+        mUsername = "anonymous";
+
+        mGoogleApiClient = new GoogleApiClient.Builder(this)
+                .enableAutoManage(this, this)
+                .addApi(Auth.GOOGLE_SIGN_IN_API)
+                .build();
 
         mActionBar = getSupportActionBar();
-
         mActiveUser = UserService.getInstance(this).getCurrentUser();
 
         mBottomBar = (BottomBar) findViewById(R.id.bottomBar);
@@ -69,10 +92,17 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onStart() {
         super.onStart();
-
-        if (mActiveUser == null) {
+        // Check if user is sign in
+        // Initialize Firebase Auth
+        mFirebaseAuth = FirebaseAuth.getInstance();
+        mFirebaseUser = mFirebaseAuth.getCurrentUser();
+        if (mFirebaseUser == null) {
+            // Not signed in, launch the Sign In activity
+            startActivity(new Intent(this, LandingPageActivity.class));
             finish();
             return;
+        } else {
+            mUsername = mFirebaseUser.getDisplayName();
         }
 
         try {
@@ -117,6 +147,21 @@ public class MainActivity extends BaseActivity {
     }
 
     @Override
+    public void onPause() {
+        super.onPause();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         return true;
     }
@@ -125,11 +170,8 @@ public class MainActivity extends BaseActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.menu_logout) {
-            Log.d(TAG, "Logout pressed");
             logout();
-            Intent intent = new Intent(getApplicationContext(), LandingPageActivity.class);
-            startActivity(intent);
-            finish();
+            return true;
         }
         else if (id == R.id.menu_account_setting){
             Log.d(TAG, "Account Setting pressed");
@@ -140,12 +182,10 @@ public class MainActivity extends BaseActivity {
     }
 
     private void logout() {
-        UserService.getInstance(getApplicationContext()).logout();
-        SharedPreferences sharedPreferences = getSharedPreferences("user_data", MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.remove("username");
-        editor.remove("pass");
-        editor.apply();
+        mFirebaseAuth.signOut();
+        Auth.GoogleSignInApi.signOut(mGoogleApiClient);
+        mUsername = "anonymous";
+        startActivity(new Intent(this, LandingPageActivity.class));
     }
 
     private OnTabSelectListener bottomBarOnTabListener = new OnTabSelectListener() {
@@ -166,4 +206,12 @@ public class MainActivity extends BaseActivity {
             }
         }
     };
+
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+        // An unresolvable error has occurred and Google APIs (including Sign-In) will not
+        // be available.
+        Log.d(TAG, "onConnectionFailed:" + connectionResult);
+        Toast.makeText(this, "Google Play Services error.", Toast.LENGTH_SHORT).show();
+    }
 }

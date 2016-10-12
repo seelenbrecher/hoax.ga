@@ -65,10 +65,10 @@ public class DiscoverFragment extends Fragment {
     public void onAttach(Context context) {
         super.onAttach(context);
 
-        mFeedAdapter = new FeedAdapter(getContext(), mSearchResultList);
-        mCurrentUser = UserService.getInstance(getContext()).getCurrentUser();
+//        mFeedAdapter = new FeedAdapter(getContext(), mSearchResultList);
+//        mCurrentUser = UserService.getInstance(getContext()).getCurrentUser();
 
-        DataService.getInstance(getContext()).getPostRelatedToCheckedUser(getPostListListener, mCurrentUser);
+//        DataService.getInstance(getContext()).getPostRelatedToCheckedUser(getPostListListener, mCurrentUser);
     }
 
     @Override
