@@ -8,39 +8,36 @@ import java.util.List;
  * Created by kuwali on 08/01/16.
  */
 public class User implements Serializable, Comparable<User>{
-    private int id;
+    private String id;
     private String firstName;
     private String lastName;
     private String username;
-    private String password;
     private String email;
     private String profileImage;
     private String job;
     private String quote;
-    private List<User> followings;
-    private List<User> followers;
-    private int userRanking;
+//    private List<User> followings;
+//    private List<User> followers;
+    private String userRanking;
 
-    public User() {
-        id = Integer.MIN_VALUE;
-        firstName = null;
-        lastName = null;
-        username = null;
-        password = null;
-        email = null;
-        profileImage = null;
-        job = null;
-        quote = null;
-        userRanking = 0;
-        followings = new ArrayList<>();
-        followers = new ArrayList<>();
+    public User() {}
+
+    public User(String firstName, String lastName, String username, String email, String profileImage, String job, String quote, String userRanking) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.username = username;
+        this.email = email;
+        this.profileImage = profileImage;
+        this.job = job;
+        this.quote = quote;
+        this.userRanking = userRanking;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -64,14 +61,6 @@ public class User implements Serializable, Comparable<User>{
         this.username = username;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
     public String getEmail() {
         return email;
     }
@@ -91,18 +80,6 @@ public class User implements Serializable, Comparable<User>{
     public String getQuote() { return quote; }
 
     public void setQuote(String quote) { this.quote = quote; }
-
-    public void addFollowing(User user){ this.followings.add(user); }
-
-    public int getFollowingsNumber(){ return this.followings.size(); }
-
-    public void removeUserFromFollowing(User user){ this.followings.remove(user); }
-
-    public void addFollowers(User user){ this.followers.add(user); }
-
-    public int getFollowersNumber(){return this.followers.size(); }
-
-    public void removeUserFromFollowers(User user){this.followers.remove(user); }
 
     //@TODO: implement me!
     public int getUserRanking() {

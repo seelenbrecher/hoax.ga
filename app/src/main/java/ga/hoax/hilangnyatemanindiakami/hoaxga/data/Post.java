@@ -19,7 +19,7 @@ import ga.hoax.hilangnyatemanindiakami.hoaxga.auth.model.User;
 @IgnoreExtraProperties
 public class Post implements Serializable, Comparable<Post>{
 
-    private int id;
+    private String id;
     private String title;
     private String user;
     private Date date;
@@ -27,42 +27,27 @@ public class Post implements Serializable, Comparable<Post>{
     private boolean selected;
     private String picture;
 
-    private int voteUp;
-    private int voteDown;
+    private int voteUp = 0;
+    private int voteDown = 0;
 
     private List<String> votedUpUser;
     private  List<String> votedDownUser;
 
-    public Post() {
-        this.id = 0;
-        this.title = "";
-        this.user = null;
-        this.date = null;
-        this.content = "";
-        this.selected = false;
-        this.picture = null;
+    public Post() {}
 
-        this.voteUp = 0;
-        this.voteDown = 0;
-
-        this.votedDownUser = new ArrayList<>();
-        this.votedUpUser = new ArrayList<>();
-    }
-
-    public Post(int id, String title, String user, Date date, String content, boolean selected) {
-        this.id = id;
+    public Post(String title, String user, String content, String voteUp, String voteDown) {
         this.title = title;
         this.user = user;
-        this.date = date;
+//        this.date = date;
         this.content = content;
-        this.selected = selected;
+//        this.selected = selected;
         this.picture = null;
 
-        this.voteUp = 0;
-        this.voteDown = 0;
+        this.voteUp = Integer.parseInt(voteUp);
+        this.voteDown = Integer.parseInt(voteDown);
 
-        this.votedDownUser = new ArrayList<>();
-        this.votedUpUser = new ArrayList<>();
+//        this.votedDownUser = new ArrayList<>();
+//        this.votedUpUser = new ArrayList<>();
     }
 
     @Exclude
@@ -78,11 +63,11 @@ public class Post implements Serializable, Comparable<Post>{
         return result;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -136,7 +121,7 @@ public class Post implements Serializable, Comparable<Post>{
 
     @Override
     public int compareTo(Post another) {
-        return this.id <= another.getId() ? (this.id == another.getId() ? 0 : Integer.MAX_VALUE) : Integer.MIN_VALUE;
+        return this.id.compareTo(another.getId()) < 0 ? (this.id == another.getId() ? 0 : Integer.MAX_VALUE) : Integer.MIN_VALUE;
     }
 
     public int getVoteDown() {
@@ -180,7 +165,6 @@ public class Post implements Serializable, Comparable<Post>{
     public boolean isVoteDownContain(User user){
         return votedDownUser.contains(user.getUsername());
     }
-
 
     public void removeVotedDownUser(User user){
         this.votedDownUser.remove(user.getUsername());

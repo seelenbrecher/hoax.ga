@@ -7,8 +7,6 @@ import android.view.View;
 
 import com.dd.CircularProgressButton;
 
-import ga.hoax.hilangnyatemanindiakami.hoaxga.auth.model.UserService;
-
 /**
  * Created by kuwali on 8/24/16.
  */
@@ -41,7 +39,7 @@ public class NewPostResultActivity extends BaseActivity {
             public void onClick(View view) {
                 Intent sendIntent = new Intent();
                 sendIntent.setAction(Intent.ACTION_SEND);
-                sendIntent.putExtra(Intent.EXTRA_TEXT, UserService.getInstance(getApplicationContext()).getCurrentUser().getName() + " has post " + getIntent().getStringExtra("postTitle") + " at Hoax.ga.. find out more");
+                sendIntent.putExtra(Intent.EXTRA_TEXT, getIntent().getStringExtra("user") + " has post " + getIntent().getStringExtra("postTitle") + " at Hoax.ga.. find out more");
                 sendIntent.setType("text/plain");
                 startActivity(Intent.createChooser(sendIntent, "Share via"));
             }

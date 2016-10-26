@@ -7,7 +7,6 @@ import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.util.Log;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 
 
@@ -16,8 +15,6 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-
-import ga.hoax.hilangnyatemanindiakami.hoaxga.auth.model.UserService;
 
 /**
  * An example full-screen activity that shows and hides the system UI (i.e.

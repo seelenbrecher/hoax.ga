@@ -49,26 +49,26 @@ public class PostViewHolder extends RecyclerView.ViewHolder {
 //        if (user.getProfileImage() != null)
 //            imagePostStarter.setImageBitmap(UserService.getInstance(mContext).getProfileImage(user));
 
-        postStarter.setText("name");
+        postStarter.setText(post.getUser());
 
-        Date date = new Date();
-        long diff = date.getTime() - post.getDate().getTime();
-        diff = diff / DateUtils.SECOND_IN_MILLIS;
-        if (diff >= 86400) {
-            datePosted.setText(Math.round(diff/86400) + " days ago");
-        } else if (diff >= 3600) {
-            datePosted.setText(Math.round(diff/3600) + " hours ago");
-        } else if (diff >= 60) {
-            datePosted.setText(Math.round(diff/60) + " minutes ago");
-        } else {
-            datePosted.setText(Math.round(diff) + " seconds ago");
-        }
+//        Date date = new Date();
+//        long diff = date.getTime() - post.getDate().getTime();
+//        diff = diff / DateUtils.SECOND_IN_MILLIS;
+//        if (diff >= 86400) {
+//            datePosted.setText(Math.round(diff/86400) + " days ago");
+//        } else if (diff >= 3600) {
+//            datePosted.setText(Math.round(diff/3600) + " hours ago");
+//        } else if (diff >= 60) {
+//            datePosted.setText(Math.round(diff/60) + " minutes ago");
+//        } else {
+//            datePosted.setText(Math.round(diff) + " seconds ago");
+//        }
 
         titlePost.setText(post.getTitle());
         postContent.setText(post.getContent());
 
-        voteUp.setText(Integer.toString(post.getVoteUp()));
-        voteDown.setText(Integer.toString(post.getVoteDown()));
+//        voteUp.setText(Integer.toString(post.getVoteUp()));
+//        voteDown.setText(Integer.toString(post.getVoteDown()));
 
         if (post.getPicture() != null ) {
 //            postImage.setImageBitmap(dataService.getPostImage(post));

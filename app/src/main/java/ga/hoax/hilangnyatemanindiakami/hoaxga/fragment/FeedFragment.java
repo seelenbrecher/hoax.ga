@@ -5,6 +5,7 @@ import android.support.v4.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,17 +15,14 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import ga.hoax.hilangnyatemanindiakami.hoaxga.PostDetailViewActivity;
 import ga.hoax.hilangnyatemanindiakami.hoaxga.R;
-import ga.hoax.hilangnyatemanindiakami.hoaxga.adapter.FeedAdapter;
-import ga.hoax.hilangnyatemanindiakami.hoaxga.auth.model.User;
 import ga.hoax.hilangnyatemanindiakami.hoaxga.data.Post;
 import ga.hoax.hilangnyatemanindiakami.hoaxga.viewholder.PostViewHolder;
 
@@ -34,14 +32,15 @@ import ga.hoax.hilangnyatemanindiakami.hoaxga.viewholder.PostViewHolder;
 public class FeedFragment extends Fragment {
     private final String TAG = "Feed Fragment";
 
-    private List<Post> mPostList = new ArrayList<Post>();
-    private FeedAdapter mFeedAdapter;
     private View view;
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private RecyclerView mFeedRecyclerView;
+    private LinearLayoutManager mLinearLayoutManager;
 
-    private DatabaseReference mDatabase;
-    private FirebaseRecyclerAdapter<Post, PostViewHolder> mAdapter;
+    private DatabaseReference mFirebaseDatabaseReference;
+    private FirebaseRecyclerAdapter<Post, PostViewHolder> mFirebaseAdapter;
+    private FirebaseAuth mFirebaseAuth;
+    private FirebaseUser mFirebaseUser;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -49,8 +48,14 @@ public class FeedFragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_feed, container, false);
 
         // [START initialize_database_ref]
-        mDatabase = FirebaseDatabase.getInstance().getReference();
+        mFirebaseDatabaseReference = FirebaseDatabase.getInstance().getReference();
         // [END initialize_database_ref]
+
+        mFirebaseAuth = FirebaseAuth.getInstance();
+        mFirebaseUser = mFirebaseAuth.getCurrentUser();
+
+        mLinearLayoutManager = new LinearLayoutManager(getContext());
+        mLinearLayoutManager.setStackFromEnd(true);
 
         mFeedRecyclerView = (RecyclerView) view.findViewById(R.id.feedsRecyclerView);
         mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swiperefresh);
@@ -61,32 +66,36 @@ public class FeedFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-//        mFeedAdapter = new FeedAdapter(getContext(), mPostList);
-//        DataService.getInstance(getContext()).getPostList(getPostListListener);
     }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        Query postsQuery = getQuery(mDatabase);
+        mSwipeRefreshLayout.setRefreshing(true);
+        Query postsQuery = getQuery(mFirebaseDatabaseReference);
         Log.d(TAG, postsQuery.toString());
-        mAdapter = new FirebaseRecyclerAdapter<Post, PostViewHolder>(Post.class, R.layout.layout_list_feed,
-                PostViewHolder.class, postsQuery) {
+        mFirebaseAdapter = new FirebaseRecyclerAdapter<Post, PostViewHolder>(
+                Post.class,
+                R.layout.layout_list_feed,
+                PostViewHolder.class,
+                postsQuery) {
+
             @Override
             protected void populateViewHolder(PostViewHolder viewHolder, final Post model, int position) {
                 final DatabaseReference postRef = getRef(position);
 
                 // Set click listener for the whole post view
                 final String postKey = postRef.getKey();
+
                 viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         // Launch PostDetailActivity
 
                         Intent intent = new Intent(getActivity(), PostDetailViewActivity.class);
-                        intent.putExtra("post", model);
-                        intent.putExtra("user", new User());
+                        intent.putExtra("post", model.getId());
+                        intent.putExtra("user", mFirebaseUser.getUid());
                         startActivity(intent);
                     }
                 });
@@ -112,17 +121,16 @@ public class FeedFragment extends Fragment {
                         // Launch PostDetailActivity
 
                         Intent intent = new Intent(getActivity(), PostDetailViewActivity.class);
-                        intent.putExtra("post", model);
-                        intent.putExtra("user", new User());
+                        intent.putExtra("post", model.getId());
+                        intent.putExtra("user", mFirebaseUser.getUid());
                         startActivity(intent);
                     }
                 });
             }
         };
 
-
-
-        mFeedRecyclerView.setAdapter(mAdapter);
+        mFeedRecyclerView.setLayoutManager(mLinearLayoutManager);
+        mFeedRecyclerView.setAdapter(mFirebaseAdapter);
         /*
          * Sets up a SwipeRefreshLayout.OnRefreshListener that is invoked when the user
          * performs a swipe-to-refresh gesture.
@@ -140,6 +148,7 @@ public class FeedFragment extends Fragment {
 //                    }
 //                }
 //        );
+        mSwipeRefreshLayout.setRefreshing(false);
     }
 
     private Query getQuery(DatabaseReference mDatabase) {
@@ -153,25 +162,11 @@ public class FeedFragment extends Fragment {
         return recentPostsQuery;
     }
 
-
-//    DataService.GetPostListListener getPostListListener = new DataService.GetPostListListener() {
-//        @Override
-//        public void onResponse(boolean success, String message, List<Post> postList) {
-//            if (success) {
-//                FeedFragment.this.mPostList.clear();
-//                mFeedAdapter.notifyDataSetChanged();
-//                FeedFragment.this.mPostList.addAll(postList);
-//                mFeedAdapter.notifyDataSetChanged();
-//                if (mSwipeRefreshLayout != null) mSwipeRefreshLayout.setRefreshing(false);
-//            }
-//        }
-//    };
-
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if (mAdapter != null) {
-            mAdapter.cleanup();
+        if (mFirebaseAdapter != null) {
+            mFirebaseAdapter.cleanup();
         }
     }
 

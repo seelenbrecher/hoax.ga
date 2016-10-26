@@ -15,8 +15,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ga.hoax.hilangnyatemanindiakami.hoaxga.R;
-import ga.hoax.hilangnyatemanindiakami.hoaxga.adapter.NotificationAdapter;
-import ga.hoax.hilangnyatemanindiakami.hoaxga.auth.model.UserService;
 import ga.hoax.hilangnyatemanindiakami.hoaxga.data.DataService;
 import ga.hoax.hilangnyatemanindiakami.hoaxga.data.Notification;
 
@@ -28,7 +26,7 @@ public class NotificationFragment extends Fragment {
     private List<Notification> mNotificationList = new ArrayList<>();
     private ListView mNotificationListView;
     private SwipeRefreshLayout mSwipeRefreshLayout;
-    private NotificationAdapter mNotifictionAdapter;
+//    private NotificationAdapter mNotifictionAdapter;
 
     protected String mCurrentUsername;
 
@@ -47,8 +45,8 @@ public class NotificationFragment extends Fragment {
     public void onAttach(Context context) {
         super.onAttach(context);
 
-        mNotifictionAdapter = new NotificationAdapter(context, mNotificationList);
-        mCurrentUsername = UserService.getInstance(context).getCurrentUser().getUsername();
+//        mNotifictionAdapter = new NotificationAdapter(context, mNotificationList);
+//        mCurrentUsername = UserService.getInstance(context).getCurrentUser().getUsername();
         DataService.getInstance(context).getNotificationList(mCurrentUsername, getNotificationListener);
     }
 
@@ -56,7 +54,7 @@ public class NotificationFragment extends Fragment {
     public void onStart() {
         super.onStart();
 
-        mNotificationListView.setAdapter(mNotifictionAdapter);
+//        mNotificationListView.setAdapter(mNotifictionAdapter);
 
         /*
          * Sets up a SwipeRefreshLayout.OnRefreshListener that is invoked when the user
@@ -82,9 +80,9 @@ public class NotificationFragment extends Fragment {
         public void onResponse(boolean success, String message, List<Notification> notifications) {
             if (success) {
                 mNotificationList.clear();
-                mNotifictionAdapter.notifyDataSetChanged();
+//                mNotifictionAdapter.notifyDataSetChanged();
                 if (notifications != null) mNotificationList.addAll(notifications);
-                mNotifictionAdapter.notifyDataSetChanged();
+//                mNotifictionAdapter.notifyDataSetChanged();
                 if (mSwipeRefreshLayout != null) mSwipeRefreshLayout.setRefreshing(false);
             }
         }

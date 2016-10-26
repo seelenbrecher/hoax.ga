@@ -15,6 +15,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.dd.CircularProgressButton;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.mikhaellopez.circularimageview.CircularImageView;
 
 import java.io.FileNotFoundException;
@@ -22,7 +24,6 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import ga.hoax.hilangnyatemanindiakami.hoaxga.auth.model.User;
-import ga.hoax.hilangnyatemanindiakami.hoaxga.auth.model.UserService;
 
 /**
  * Created by kuwali on 8/25/16.
@@ -45,6 +46,9 @@ public class AccountSettingActivity extends BaseActivity {
 
     private User currentUser;
 
+    private FirebaseAuth mFirebaseAuth;
+    private FirebaseUser mFirebaseUser;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,14 +56,15 @@ public class AccountSettingActivity extends BaseActivity {
 
         progressDialog = new ProgressDialog(getApplicationContext());
 
-        currentUser = UserService.getInstance(getApplicationContext()).getCurrentUser();
+        mFirebaseAuth = FirebaseAuth.getInstance();
+        mFirebaseUser = mFirebaseAuth.getCurrentUser();
 
         actionBar = getSupportActionBar();
 
         changeProfilePicture = (CircularImageView) findViewById(R.id.changeProfilePicture);
-        if (currentUser.getProfileImage() != null) {
-            changeProfilePicture.setImageBitmap(UserService.getInstance(getApplicationContext()).getProfileImage(currentUser));
-        }
+//        if (currentUser.getProfileImage() != null) {
+//            changeProfilePicture.setImageBitmap(UserService.getInstance(getApplicationContext()).getProfileImage(currentUser));
+//        }
 
         firstName = (EditText) findViewById(R.id.changeFirstNameEditText);
         lastName = (EditText) findViewById(R.id.changeLastNameEditText);
@@ -154,7 +159,7 @@ public class AccountSettingActivity extends BaseActivity {
         String jobText = job.getText().toString();
         String quotesText = quotes.getText().toString();
 
-        UserService.getInstance(this).updateProfile(firstNameText, lastNameText, newPasswordText, jobText, quotesText, updateListener, bitmap);
+//        UserService.getInstance(this).updateProfile(firstNameText, lastNameText, newPasswordText, jobText, quotesText, updateListener, bitmap);
 
         onBackPressed();
     }
@@ -177,16 +182,6 @@ public class AccountSettingActivity extends BaseActivity {
         startActivity(intent);
         finish();
     }
-
-    private UserService.UpdateListener updateListener = new UserService.UpdateListener() {
-        @Override
-        public void onResponse(boolean updated, String message, User user) {
-            progressDialog.dismiss();
-            if (updated) {
-                Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
-            }
-        }
-    };
 
     private TextView.OnEditorActionListener finishUpdateListener = new TextView.OnEditorActionListener() {
         @Override

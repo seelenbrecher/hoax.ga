@@ -3,7 +3,6 @@ package ga.hoax.hilangnyatemanindiakami.hoaxga.auth.register;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.util.Log;
@@ -15,18 +14,18 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.dd.CircularProgressButton;
-import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import ga.hoax.hilangnyatemanindiakami.hoaxga.LandingPageActivity;
 import ga.hoax.hilangnyatemanindiakami.hoaxga.R;
 import ga.hoax.hilangnyatemanindiakami.hoaxga.auth.login.LoginActivity;
 import ga.hoax.hilangnyatemanindiakami.hoaxga.auth.model.User;
-import ga.hoax.hilangnyatemanindiakami.hoaxga.auth.model.UserService;
 
 /**
  * Created by kuwali on 8/21/16.
@@ -118,11 +117,11 @@ public class RegisterActivity extends Activity implements View.OnClickListener {
     }
 
     private void register() {
-        String username = usernameEditText.getText().toString();
+        final String username = usernameEditText.getText().toString();
         String password = passwordEditText.getText().toString();
-        String email = emailEditText.getText().toString();
-        String firstName = firstNameEditText.getText().toString();
-        String lastName = lastNameEditText.getText().toString();
+        final String email = emailEditText.getText().toString();
+        final String firstName = firstNameEditText.getText().toString();
+        final String lastName = lastNameEditText.getText().toString();
 
         progressDialog.show();
         mAuth.createUserWithEmailAndPassword(email, password)
@@ -138,10 +137,17 @@ public class RegisterActivity extends Activity implements View.OnClickListener {
                             Toast.makeText(RegisterActivity.this, "Failed to register",
                                     Toast.LENGTH_SHORT).show();
                         } else {
+                            addUserDatabase(firstName, lastName, username, email);
                             goToMainActivity();
                         }
                     }
                 });
+    }
+
+    private void addUserDatabase(String firstname, String lastname, String username, String email) {
+        DatabaseReference mFirebaseDatabaseReference = FirebaseDatabase.getInstance().getReference();
+        User user = new User(firstname, lastname, username, email, "", "", "", "");
+        mFirebaseDatabaseReference.child("users").push().setValue(user);
     }
 
     private View.OnClickListener registerOnClickListener = new View.OnClickListener() {

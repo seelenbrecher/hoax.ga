@@ -1,6 +1,5 @@
 package ga.hoax.hilangnyatemanindiakami.hoaxga.auth.login;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,7 +8,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
-import android.view.Window;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -34,13 +32,15 @@ import com.google.firebase.auth.GoogleAuthProvider;
 import ga.hoax.hilangnyatemanindiakami.hoaxga.MainActivity;
 import ga.hoax.hilangnyatemanindiakami.hoaxga.LandingPageActivity;
 import ga.hoax.hilangnyatemanindiakami.hoaxga.R;
-import ga.hoax.hilangnyatemanindiakami.hoaxga.auth.model.User;
-import ga.hoax.hilangnyatemanindiakami.hoaxga.auth.model.UserService;
 
 /**
  * Created by kuwali on 8/20/16.
  */
-public class LoginActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener, View.OnClickListener, TextView.OnEditorActionListener {
+public class LoginActivity extends AppCompatActivity implements
+        GoogleApiClient.OnConnectionFailedListener,
+        View.OnClickListener,
+        TextView.OnEditorActionListener {
+
     private static final String TAG = "LoginActivity";
     private static final int RC_SIGN_IN = 9001;
 
@@ -166,7 +166,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     }
 
     private void facebookSignIn() {
-
+        Toast.makeText(this, "Not yet implemented", Toast.LENGTH_SHORT).show();
     }
 
     @Override

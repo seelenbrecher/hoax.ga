@@ -65,8 +65,8 @@ public class DataService {
     }
 
     public void setPostVote(Post post){
-        postList.get(post.getId()).setVoteUp(post.getVoteUp());
-        postList.get(post.getId()).setVoteDown(post.getVoteDown());
+//        postList.get(post.getId()).setVoteUp(post.getVoteUp());
+//        postList.get(post.getId()).setVoteDown(post.getVoteDown());
 
     }
 
@@ -312,7 +312,7 @@ public class DataService {
             Bitmap bitmap = (Bitmap) objects[3];
 
             Post postCreated = new Post();
-            postCreated.setId(postList.size());
+//            postCreated.setId(postList.size());
             postCreated.setTitle(post.getTitle());
             postCreated.setContent(post.getContent());
             postCreated.setDate(new Date());

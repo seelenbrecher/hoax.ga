@@ -1,6 +1,7 @@
 package ga.hoax.hilangnyatemanindiakami.hoaxga.fragment;
 
-import android.content.Context;
+import android.annotation.TargetApi;
+import android.os.Build;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -19,9 +20,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ga.hoax.hilangnyatemanindiakami.hoaxga.R;
-import ga.hoax.hilangnyatemanindiakami.hoaxga.adapter.FeedAdapter;
+//import ga.hoax.hilangnyatemanindiakami.hoaxga.adapter.FeedAdapter;
 import ga.hoax.hilangnyatemanindiakami.hoaxga.auth.model.User;
-import ga.hoax.hilangnyatemanindiakami.hoaxga.auth.model.UserService;
 import ga.hoax.hilangnyatemanindiakami.hoaxga.data.DataService;
 import ga.hoax.hilangnyatemanindiakami.hoaxga.data.Post;
 
@@ -42,7 +42,7 @@ public class ProfileFragment extends Fragment {
     private List<Post> mContributedPostsList = new ArrayList<Post>();
     private int mCheckedPostsCount;
     private int mContributedPostsCount;
-    private FeedAdapter mFeedAdapter;
+//    private FeedAdapter mFeedAdapter;
 
     //view related
     private View view;
@@ -50,13 +50,14 @@ public class ProfileFragment extends Fragment {
     private LinearLayout mContributedPostLayout;
 
 
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         setHasOptionsMenu(true);
         view = inflater.inflate(R.layout.fragment_profile, container, false);
 
         //mCurrentUser data
-        mCurrentUser = UserService.getInstance(getContext()).getCurrentUser();
+//        mCurrentUser = UserService.getInstance(getContext()).getCurrentUser();
         CircularImageView profilePicture = (CircularImageView) view.findViewById(R.id.profilePicture);
         TextView name = (TextView) view.findViewById(R.id.name);
         TextView job = (TextView) view.findViewById(R.id.job);
@@ -77,13 +78,13 @@ public class ProfileFragment extends Fragment {
         contributedPostButton.setText(Integer.toString(mContributedPostsCount));
 
         if(mCurrentUser.getProfileImage() != null){
-            profilePicture.setImageBitmap(UserService.getInstance(getContext()).getProfileImage(mCurrentUser));
+//            profilePicture.setImageBitmap(UserService.getInstance(getContext()).getProfileImage(mCurrentUser));
         }
         else{
             profilePicture.setBackground(getResources().getDrawable(R.drawable.default_profpic));
         }
-        followersButton.setText(mCurrentUser.getFollowersNumber()+" followers");
-        followingsButton.setText(mCurrentUser.getFollowingsNumber()+" followings");
+//        followersButton.setText(mCurrentUser.getFollowersNumber()+" followers");
+//        followingsButton.setText(mCurrentUser.getFollowingsNumber()+" followings");
 
 
         //layout for selecting feed type
@@ -96,9 +97,9 @@ public class ProfileFragment extends Fragment {
 
         //post list view data
         ListView selectedPostCategoryListView = (ListView) view.findViewById(R.id.selectedPostCategoryListView);
-        mFeedAdapter = new FeedAdapter(getContext(), mCheckedPostsList);
+//        mFeedAdapter = new FeedAdapter(getContext(), mCheckedPostsList);
         DataService.getInstance(getContext()).getPostRelatedToCheckedUser(getPostListListener, mCurrentUser);
-        selectedPostCategoryListView.setAdapter(mFeedAdapter);
+//        selectedPostCategoryListView.setAdapter(mFeedAdapter);
 
         return view;
     }
@@ -113,7 +114,7 @@ public class ProfileFragment extends Fragment {
                 //status don't change, do nothing
             } else {
                 mSelectedFeedIndicator = CHECKED_POST;
-                mFeedAdapter = new FeedAdapter(getContext(), mCheckedPostsList);
+//                mFeedAdapter = new FeedAdapter(getContext(), mCheckedPostsList);
                 DataService.getInstance(getContext()).getPostRelatedToCheckedUser(getPostListListener, mCurrentUser);
             }
         }
@@ -128,7 +129,7 @@ public class ProfileFragment extends Fragment {
                 //status don't change, do nothing
             } else {
                 mSelectedFeedIndicator = CONTRIBUTED_POST;
-                mFeedAdapter = new FeedAdapter(getContext(), mContributedPostsList);
+//                mFeedAdapter = new FeedAdapter(getContext(), mContributedPostsList);
                 DataService.getInstance(getContext()).getPostRelatedToContributedUser(getPostListListener, mCurrentUser);
             }
         }
@@ -141,9 +142,9 @@ public class ProfileFragment extends Fragment {
             if (success) {
                 List<Post> posts = mSelectedFeedIndicator == CHECKED_POST ? mCheckedPostsList : mContributedPostsList;
                 posts.clear();
-                mFeedAdapter.notifyDataSetChanged();
+//                mFeedAdapter.notifyDataSetChanged();
                 posts.addAll(postList);
-                mFeedAdapter.notifyDataSetChanged();
+//                mFeedAdapter.notifyDataSetChanged();
             }
         }
     };

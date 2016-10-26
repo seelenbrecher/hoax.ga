@@ -3,21 +3,14 @@ package ga.hoax.hilangnyatemanindiakami.hoaxga;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.util.Log;
 import android.view.View;
-import android.widget.Toast;
 
 import com.dd.CircularProgressButton;
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import ga.hoax.hilangnyatemanindiakami.hoaxga.auth.login.LoginActivity;
-import ga.hoax.hilangnyatemanindiakami.hoaxga.auth.model.UserService;
 import ga.hoax.hilangnyatemanindiakami.hoaxga.auth.register.RegisterActivity;
 import it.chengdazhi.decentbanner.DecentBanner;
 

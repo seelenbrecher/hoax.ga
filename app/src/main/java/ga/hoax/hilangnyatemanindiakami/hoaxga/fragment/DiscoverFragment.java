@@ -18,9 +18,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ga.hoax.hilangnyatemanindiakami.hoaxga.R;
-import ga.hoax.hilangnyatemanindiakami.hoaxga.adapter.FeedAdapter;
+//import ga.hoax.hilangnyatemanindiakami.hoaxga.adapter.FeedAdapter;
 import ga.hoax.hilangnyatemanindiakami.hoaxga.auth.model.User;
-import ga.hoax.hilangnyatemanindiakami.hoaxga.auth.model.UserService;
 import ga.hoax.hilangnyatemanindiakami.hoaxga.data.DataService;
 import ga.hoax.hilangnyatemanindiakami.hoaxga.data.Post;
 import mabbas007.tagsedittext.TagsEditText;
@@ -43,7 +42,7 @@ public class DiscoverFragment extends Fragment {
 
     private List<Post> mSearchResultList = new ArrayList<Post>();
     private ListView mSelectedPostCategoryListView;
-    private FeedAdapter mFeedAdapter;
+//    private FeedAdapter mFeedAdapter;
 
     private User mCurrentUser;
 
@@ -75,7 +74,7 @@ public class DiscoverFragment extends Fragment {
     public void onStart() {
         super.onStart();
 
-        mSelectedPostCategoryListView.setAdapter(mFeedAdapter);
+//        mSelectedPostCategoryListView.setAdapter(mFeedAdapter);
 
         //initial mTagsEdit
         mTagsEdit.setEnabled(!mYourInterestEditableIndicator);
@@ -122,9 +121,9 @@ public class DiscoverFragment extends Fragment {
             if (success) {
                 List<Post> posts = mSearchResultList;
                 posts.clear();
-                mFeedAdapter.notifyDataSetChanged ();
+//                mFeedAdapter.notifyDataSetChanged ();
                 posts.addAll(postList);
-                mFeedAdapter.notifyDataSetChanged();
+//                mFeedAdapter.notifyDataSetChanged();
             }
         }
     };

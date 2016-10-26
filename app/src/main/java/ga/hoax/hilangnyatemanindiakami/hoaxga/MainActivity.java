@@ -30,7 +30,6 @@ import java.util.Vector;
 
 import ga.hoax.hilangnyatemanindiakami.hoaxga.adapter.PagerAdapter;
 import ga.hoax.hilangnyatemanindiakami.hoaxga.auth.model.User;
-import ga.hoax.hilangnyatemanindiakami.hoaxga.auth.model.UserService;
 import ga.hoax.hilangnyatemanindiakami.hoaxga.fragment.DiscoverFragment;
 import ga.hoax.hilangnyatemanindiakami.hoaxga.fragment.FeedFragment;
 import ga.hoax.hilangnyatemanindiakami.hoaxga.fragment.NotificationFragment;
@@ -39,7 +38,8 @@ import ga.hoax.hilangnyatemanindiakami.hoaxga.fragment.ProfileFragment;
 /**
  * Main Activity that consist of BottomBar, ActionBar and Fragment
  */
-public class MainActivity extends BaseActivity implements GoogleApiClient.OnConnectionFailedListener {
+public class MainActivity extends BaseActivity implements
+        GoogleApiClient.OnConnectionFailedListener {
 
     private static final String TAG = "MainActivity";
 
@@ -73,7 +73,6 @@ public class MainActivity extends BaseActivity implements GoogleApiClient.OnConn
                 .build();
 
         mActionBar = getSupportActionBar();
-        mActiveUser = UserService.getInstance(this).getCurrentUser();
 
         mBottomBar = (BottomBar) findViewById(R.id.bottomBar);
         mViewPager = (ViewPager) findViewById(R.id.pager);
@@ -105,13 +104,13 @@ public class MainActivity extends BaseActivity implements GoogleApiClient.OnConn
             mUsername = mFirebaseUser.getDisplayName();
         }
 
+        // Make shield logo to front
         try {
             assert mNewPostImage != null;
             mNewPostImage.bringToFront();
         } catch (NullPointerException e) {
             Log.e(TAG, e.toString());
         }
-
         ViewCompat.setTranslationZ(mNewPostImage, 100);
         mParentViewLayout.invalidate();
 
@@ -171,7 +170,6 @@ public class MainActivity extends BaseActivity implements GoogleApiClient.OnConn
         int id = item.getItemId();
         if (id == R.id.menu_logout) {
             logout();
-            return true;
         }
         else if (id == R.id.menu_account_setting){
             Log.d(TAG, "Account Setting pressed");

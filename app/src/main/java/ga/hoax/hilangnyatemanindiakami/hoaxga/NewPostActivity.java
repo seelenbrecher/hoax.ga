@@ -14,13 +14,14 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.dd.CircularProgressButton;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Date;
 
-import ga.hoax.hilangnyatemanindiakami.hoaxga.auth.model.User;
-import ga.hoax.hilangnyatemanindiakami.hoaxga.auth.model.UserService;
 import ga.hoax.hilangnyatemanindiakami.hoaxga.data.DataService;
 import ga.hoax.hilangnyatemanindiakami.hoaxga.data.Post;
 import mabbas007.tagsedittext.TagsEditText;
@@ -28,7 +29,7 @@ import mabbas007.tagsedittext.TagsEditText;
 /**
  * Created by kuwali on 8/24/16.
  */
-public class NewPostActivity extends BaseActivity {
+public class NewPostActivity extends BaseActivity implements View.OnClickListener {
     public static final int SELECT_PICTURE = 1;
     private static final String TAG = "New Post Activity";
 
@@ -40,6 +41,10 @@ public class NewPostActivity extends BaseActivity {
     private EditText mNewPostAddImageName;
     private CircularProgressButton mNewPostAddImageButton;
     private Bitmap mBitmap;
+
+    private DatabaseReference mFirebaseDAtabaseReference;
+    private FirebaseAuth mFirebaseAuth;
+    private FirebaseUser mFirebaseUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,12 +60,7 @@ public class NewPostActivity extends BaseActivity {
         mNewPostAddImageName = (EditText) findViewById(R.id.newPostAddImageName);
         mNewPostAddImageButton = (CircularProgressButton) findViewById(R.id.newPostAddImageButton);
 
-        mNewPostAddImageButton.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v) {
-                chooseImage();
-            }
-        });
+        mFirebaseDAtabaseReference = FirebaseDatabase.getInstance().getReference();
     }
 
     @Override
@@ -76,6 +76,18 @@ public class NewPostActivity extends BaseActivity {
         }
 
         mNewPostAddImageName.setClickable(false);
+
+        mFirebaseAuth = FirebaseAuth.getInstance();
+        mFirebaseUser = mFirebaseAuth.getCurrentUser();
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.newPostAddImageButton:
+                chooseImage();
+                break;
+        }
     }
 
     @Override
@@ -87,11 +99,11 @@ public class NewPostActivity extends BaseActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-
         if (id == R.id.menu_submit) {
             submit();
             Intent intent = new Intent(getApplicationContext(), NewPostLoadingActivity.class);
             intent.putExtra("postTitle", mNewPostTitleEditText.getText().toString());
+            intent.putExtra("user", mFirebaseUser.getDisplayName());
             finish();
             startActivity(intent);
         } else if (id == android.R.id.home) {
@@ -101,9 +113,8 @@ public class NewPostActivity extends BaseActivity {
     }
 
     private void submit() {
-        User currUser = UserService.getInstance(getApplicationContext()).getCurrentUser();
-        Post post = new Post(0, mNewPostTitleEditText.getText().toString(), currUser.getUsername(), new Date(), mNewPostContentEditText.getText().toString(), false);
-        DataService.getInstance(getApplicationContext()).addPost(post, currUser, addPostListener, mBitmap);
+        Post post = new Post(mNewPostTitleEditText.getText().toString(), mFirebaseUser.getUid(), mNewPostContentEditText.getText().toString(), "0", "0");
+        mFirebaseDAtabaseReference.child("posts").push().setValue(post);
     }
 
     private DataService.AddPostListener addPostListener = new DataService.AddPostListener() {

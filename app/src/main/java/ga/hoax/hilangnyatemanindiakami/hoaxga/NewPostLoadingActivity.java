@@ -28,6 +28,7 @@ public class NewPostLoadingActivity extends Activity {
             public void run() {
                 Intent intent = new Intent(getApplicationContext(), NewPostResultActivity.class);
                 intent.putExtra("postTitle", getIntent().getStringExtra("postTitle"));
+                intent.putExtra("user", getIntent().getStringExtra("user"));
                 NewPostLoadingActivity.this.finish();
                 NewPostLoadingActivity.this.startActivity(intent);
             }
