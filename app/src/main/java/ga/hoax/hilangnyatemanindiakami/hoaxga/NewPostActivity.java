@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.support.v7.app.ActionBar;
 import android.util.Log;
 import android.view.Menu;
@@ -16,12 +17,18 @@ import android.widget.Toast;
 import com.dd.CircularProgressButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.HashMap;
+import java.util.List;
 
+import ga.hoax.hilangnyatemanindiakami.hoaxga.auth.model.User;
 import ga.hoax.hilangnyatemanindiakami.hoaxga.data.DataService;
 import ga.hoax.hilangnyatemanindiakami.hoaxga.data.Post;
 import mabbas007.tagsedittext.TagsEditText;
@@ -113,8 +120,24 @@ public class NewPostActivity extends BaseActivity implements View.OnClickListene
     }
 
     private void submit() {
-        Post post = new Post(mNewPostTitleEditText.getText().toString(), mFirebaseUser.getUid(), mNewPostContentEditText.getText().toString(), "0", "0");
-        mFirebaseDAtabaseReference.child("posts").push().setValue(post);
+        mFirebaseDAtabaseReference.child("users").orderByChild("userHash").equalTo(mFirebaseUser.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                for(DataSnapshot child : dataSnapshot.getChildren()) {
+                    User filteredUser = child.getValue(User.class);
+                    Post post = new Post(mNewPostTitleEditText.getText().toString(), filteredUser.getName(), mNewPostContentEditText.getText().toString(), "0", "0");
+                    mFirebaseDAtabaseReference.child("posts").push().setValue(post);
+                }
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
     }
 
     private DataService.AddPostListener addPostListener = new DataService.AddPostListener() {

@@ -141,7 +141,7 @@ public class Comments implements Serializable, Comparable<Comments> {
     }
 
     private int calculateUserRankingDiff(Comments other) {
-        return rankingDiffCalculator(this.user.getUserRanking(), other.getUser().getUserRanking());
+        return rankingDiffCalculator(Integer.parseInt(this.user.getUserRanking()), Integer.parseInt(other.getUser().getUserRanking()));
     }
 
     @Override

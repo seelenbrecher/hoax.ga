@@ -1,5 +1,8 @@
 package ga.hoax.hilangnyatemanindiakami.hoaxga.data;
 
+import android.util.Pair;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.firebase.database.Exclude;
 import com.google.firebase.database.IgnoreExtraProperties;
 
@@ -30,24 +33,23 @@ public class Post implements Serializable, Comparable<Post>{
     private int voteUp = 0;
     private int voteDown = 0;
 
-    private List<String> votedUpUser;
-    private  List<String> votedDownUser;
+    private List<String> votedUpUser = new ArrayList<>();
+    private  List<String> votedDownUser = new ArrayList<>();
 
     public Post() {}
 
     public Post(String title, String user, String content, String voteUp, String voteDown) {
         this.title = title;
         this.user = user;
-//        this.date = date;
+        this.date = new Date();
         this.content = content;
-//        this.selected = selected;
+        this.selected = false;
         this.picture = null;
 
         this.voteUp = Integer.parseInt(voteUp);
         this.voteDown = Integer.parseInt(voteDown);
-
-//        this.votedDownUser = new ArrayList<>();
-//        this.votedUpUser = new ArrayList<>();
+        this.votedUpUser.add("lol");
+        this.votedDownUser.add("lol");
     }
 
     @Exclude
@@ -140,33 +142,40 @@ public class Post implements Serializable, Comparable<Post>{
         this.voteUp = voteUp;
     }
 
-    public boolean isPermissedToVote(User user){
-        String username = user.getUsername();
-        return (!this.user.equals(username));
+    public boolean isPermissedToVote(String user){
+        return (!this.user.equals(user));
     }
 
-    public void addVotedUpUser(User user){
-        this.votedUpUser.add(user.getUsername());
+    public List<String> getVotedUpUser(){return votedUpUser; }
+
+    public List<String>  getVotedDownUser(){ return votedDownUser; };
+
+    public void setVotedUpUser(List< String>  votedUp){
+        this.votedUpUser = votedUp;
     }
 
-    public boolean isVoteUpContain(User user){
-        return votedUpUser.contains(user.getUsername());
+    public void setVotedDownUser(List<String>  votedDown){
+        this.votedDownUser = votedDown;
     }
 
-    public void removeVotedUpUser(User user){
-        this.votedUpUser.remove(user.getUsername());
+    public void addVotedUpUser(String user){
+        this.votedUpUser.add(user);
+    }
+
+    public boolean isVoteUpContain(String user){
+        return votedUpUser.contains(user);
+    }
+
+    public void removeVotedUpUser(String user){
+        this.votedUpUser.remove(user);
     }
 
 
-    public void addVotedDownUser(User user){
-        this.votedDownUser.add(user.getUsername());
-    }
+    public void addVotedDownUser(String user){this.votedDownUser.add(user); }
 
-    public boolean isVoteDownContain(User user){
-        return votedDownUser.contains(user.getUsername());
-    }
+    public boolean isVoteDownContain(String user){return votedDownUser.contains(user);}
 
-    public void removeVotedDownUser(User user){
-        this.votedDownUser.remove(user.getUsername());
+    public void removeVotedDownUser(String user){
+        this.votedDownUser.remove(user);
     }
 }

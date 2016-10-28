@@ -146,7 +146,12 @@ public class RegisterActivity extends Activity implements View.OnClickListener {
 
     private void addUserDatabase(String firstname, String lastname, String username, String email) {
         DatabaseReference mFirebaseDatabaseReference = FirebaseDatabase.getInstance().getReference();
-        User user = new User(firstname, lastname, username, email, "", "", "", "");
+        FirebaseAuth mFirebaseAuth;
+        FirebaseUser mFirebaseUser;
+        mFirebaseAuth = FirebaseAuth.getInstance();
+        mFirebaseUser = mFirebaseAuth.getCurrentUser();
+        System.out.println(mFirebaseUser.getUid());
+        User user = new User(firstname, lastname, username, email, mFirebaseUser.getUid(), "", "", "", "");
         mFirebaseDatabaseReference.child("users").push().setValue(user);
     }
 

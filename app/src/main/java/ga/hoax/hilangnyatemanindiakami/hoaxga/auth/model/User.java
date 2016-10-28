@@ -16,18 +16,21 @@ public class User implements Serializable, Comparable<User>{
     private String profileImage;
     private String job;
     private String quote;
+    private String userHash;
+
 //    private List<User> followings;
 //    private List<User> followers;
     private String userRanking;
 
     public User() {}
 
-    public User(String firstName, String lastName, String username, String email, String profileImage, String job, String quote, String userRanking) {
+    public User(String firstName, String lastName, String username, String email, String userHash, String profileImage, String job, String quote, String userRanking) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.username = username;
         this.email = email;
         this.profileImage = profileImage;
+        this.userHash = userHash;
         this.job = job;
         this.quote = quote;
         this.userRanking = userRanking;
@@ -81,10 +84,10 @@ public class User implements Serializable, Comparable<User>{
 
     public void setQuote(String quote) { this.quote = quote; }
 
+    public String getUserHash() { return userHash; }
+
     //@TODO: implement me!
-    public int getUserRanking() {
-        return 0;
-    }
+    public String getUserRanking() { return userRanking; }
 
     @Override
     public int compareTo(User another) {
